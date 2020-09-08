@@ -4,8 +4,8 @@
     <color name="colorPrimaryDark">#3700B3</color>
     <color name="colorAccent">#03DAC5</color>
     <color name="a">#6F4A8E</color>
-    <color name="b"></color>
-    <color name="c">#FFA836</color>
-    <color name="d">#EBEBEB</color>
+    <color name="b">#FFA836</color>
+    <color name="c">#EBEBEB</color>
+    <color name="d">#221F3B</color>
 
 </resources>
