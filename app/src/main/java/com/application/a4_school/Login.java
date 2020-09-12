@@ -2,6 +2,7 @@ package com.application.a4_school;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -9,7 +10,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class Login extends AppCompatActivity implements View.OnClickListener {
+public class Login extends Activity implements View.OnClickListener {
         EditText userid, pw;
         Button btnlogin;
         TextView resetPw;
