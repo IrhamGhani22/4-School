@@ -16,15 +16,15 @@ import com.application.a4_school.R;
 
 public class JobFragment extends Fragment {
 
-    private JobViewModel galleryViewModel;
+    private JobViewModel jobViewModel;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        galleryViewModel =
+        jobViewModel =
                 ViewModelProviders.of(this).get(JobViewModel.class);
         View root = inflater.inflate(R.layout.fragment_job, container, false);
         final TextView textView = root.findViewById(R.id.text_job);
-        galleryViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
+        jobViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {
                 textView.setText(s);

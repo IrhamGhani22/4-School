@@ -16,15 +16,15 @@ import com.application.a4_school.R;
 
 public class HelpFragment extends Fragment {
 
-    private HelpViewModel slideshowViewModel;
+    private HelpViewModel helpViewModel;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        slideshowViewModel =
+        helpViewModel =
                 ViewModelProviders.of(this).get(HelpViewModel.class);
-        View root = inflater.inflate(R.layout.fragment_slideshow, container, false);
+        View root = inflater.inflate(R.layout.fragment_help, container, false);
         final TextView textView = root.findViewById(R.id.text_help);
-        slideshowViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
+        helpViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {
                 textView.setText(s);

@@ -10,7 +10,7 @@ public class JobViewModel extends ViewModel {
 
     public JobViewModel() {
         mText = new MutableLiveData<>();
-        mText.setValue("This is job schedule fragment");
+        mText.setValue("");
     }
 
     public LiveData<String> getText() {
