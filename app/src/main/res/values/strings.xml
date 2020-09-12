@@ -1,3 +1,18 @@
 <resources>
     <string name="app_name">4-School</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="about_example">ini data guru</string>
+    <string name="setting_example">Setting profile</string>
+    <string name="tab1">Detail</string>
+    <string name="tab2">Settings</string>
+
+    <string-array name="data_options">
+        <item>Edit Your Account Information</item>
+        <item>Theme</item>
+        <item>Layout Setting</item>
+        <item>Language Setting</item>
+        <item>About Aplication</item>
+        <item>Bug Report</item>
+    </string-array>
 </resources>
