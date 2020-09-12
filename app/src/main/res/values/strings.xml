@@ -7,4 +7,6 @@
     <string name="reset_password">Reset Password</string>
     <string name="nama_logo">Nama Logo</string>
     <string name="forgot_password">Forgot Password?</string>
+    <string name="send">send</string>
+    <string name="email">Email</string>
 </resources>
