@@ -7,11 +7,27 @@
     android:background="@drawable/splashscreen_1"
     tools:context=".SplashScreen">
 
-    <ImageView
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_width="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:background="@drawable/logo_app"/>
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:animateLayoutChanges="true"
+        android:layout_centerVertical="true">
+
+        <ImageView
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:background="@drawable/logo_app"/>
+
+        <TextView
+            android:id="@+id/splashschool"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="School"
+            android:textSize="42sp"
+            android:visibility="gone"/>
+    </LinearLayout>
+
 
 </RelativeLayout>
