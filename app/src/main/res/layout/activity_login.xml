@@ -27,6 +27,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="30dp"
+                android:fontFamily="@font/poppins_bold"
                 android:text="@string/login"
                 android:textColor="#FFFFFF"
                 android:textSize="30sp"
@@ -58,7 +59,7 @@
                     android:id="@+id/txtUsername"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-
+                    android:fontFamily="@font/poppins_bold"
                     android:text="@string/username"/>
 
                 <EditText
@@ -71,6 +72,7 @@
                     android:id="@+id/txtPassword"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:fontFamily="@font/poppins_bold"
                     android:layout_marginTop="25dp"
                     android:text="@string/password" />
 
@@ -86,6 +88,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="25dp"
+                    android:fontFamily="@font/poppins_bold"
                     android:background="@drawable/btn_background_blue"
                     android:text="@string/login"
                     android:textColor="#FFFFFF"
