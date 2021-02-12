@@ -5,6 +5,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Menu;
 
+import com.application.a4_school.ui.home.HomeFragment;
+import com.application.a4_school.ui.job.JobFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
@@ -32,6 +34,9 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
 
+        //nampilin awal fragment pertama kali
+        getFragmentPage(new HomeFragment());
+
         BottomNavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -39,12 +44,19 @@ public class MainActivity extends AppCompatActivity {
                 Fragment fragment = null;
 
                 switch (item.getItemId()){
-//                    case R.id
+                    case R.id.nav_beranda:
+                        fragment = new HomeFragment();
+                        break;
+                    case R.id.nav_jadwal:
+                        fragment = new JobFragment();
+                        break;
+
                 }
 
-                return false;
+                return getFragmentPage(fragment);
             }
         });
+
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
@@ -54,6 +66,14 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
+    }
+
+    private boolean getFragmentPage(Fragment fragment){
+        if (fragment != null){
+            getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, fragment).commit();
+        return  true;
+        }
+        return false;
     }
 
     @Override
