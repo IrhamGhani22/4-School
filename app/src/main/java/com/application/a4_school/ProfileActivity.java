@@ -12,7 +12,7 @@ public class ProfileActivity extends AppCompatActivity {
     private ViewPager viewPager;
 
     private int[] TAB_ICONS = {
-            R.drawable.ic_baseline_person_24,
+            R.drawable.icon_person,
             R.drawable.ic_baseline_settings_24
     };
 
