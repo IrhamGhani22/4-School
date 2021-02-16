@@ -5,6 +5,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Menu;
 
+import com.application.a4_school.ui.help.HelpFragment;
 import com.application.a4_school.ui.home.HomeFragment;
 import com.application.a4_school.ui.job.JobFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -43,12 +44,16 @@ public class MainActivity extends AppCompatActivity {
                 Fragment fragment = null;
 
                 switch (item.getItemId()){
-                    case R.id.nav_beranda:
+                    case R.id.nav_home:
                         fragment = new HomeFragment();
                         break;
-                    case R.id.nav_jadwal:
+                    case R.id.nav_jobs:
                         fragment = new JobFragment();
                         break;
+                    case R.id.nav_help:
+                        fragment = new HelpFragment();
+
+                    case R.id.nav_profile:
 
                 }
 
