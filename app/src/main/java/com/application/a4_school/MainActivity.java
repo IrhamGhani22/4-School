@@ -1,13 +1,19 @@
 package com.application.a4_school;
 
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.Menu;
 
+import com.application.a4_school.ui.home.HomeFragment;
+import com.application.a4_school.ui.job.JobFragment;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
 
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -28,17 +34,46 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
 
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
-        NavigationView navigationView = findViewById(R.id.nav_view);
+        //nampilin awal fragment pertama kali
+        getFragmentPage(new HomeFragment());
+
+        BottomNavigationView navigationView = findViewById(R.id.nav_view);
+        navigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                Fragment fragment = null;
+
+                switch (item.getItemId()){
+                    case R.id.nav_beranda:
+                        fragment = new HomeFragment();
+                        break;
+                    case R.id.nav_jadwal:
+                        fragment = new JobFragment();
+                        break;
+
+                }
+
+                return getFragmentPage(fragment);
+            }
+        });
+
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
                 R.id.nav_home, R.id.nav_job, R.id.nav_help, R.id.nav_logout)
-                .setDrawerLayout(drawer)
+                .setDrawerLayout(null)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
+    }
+
+    private boolean getFragmentPage(Fragment fragment){
+        if (fragment != null){
+            getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, fragment).commit();
+        return  true;
+        }
+        return false;
     }
 
     @Override
