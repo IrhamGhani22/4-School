@@ -5,6 +5,7 @@ import androidx.core.app.ActivityOptionsCompat;
 import androidx.core.view.ViewCompat;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
@@ -37,11 +38,23 @@ public class SplashScreen extends AppCompatActivity {
         new Handler().postDelayed(new  Runnable(){
             @Override
             public void run() {
-                Intent intent = new Intent(SplashScreen.this, Login.class);
-                ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(SplashScreen.this, logo, ViewCompat.getTransitionName(logo));
-                startActivity(intent, options.toBundle());
-                finish();
+                checksession();
             }
         },delayscreen);
+    }
+
+    private void checksession(){
+        SharedPreferences getSession = getSharedPreferences("session", 0);
+        String token = getSession.getString("token", "");
+        if (token != ""){
+            Intent toHome = new Intent(SplashScreen.this, MainActivity.class);
+            startActivity(toHome);
+            finish();
+        }else {
+            Intent intent = new Intent(SplashScreen.this, Login.class);
+            ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(SplashScreen.this, logo, ViewCompat.getTransitionName(logo));
+            startActivity(intent, options.toBundle());
+            finish();
+        }
     }
 }
