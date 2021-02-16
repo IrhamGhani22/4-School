@@ -2,19 +2,19 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
         <item
-            android:id="@+id/nav_beranda"
+            android:id="@+id/nav_home"
             android:icon="@drawable/ic_beranda"
             android:title="@string/menu_home" />
         <item
-            android:id="@+id/nav_jadwal"
+            android:id="@+id/nav_jobs"
             android:icon="@drawable/ic_jadwal"
             android:title="Jadwal"/>
         <item
             android:id="@+id/nav_help"
-
+            android:icon="@drawable/ic_help"
             android:title="@string/menu_help" />
         <item
-            android:id="@+id/nav_logout"
-            android:icon="@drawable/logout"
+            android:id="@+id/nav_profile"
+            android:icon="@drawable/icon_person"
             android:title="@string/menu_logout"/>
 </menu>
