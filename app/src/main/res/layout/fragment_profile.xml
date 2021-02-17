@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".ui.profile.ProfileFragment">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/top"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:background="@drawable/ic_bg_profile"
+        android:paddingStart="20dp"
+        android:paddingTop="30dp"
+        android:paddingEnd="20dp"
+        android:layout_weight="2"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <Button
+            android:id="@+id/btnBack"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@drawable/btn_back_blue"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="@drawable/ico_edit"
+            app:layout_constraintBottom_toBottomOf="@id/btnBack"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="@id/btnBack" />
+
+        <ImageView
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:src="@drawable/icon_person"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <LinearLayout
+        android:layout_marginTop="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/top"
+        android:layout_weight="1">
+
+        <TextView
+            android:id="@+id/username"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Muhamad Sabil Fausta"
+            android:textAlignment="center"
+            android:textAllCaps="false"
+            android:textSize="25sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/nis"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="1819117624"
+            android:textAlignment="center"
+            android:textAllCaps="false"
+            android:textSize="20sp"/>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_card_profile"
+            android:paddingLeft="30dp"
+            android:paddingTop="20dp"
+            android:paddingBottom="30dp"
+            android:layout_marginTop="10dp">
+
+            <ImageView
+                android:id="@+id/icon_email"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:src="@drawable/ico_at"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/judul_email"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Email"
+                android:textSize="15sp"
+                app:layout_constraintBottom_toTopOf="@id/nama"
+                app:layout_constraintLeft_toRightOf="@+id/icon_email"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/nama"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="181911724.siswa@smkn4bdg.sch.id"
+                android:textColor="@android:color/black"
+                android:textSize="17sp"
+                app:layout_constraintLeft_toRightOf="@id/icon_email"
+                app:layout_constraintTop_toBottomOf="@+id/judul_email" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_card_profile"
+            android:paddingLeft="30dp"
+            android:paddingTop="20dp"
+            android:paddingBottom="30dp"
+            android:layout_marginTop="-10dp">
+
+            <ImageView
+                android:id="@+id/icon_class"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:src="@drawable/ico_banner"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/judul_kelas"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Kelas"
+                android:textSize="15sp"
+                app:layout_constraintBottom_toTopOf="@id/kelas"
+                app:layout_constraintLeft_toRightOf="@id/icon_class"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/kelas"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="XIIRPL2"
+                android:textColor="@android:color/black"
+                android:textSize="17sp"
+                app:layout_constraintLeft_toRightOf="@id/icon_class"
+                app:layout_constraintTop_toBottomOf="@+id/judul_kelas" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_card_profile"
+            android:paddingLeft="30dp"
+            android:paddingTop="20dp"
+            android:paddingBottom="30dp"
+            android:layout_marginTop="-10dp">
+
+            <ImageView
+                android:id="@+id/icon_telp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:src="@drawable/ico_rocket"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/judul_telp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Jurusan"
+                android:textSize="15sp"
+                app:layout_constraintBottom_toTopOf="@id/jurusan"
+                app:layout_constraintLeft_toRightOf="@id/icon_telp"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/jurusan"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Rekayasa Perangkat Lunak"
+                android:textColor="@android:color/black"
+                android:textSize="17sp"
+                app:layout_constraintLeft_toRightOf="@id/icon_telp"
+                app:layout_constraintTop_toBottomOf="@+id/judul_telp" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_card_profile"
+            android:paddingLeft="30dp"
+            android:paddingTop="20dp"
+            android:paddingBottom="30dp"
+            android:layout_marginTop="-10dp">
+
+            <ImageView
+                android:id="@+id/icon_ttl"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:src="@drawable/ico_cake"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/judul_ttl"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Tanggal Lahir"
+                android:textSize="15sp"
+                app:layout_constraintBottom_toTopOf="@id/tanggal"
+                app:layout_constraintLeft_toRightOf="@id/icon_ttl"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tanggal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="16 Oktober 2021"
+                android:textColor="@android:color/black"
+                android:textSize="17sp"
+                app:layout_constraintLeft_toRightOf="@id/icon_ttl"
+                app:layout_constraintTop_toBottomOf="@+id/judul_ttl" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
+
+</LinearLayout>
