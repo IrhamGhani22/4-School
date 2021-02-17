@@ -6,6 +6,8 @@ import android.view.MenuItem;
 import com.application.a4_school.ui.help.HelpFragment;
 import com.application.a4_school.ui.home.HomeFragment;
 import com.application.a4_school.ui.job.JobFragment;
+import com.application.a4_school.ui.profile.ProfileFragment;
+import com.application.a4_school.ui.schedule.ScheduleFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.annotation.NonNull;
@@ -44,8 +46,10 @@ public class MainActivity extends AppCompatActivity {
                         break;
                     case R.id.nav_help:
                         fragment = new HelpFragment();
+                        break;
                     case R.id.nav_profile:
-
+                        fragment = new ProfileFragment();
+                        break;
                 }
 
                 return getFragmentPage(fragment);
