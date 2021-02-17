@@ -30,4 +30,9 @@ public interface APIService {
     @GET("logout/{id}")
     Call<ResponseBody> logoutUser(@Path("id") String id_user,
                                   @Query("token") String logoutToken);
+    @FormUrlEncoded
+    @POST("register")
+    Call<ResponseBody> register(@Field("email") String email,
+                                @Field("password") String pw,
+                                @Field("name") String name);
 }

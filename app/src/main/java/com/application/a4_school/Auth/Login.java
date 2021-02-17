@@ -17,6 +17,7 @@ import android.widget.Toast;
 import com.application.a4_school.Auth.sessionResp.UserInfo;
 import com.application.a4_school.MainActivity;
 import com.application.a4_school.R;
+import com.application.a4_school.Register;
 import com.application.a4_school.RestAPI.APIClient;
 import com.application.a4_school.RestAPI.APIService;
 import com.google.gson.Gson;
@@ -128,8 +129,9 @@ public class Login extends Activity implements View.OnClickListener {
                 break;
 
             case R.id.reset_pw:
-                Toast.makeText(this, "Ini Reset Password", Toast.LENGTH_SHORT).show();
-                break;
+                Intent toRegister = new Intent(Login.this, Register.class);
+                startActivity(toRegister);
+                finish();
         }
 
     }
