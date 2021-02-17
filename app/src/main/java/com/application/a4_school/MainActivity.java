@@ -35,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         //nampilin awal fragment pertama kali
-        getFragmentPage(new HomeFragment());
+//        getFragmentPage(new HomeFragment());
 
         BottomNavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -45,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
 
                 switch (item.getItemId()){
                     case R.id.nav_home:
-                        fragment = new HomeFragment();
+//                        fragment = new HomeFragment();
                         break;
                     case R.id.nav_jobs:
                         fragment = new JobFragment();
