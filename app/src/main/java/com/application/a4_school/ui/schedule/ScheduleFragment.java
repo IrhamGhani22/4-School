@@ -1,4 +1,4 @@
-package com.application.a4_school.ui.help;
+package com.application.a4_school.ui.schedule;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -13,13 +13,17 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.application.a4_school.R;
+import com.application.a4_school.ui.help.HelpViewModel;
 
-public class HelpFragment extends Fragment {
+public class ScheduleFragment extends Fragment {
 
-    public View onCreateView(@NonNull LayoutInflater inflater,
-                             ViewGroup container, Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.fragment_help, container, false);
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
+        View root = inflater.inflate(R.layout.fragment_schedule, container, false);
 
         return root;
     }
+
+
+
 }

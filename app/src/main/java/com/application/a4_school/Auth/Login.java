@@ -15,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.application.a4_school.Auth.sessionResp.UserInfo;
+import com.application.a4_school.ForgotPassword;
 import com.application.a4_school.MainActivity;
 import com.application.a4_school.R;
 import com.application.a4_school.Register;
@@ -34,6 +35,7 @@ public class Login extends Activity implements View.OnClickListener {
     EditText etUsername, etPw;
     Button btnlogin;
     TextView resetPw;
+    TextView txtRegister;
     SessionManager sessionManager;
     private boolean exit = false;
 
@@ -47,9 +49,10 @@ public class Login extends Activity implements View.OnClickListener {
         etPw = findViewById(R.id.inputpassword);
         btnlogin = findViewById(R.id.btn_login);
         resetPw = findViewById(R.id.reset_pw);
+        txtRegister = findViewById(R.id.register);
 
         resetPw.setOnClickListener(this);
-
+        txtRegister.setOnClickListener(this);
         btnlogin.setOnClickListener(this);
 
     }
@@ -100,10 +103,12 @@ public class Login extends Activity implements View.OnClickListener {
                                 SessionResponse objResp = objGson.fromJson(responseJSON, SessionResponse.class);
                                 if (objResp.getToken() != null){
                                     String role = objResp.getUserInfo().getRole();
+                                    Log.d("role", "role : " + role);
                                     sessionManager.createSession(objResp.getToken(), role);
                                     if (role.equals("guru")){
                                         Intent toDasboard = new Intent(Login.this, MainActivity.class);
                                         startActivity(toDasboard);
+                                        finish();
                                     }else{
                                         Toast.makeText(Login.this, "Halaman siswa belum dibuat", Toast.LENGTH_SHORT).show();
                                     }
@@ -129,9 +134,14 @@ public class Login extends Activity implements View.OnClickListener {
                 break;
 
             case R.id.reset_pw:
+                Intent toForgotPassword = new Intent(Login.this, ForgotPassword.class);
+                startActivity(toForgotPassword);
+                break;
+
+            case R.id.register:
                 Intent toRegister = new Intent(Login.this, Register.class);
                 startActivity(toRegister);
-                finish();
+                break;
         }
 
     }

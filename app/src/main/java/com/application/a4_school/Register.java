@@ -5,12 +5,16 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import com.application.a4_school.Auth.Login;
 import com.application.a4_school.RestAPI.APIClient;
 import com.application.a4_school.RestAPI.APIService;
+
+import java.io.IOException;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -21,21 +25,26 @@ public class Register extends AppCompatActivity {
     EditText edtName;
     EditText edtEmail;
     EditText edtPw;
+    Button btnregister;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
         initialize();
-        String email = edtEmail.getText().toString();
-        String name = edtName.getText().toString();
-        String password = edtPw.getText().toString();
-        register(email,name,password);
+
+        btnregister.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                register(edtEmail.getText().toString(),edtName.getText().toString(), edtPw.getText().toString());
+            }
+        });
     }
 
     private void initialize(){
         edtName = findViewById(R.id.inputemail);
         edtEmail = findViewById(R.id.inputname);
-        edtPw = findViewById(R.id.inputpassword);
+        edtPw = findViewById(R.id.inputpasswordregis);
+        btnregister = findViewById(R.id.btn_register);
 
     }
 
@@ -46,8 +55,15 @@ public class Register extends AppCompatActivity {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 if (response.isSuccessful()){
-                    Intent toLogin = new Intent(Register.this, Login.class);
-                    startActivity(toLogin);
+                    try {
+                        String responseJSON = response.body().string();
+                        Toast.makeText(Register.this, "Register Successfully", Toast.LENGTH_SHORT).show();
+                        Intent toLogin = new Intent(Register.this, Login.class);
+                        startActivity(toLogin);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
                 }else{
                     //system error
                     Toast.makeText(Register.this, "Email or password is incorrect", Toast.LENGTH_SHORT).show();

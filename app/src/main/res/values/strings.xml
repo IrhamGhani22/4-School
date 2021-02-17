@@ -6,6 +6,7 @@
     <string name="name">Name</string>
     <string name="nip">NIP</string>
     <string name="register">Register</string>
+    <string name="you_need_account_register">You need account ? Register</string>
     <string name="login">Login</string>
     <string name="reset_password">Reset Password</string>
     <string name="nama_logo">Nama Logo</string>
@@ -19,5 +20,4 @@
     <string name="menu_profil">Profile</string>
     <string name="menu_job">Jobs</string>
     <string name="menu_help">Help</string>
-    <string name="menu_logout">Logout</string>
 </resources>

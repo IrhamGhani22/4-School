@@ -2,26 +2,20 @@ package com.application.a4_school;
 
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.Menu;
 
 import com.application.a4_school.ui.help.HelpFragment;
 import com.application.a4_school.ui.home.HomeFragment;
 import com.application.a4_school.ui.job.JobFragment;
+import com.application.a4_school.ui.profile.ProfileFragment;
+import com.application.a4_school.ui.schedule.ScheduleFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
-import com.google.android.material.navigation.NavigationView;
 
 import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
-import androidx.navigation.ui.AppBarConfiguration;
-import androidx.navigation.ui.NavigationUI;
-import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.Fragment;
+import androidx.navigation.ui.AppBarConfiguration;
+import androidx.appcompat.app.AppCompatActivity;
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -52,9 +46,10 @@ public class MainActivity extends AppCompatActivity {
                         break;
                     case R.id.nav_help:
                         fragment = new HelpFragment();
-
+                        break;
                     case R.id.nav_profile:
-
+                        fragment = new ProfileFragment();
+                        break;
                 }
 
                 return getFragmentPage(fragment);

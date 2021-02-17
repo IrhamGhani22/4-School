@@ -83,6 +83,16 @@
                     android:hint="@string/password"
                     android:inputType="textPassword"/>
 
+                <TextView
+                    android:id="@+id/reset_pw"
+                    android:layout_marginTop="5dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@id/form"
+                    android:fontFamily="@font/poppins_bold"
+                    android:text="@string/forgot_password"
+                    android:gravity="right"/>
+
                 <Button
                     android:id="@+id/btn_login"
                     android:layout_width="wrap_content"
@@ -96,12 +106,15 @@
             </LinearLayout>
 
             <TextView
-                android:id="@+id/reset_pw"
+                android:id="@+id/register"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toBottomOf="@id/form"
-                android:text="@string/forgot_password"
-                android:textAlignment="center"/>
+                android:text="@string/you_need_account_register"
+                android:fontFamily="@font/poppins_bold"
+                android:gravity="center"/>
+
+
         </androidx.constraintlayout.widget.ConstraintLayout>
         <ImageView
             android:id="@+id/illustration"

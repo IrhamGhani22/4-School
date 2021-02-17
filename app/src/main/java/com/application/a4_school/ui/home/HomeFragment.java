@@ -1,33 +1,44 @@
 package com.application.a4_school.ui.home;
 
+import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
+import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
 
 import com.application.a4_school.R;
 
+import java.util.zip.Inflater;
+
+import static com.application.a4_school.R.id.WebView1;
+
 public class HomeFragment extends Fragment {
+    WebView webviewku;
+    WebSettings webSettingsku;
 
-    private HomeViewModel homeViewModel;
+    public View onCreateView(@NonNull LayoutInflater inflater,
+                             ViewGroup container, Bundle savedInstanceState) {
 
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        homeViewModel = ViewModelProviders.of(this).get(HomeViewModel.class);
         View root = inflater.inflate(R.layout.fragment_home, container, false);
-        final TextView textView = root.findViewById(R.id.text_home);
-        homeViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
-            @Override
-            public void onChanged(@Nullable String s) {
-                textView.setText(s);
-            }
-        });
+
+        webviewku = (WebView) root.findViewById(WebView1);
+
+        webSettingsku = webviewku.getSettings();
+        webSettingsku.setJavaScriptEnabled(true);
+
+        webviewku.setWebViewClient(new WebViewClient());
+        webviewku.loadUrl("http://192.168.43.234:8000");
+
         return root;
     }
 }
