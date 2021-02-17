@@ -25,6 +25,7 @@
         </activity>
         <activity android:name=".ProfileActivity" />
         <activity android:name=".Auth.Login" />
+        <activity android:name=".MainActivity"/>
 
     </application>
 
