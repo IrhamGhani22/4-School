@@ -51,8 +51,7 @@
                         android:layout_width="130dp"
                         android:layout_height="130dp"
                         android:layout_gravity="center"
-                        android:scaleType="centerCrop"
-                        android:src="@drawable/empty_profile" />
+                        android:scaleType="centerCrop" />
 
                     <com.google.android.material.floatingactionbutton.FloatingActionButton
                         android:id="@+id/chooseUserImage"
