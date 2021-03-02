@@ -1,4 +1,4 @@
-package com.application.a4_school;
+package com.application.a4_school.Auth;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -10,7 +10,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.application.a4_school.Auth.Login;
+import com.application.a4_school.R;
 import com.application.a4_school.RestAPI.APIClient;
 import com.application.a4_school.RestAPI.APIService;
 
@@ -57,6 +57,7 @@ public class Register extends AppCompatActivity {
                 if (response.isSuccessful()){
                     try {
                         String responseJSON = response.body().string();
+                        Log.d("auth", ""+responseJSON);
                         Toast.makeText(Register.this, "Register Successfully", Toast.LENGTH_SHORT).show();
                         Intent toLogin = new Intent(Register.this, Login.class);
                         startActivity(toLogin);

@@ -1,7 +1,5 @@
 package com.application.a4_school.Auth;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,17 +12,14 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.application.a4_school.Auth.sessionResp.UserInfo;
 import com.application.a4_school.ForgotPassword;
 import com.application.a4_school.MainActivity;
 import com.application.a4_school.R;
-import com.application.a4_school.Register;
 import com.application.a4_school.RestAPI.APIClient;
 import com.application.a4_school.RestAPI.APIService;
 import com.google.gson.Gson;
 
 import java.io.IOException;
-import java.util.List;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -99,6 +94,7 @@ public class Login extends Activity implements View.OnClickListener {
                         if (response.isSuccessful()){
                             try {
                                 String responseJSON = response.body().string();
+                                Log.d("auth", "response : "+responseJSON);
                                 Gson objGson = new Gson();
                                 SessionResponse objResp = objGson.fromJson(responseJSON, SessionResponse.class);
                                 if (objResp.getToken() != null){
