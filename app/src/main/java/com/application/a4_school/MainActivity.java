@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
                         fragment = new HomeFragment();
                         break;
                     case R.id.nav_jobs:
-                        fragment = new JobFragment();
+                        fragment = new ScheduleFragment();
                         break;
                     case R.id.nav_help:
                         fragment = new HelpFragment();

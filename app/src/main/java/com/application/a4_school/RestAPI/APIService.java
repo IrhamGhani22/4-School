@@ -11,6 +11,7 @@ import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.Headers;
+import retrofit2.http.PATCH;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
@@ -35,4 +36,7 @@ public interface APIService {
     Call<ResponseBody> register(@Field("email") String email,
                                 @Field("password") String pw,
                                 @Field("name") String name);
+
+    @PATCH("/uploadPict/{id}")
+    Call<ResponseBody> uploadBase64Pict(@Path("id") String id_user, @Field("photo") String encodedPhoto);
 }
