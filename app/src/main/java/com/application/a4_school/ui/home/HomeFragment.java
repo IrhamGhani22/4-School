@@ -18,6 +18,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import com.application.a4_school.R;
+import com.application.a4_school.RestAPI.APIClient;
 
 import java.util.zip.Inflater;
 
@@ -40,8 +41,7 @@ public class HomeFragment extends Fragment {
         webSettingsku.setJavaScriptEnabled(true);
 
         webviewku.setWebViewClient(new WebViewClient());
-        webviewku.loadUrl("http://172.16.100.215:8000");
-        if (webviewku.l)
+        webviewku.loadUrl(APIClient.BASE_URL);
 
         return root;
     }

@@ -16,7 +16,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Register"></activity>
+        <activity android:name=".Auth.Register"></activity>
         <activity android:name=".ForgotPassword"></activity>
         <activity
             android:name=".SplashScreen"
