@@ -1,6 +1,9 @@
 package com.application.a4_school.Auth;
 
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -84,8 +87,8 @@ public class Login extends Activity implements View.OnClickListener {
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.btn_login:
-                String username = etUsername.getText().toString();
-                String pw = etPw.getText().toString();
+                final String username = etUsername.getText().toString();
+                final String pw = etPw.getText().toString();
                 APIService api = APIClient.getClient().create(APIService.class);
                 Call<ResponseBody> login = api.login(username, pw);
                 login.enqueue(new Callback<ResponseBody>() {
@@ -116,13 +119,76 @@ public class Login extends Activity implements View.OnClickListener {
                                 Toast.makeText(Login.this, e.getMessage(), Toast.LENGTH_SHORT).show();
                                 Log.d("Login", "" + e.getMessage());
                             }
+                        }
+                        else if (username.isEmpty()){
+                            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(Login.this);
+                            alertDialogBuilder.setTitle("Field the Blank Form Input");
+                            alertDialogBuilder
+                                    .setMessage("Please Enter Username or Password")
+                                    .setCancelable(false)
+                                    .setPositiveButton("OK",new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int id) {
+                                            dialog.cancel();
+                                        }
+                                    });
+                            AlertDialog alertDialog = alertDialogBuilder.create();
+                            alertDialog.show();
+                        } else if (!android.util.Patterns.EMAIL_ADDRESS.matcher(username).matches()){
+                            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(Login.this);
+                            alertDialogBuilder.setTitle("Incorrect Form Input");
+                            alertDialogBuilder
+                                    .setMessage("Please enter your Email or password correctly")
+                                    .setCancelable(false)
+                                    .setPositiveButton("OK",new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int id) {
+                                            dialog.cancel();
+                                        }
+                                    });
+                            AlertDialog alertDialog = alertDialogBuilder.create();
+                            alertDialog.show();
+                        }else if (pw.isEmpty()){
+                            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(Login.this);
+                            alertDialogBuilder.setTitle("Field the Blank Form Input");
+                            alertDialogBuilder
+                                    .setMessage("Please Enter Password")
+                                    .setCancelable(false)
+                                    .setPositiveButton("OK",new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int id) {
+                                            dialog.cancel();
+                                        }
+                                    });
+                            AlertDialog alertDialog = alertDialogBuilder.create();
+                            alertDialog.show();
                         }else{
-                            Toast.makeText(Login.this, "System error, please try again later", Toast.LENGTH_SHORT).show();
+                            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(Login.this);
+                            alertDialogBuilder.setTitle("System Error");
+                            alertDialogBuilder
+                                    .setMessage("Please try again later")
+                                    .setCancelable(false)
+                                    .setPositiveButton("OK",new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int id) {
+                                            dialog.cancel();
+                                        }
+                                    });
+                            AlertDialog alertDialog = alertDialogBuilder.create();
+                            alertDialog.show();
                         }
                     }
 
                     @Override
                     public void onFailure(Call<ResponseBody> call, Throwable t) {
+                        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(Login.this);
+                        alertDialogBuilder.setTitle("Internet Connection Error");
+                        alertDialogBuilder
+                                .setMessage("Please check your internet connection")
+                                .setCancelable(false)
+                                .setPositiveButton("OK",new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int id) {
+                                        dialog.cancel();
+                                    }
+                                });
+                        AlertDialog alertDialog = alertDialogBuilder.create();
+                        alertDialog.show();
                         Toast.makeText(Login.this, "Please check your internet connection", Toast.LENGTH_SHORT).show();
                         Log.d("failure", "Message : "+t.getMessage());
                     }
