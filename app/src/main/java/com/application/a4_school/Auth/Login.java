@@ -3,6 +3,7 @@ package com.application.a4_school.Auth;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -85,6 +86,10 @@ public class Login extends Activity implements View.OnClickListener {
 
     @Override
     public void onClick(View view) {
+        final ProgressDialog pd = new ProgressDialog(this);
+        pd.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        pd.setMessage("Wait a second...");
+        pd.show();
         switch (view.getId()){
             case R.id.btn_login:
                 final String username = etUsername.getText().toString();
@@ -94,6 +99,7 @@ public class Login extends Activity implements View.OnClickListener {
                 login.enqueue(new Callback<ResponseBody>() {
                     @Override
                     public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                        pd.dismiss();
                         if (response.isSuccessful()){
                             try {
                                 String responseJSON = response.body().string();
@@ -161,9 +167,9 @@ public class Login extends Activity implements View.OnClickListener {
                             alertDialog.show();
                         }else{
                             AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(Login.this);
-                            alertDialogBuilder.setTitle("System Error");
+                            alertDialogBuilder.setTitle("Incorrect");
                             alertDialogBuilder
-                                    .setMessage("Please try again later")
+                                    .setMessage("Email or password not recornized")
                                     .setCancelable(false)
                                     .setPositiveButton("OK",new DialogInterface.OnClickListener() {
                                         public void onClick(DialogInterface dialog, int id) {
@@ -177,6 +183,7 @@ public class Login extends Activity implements View.OnClickListener {
 
                     @Override
                     public void onFailure(Call<ResponseBody> call, Throwable t) {
+                        pd.dismiss();
                         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(Login.this);
                         alertDialogBuilder.setTitle("Internet Connection Error");
                         alertDialogBuilder
