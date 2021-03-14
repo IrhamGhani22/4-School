@@ -49,6 +49,7 @@
         android:fillViewport="true">
         
         <LinearLayout
+            android:id="@+id/bottom_sheet_linear"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
@@ -58,7 +59,8 @@
                 android:id="@+id/rv_schedule"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginTop="8dp"/>
+                android:layout_marginTop="8dp"
+                tools:listitem="@layout/row_schedule_bottom_sheet"/>
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 

@@ -42,6 +42,9 @@ public class HomeFragment extends Fragment {
 
         webviewku.setWebViewClient(new WebViewClient());
         webviewku.loadUrl(APIClient.BASE_URL);
+        webviewku.getSettings().setBuiltInZoomControls(true);
+        webviewku.getSettings().setUseWideViewPort(true);
+
 
         return root;
     }
