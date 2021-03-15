@@ -14,6 +14,7 @@
         android:background="@color/transparent">
 
         <com.google.android.material.appbar.CollapsingToolbarLayout
+            android:id="@+id/collaps"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:elevation="5dp"
@@ -78,23 +79,52 @@
                             app:fabSize="mini"
                             app:rippleColor="@android:color/holo_blue_light" />
                     </RelativeLayout>
+                    <LinearLayout
+                        android:id="@+id/linehidden"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="30dp"
+                        android:orientation="vertical"
+                        >
+
+                        <TextView
+                            android:id="@+id/username"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Muhamad Sabil Fausta"
+                            android:textAlignment="center"
+                            android:textAllCaps="false"
+                            android:textSize="25sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/nis"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="1819117624"
+                            android:textAlignment="center"
+                            android:textAllCaps="false"
+                            android:textSize="20sp"/>
+                    </LinearLayout>
                 </LinearLayout>
             </FrameLayout>
 
             <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbarpf"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                app:layout_collapseMode="pin"
-                app:title="Sabil Fausta">
+                app:layout_collapseMode="pin">
 
                 <LinearLayout
-                    android:id="@+id/toolbar"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:visibility="gone"
+                    >
 
                     <de.hdodenhof.circleimageview.CircleImageView
-                        android:id="@+id/toolbarImage"
+                        android:id="@+id/toolbarImage2"
                         android:layout_width="50dp"
                         android:layout_height="50dp"
                         android:src="@drawable/empty_profile" />
@@ -106,7 +136,7 @@
                         android:orientation="vertical">
 
                         <TextView
-                            android:id="@+id/username"
+                            android:id="@+id/username2"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="Muhamad Sabil Fausta"
@@ -116,7 +146,7 @@
                             android:textStyle="bold" />
 
                         <TextView
-                            android:id="@+id/nis"
+                            android:id="@+id/nis2"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="1819117624"
