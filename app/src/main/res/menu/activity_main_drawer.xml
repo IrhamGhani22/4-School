@@ -2,19 +2,23 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
         <item
-            android:id="@+id/nav_home"
-            android:icon="@drawable/ic_beranda"
-            android:title="@string/menu_home" />
+            android:id="@+id/nav_maps"
+            android:icon="@drawable/location"
+            android:title="Maps" />
         <item
             android:id="@+id/nav_jobs"
-            android:icon="@drawable/ic_jadwal"
-            android:title="@string/menu_job"/>
+            android:icon="@drawable/calendar"
+            android:title="@string/menu_schedule"/>
+        <item
+            android:id="@+id/nav_home"
+            android:icon="@drawable/home"
+            android:title="@string/menu_home" />
         <item
             android:id="@+id/nav_help"
-            android:icon="@drawable/ic_help"
+            android:icon="@drawable/question"
             android:title="@string/menu_help" />
         <item
             android:id="@+id/nav_profile"
-            android:icon="@drawable/icon_person"
+            android:icon="@drawable/user"
             android:title="@string/menu_profil"/>
 </menu>

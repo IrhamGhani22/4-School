@@ -6,6 +6,7 @@ import android.view.MenuItem;
 import com.application.a4_school.ui.help.HelpFragment;
 import com.application.a4_school.ui.home.HomeFragment;
 import com.application.a4_school.ui.job.JobFragment;
+import com.application.a4_school.ui.maps.MapsFragment;
 import com.application.a4_school.ui.profile.ProfileFragment;
 import com.application.a4_school.ui.schedule.ScheduleFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -32,14 +33,17 @@ public class MainActivity extends AppCompatActivity {
         getFragmentPage(new HomeFragment());
 
         BottomNavigationView navigationView = findViewById(R.id.nav_view);
+        navigationView.setSelectedItemId(R.id.nav_home);
         navigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 Fragment fragment = null;
-
                 switch (item.getItemId()){
                     case R.id.nav_home:
                         fragment = new HomeFragment();
+                        break;
+                    case R.id.nav_maps:
+                        fragment = new MapsFragment();
                         break;
                     case R.id.nav_jobs:
                         fragment = new ScheduleFragment();
