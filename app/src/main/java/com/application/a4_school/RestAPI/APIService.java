@@ -37,6 +37,11 @@ public interface APIService {
                                 @Field("password") String pw,
                                 @Field("name") String name);
 
+    @FormUrlEncoded
     @PATCH("/uploadPict/{id}")
     Call<ResponseBody> uploadBase64Pict(@Path("id") String id_user, @Field("photo") String encodedPhoto);
+
+    @FormUrlEncoded
+    @POST("jadwal-guru")
+    Call<ResponseData> getListSchedule(@Field("id") String id_user);
 }

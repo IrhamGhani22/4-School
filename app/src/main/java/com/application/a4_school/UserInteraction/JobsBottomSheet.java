@@ -7,21 +7,31 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
+import com.application.a4_school.Models.Schedule;
 import com.application.a4_school.R;
+import com.application.a4_school.adapter.ScheduleListAdapter;
+import com.application.a4_school.ui.schedule.ScheduleFragment;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
+import java.util.ArrayList;
+
 public class JobsBottomSheet extends BottomSheetDialogFragment {
     private AppBarLayout appBarLayout;
     private LinearLayout linearLayout;
+    private RecyclerView rv_schedule;
+    private ArrayList<Schedule> list = ScheduleFragment.getInstance().getList();
 
     public JobsBottomSheet(){
 
@@ -36,9 +46,13 @@ public class JobsBottomSheet extends BottomSheetDialogFragment {
 
         BottomSheetBehavior bottomSheetBehavior = BottomSheetBehavior.from((View)view.getParent());
         bottomSheetBehavior.setPeekHeight(BottomSheetBehavior.PEEK_HEIGHT_AUTO);
-        appBarLayout = view.findViewById(R.id.appbarBottomSheet);
-        linearLayout = view.findViewById(R.id.bottom_sheet_linear);
-
+        appBarLayout    = view.findViewById(R.id.appbarBottomSheet);
+        linearLayout    = view.findViewById(R.id.bottom_sheet_linear);
+        rv_schedule     = view.findViewById(R.id.rv_schedule);
+        rv_schedule.setLayoutManager(new LinearLayoutManager(getActivity()));
+        ScheduleListAdapter adapter = new ScheduleListAdapter(list, getActivity());
+        Log.d("BottomSheet", "listvalue: "+list);
+        rv_schedule.setAdapter(adapter);
         bottomSheetBehavior.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
             @Override
             public void onStateChanged(@NonNull View bottomSheet, int newState) {
