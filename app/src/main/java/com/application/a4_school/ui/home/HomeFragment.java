@@ -16,7 +16,6 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.application.a4_school.R;
 import com.application.a4_school.RestAPI.APIClient;
-import com.application.a4_school.ui.job.JobViewModel;
 
 import static com.application.a4_school.R.id.WebView1;
 
