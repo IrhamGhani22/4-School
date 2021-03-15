@@ -15,8 +15,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.application.a4_school.Models.Schedule;
+import com.application.a4_school.Models.ScheduleData;
 import com.application.a4_school.R;
 import com.application.a4_school.adapter.ScheduleListAdapter;
 import com.application.a4_school.ui.schedule.ScheduleFragment;
@@ -31,10 +33,13 @@ public class JobsBottomSheet extends BottomSheetDialogFragment {
     private AppBarLayout appBarLayout;
     private LinearLayout linearLayout;
     private RecyclerView rv_schedule;
+    private TextView shTitle;
+    ScheduleListAdapter adapter;
+    String title;
     private ArrayList<Schedule> list = ScheduleFragment.getInstance().getList();
 
-    public JobsBottomSheet(){
-
+    public JobsBottomSheet(String days){
+        this.title = days;
     }
 
     @NonNull
@@ -43,14 +48,17 @@ public class JobsBottomSheet extends BottomSheetDialogFragment {
         final BottomSheetDialog dialog = (BottomSheetDialog) super.onCreateDialog(savedInstanceState);
         final View view = View.inflate(getContext(), R.layout.fragment_jobs_bottom_sheet, null);
         dialog.setContentView(view);
-
         BottomSheetBehavior bottomSheetBehavior = BottomSheetBehavior.from((View)view.getParent());
         bottomSheetBehavior.setPeekHeight(BottomSheetBehavior.PEEK_HEIGHT_AUTO);
         appBarLayout    = view.findViewById(R.id.appbarBottomSheet);
+        shTitle         = view.findViewById(R.id.textHeaderDays);
         linearLayout    = view.findViewById(R.id.bottom_sheet_linear);
+        hideView(appBarLayout);
         rv_schedule     = view.findViewById(R.id.rv_schedule);
+        Log.d("titleBottomSheet", "title: "+title);
+        shTitle.setText(title);
         rv_schedule.setLayoutManager(new LinearLayoutManager(getActivity()));
-        ScheduleListAdapter adapter = new ScheduleListAdapter(list, getActivity());
+        adapter = new ScheduleListAdapter(list, getActivity());
         Log.d("BottomSheet", "listvalue: "+list);
         rv_schedule.setAdapter(adapter);
         bottomSheetBehavior.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
@@ -61,10 +69,11 @@ public class JobsBottomSheet extends BottomSheetDialogFragment {
                     hideView(linearLayout);
                 }
                 if (BottomSheetBehavior.STATE_COLLAPSED == newState){
-                    hideView(appBarLayout);
                     showView(linearLayout, getActionBarSize());
+                    hideView(appBarLayout);
                 }
                 if (BottomSheetBehavior.STATE_HIDDEN == newState){
+                    ScheduleFragment.getInstance().showRecyclerGrid();
                     dismiss();
                 }
             }
@@ -76,6 +85,7 @@ public class JobsBottomSheet extends BottomSheetDialogFragment {
         view.findViewById(R.id.close_bottom_sheet).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                ScheduleFragment.getInstance().showRecyclerGrid();
                 dismiss();
             }
         });

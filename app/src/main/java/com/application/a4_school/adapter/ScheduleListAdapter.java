@@ -38,9 +38,12 @@ public class ScheduleListAdapter extends RecyclerView.Adapter<ScheduleListAdapte
 
     @Override
     public void onBindViewHolder(@NonNull ListViewHolder holder, int position) {
-        holder.shTime.setText(list.get(position).getJam_mulai()+" - "+list.get(position).getJam_selesai());
-        holder.shRoom.setText(list.get(position).getRuangan());
-        holder.shClass.setText(list.get(position).getTingkatan()+ " " +list.get(position).getJurusan());
+        if (list.get(position).getJam_mulai() != null){
+            holder.shTime.setText(list.get(position).getJam_mulai()+" - "+list.get(position).getJam_selesai());
+            holder.shRoom.setText(list.get(position).getRuangan());
+            holder.shClass.setText(list.get(position).getTingkatan()+ " " +list.get(position).getJurusan());
+        }
+
     }
 
     @Override

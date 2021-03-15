@@ -33,7 +33,9 @@ import retrofit2.Response;
 public class ScheduleFragment extends Fragment {
     RecyclerView rv_Schedule;
     private static ScheduleFragment instance;
+    GridScheduleAdapter gridHeroAdapter;
     private ArrayList<Schedule> list = new ArrayList<>();
+    int listSize;
 
     public static ScheduleFragment getInstance() {
         return instance;
@@ -50,26 +52,30 @@ public class ScheduleFragment extends Fragment {
         rv_Schedule = root.findViewById(R.id.rv_schedule);
         rv_Schedule.setHasFixedSize(true);
 
-        list.addAll(ScheduleData.getListData());
         showRecyclerGrid();
         return root;
     }
 
-    private void showRecyclerGrid(){
+    public void showRecyclerGrid(){
+        if (!list.isEmpty()){
+            list.clear();
+        }
+        list.addAll(ScheduleData.getListData());
         rv_Schedule.setLayoutManager(new GridLayoutManager(getActivity(), 2));
-        GridScheduleAdapter gridHeroAdapter = new GridScheduleAdapter(list, getActivity());
+        gridHeroAdapter = new GridScheduleAdapter(list, getActivity());
+        gridHeroAdapter.notifyDataSetChanged();
         rv_Schedule.setAdapter(gridHeroAdapter);
 
         gridHeroAdapter.setOnItemClickCallback(new GridScheduleAdapter.OnItemClickCallback() {
             @Override
             public void onItemClicked(Schedule dataSchedule) {
                 Toast.makeText(getActivity(), dataSchedule.getDays(), Toast.LENGTH_SHORT).show();
-                getListScheduleData();
+                getListScheduleData(dataSchedule.getDays());
             }
         });
     }
 
-    private void getListScheduleData(){
+    private void getListScheduleData(final String days){
         SharedPreferences getId_user = getActivity().getSharedPreferences("userInfo", 0);
         String id_user = getId_user.getString("id", "");
         APIService api = APIClient.getClient().create(APIService.class);
@@ -78,8 +84,9 @@ public class ScheduleFragment extends Fragment {
             @Override
             public void onResponse(Call<ResponseData> call, final Response<ResponseData> response) {
                 if (response.isSuccessful()){
+                    list.clear();
                     list.addAll(response.body().getJadwal_mengajar());
-                    JobsBottomSheet jobsBottomSheet = new JobsBottomSheet();
+                    JobsBottomSheet jobsBottomSheet = new JobsBottomSheet(days);
                     jobsBottomSheet.show(getFragmentManager(), jobsBottomSheet.getTag());
                     Log.d("ScheduleFragment", "Success: "+response.body().getJadwal_mengajar());
                 }else{
