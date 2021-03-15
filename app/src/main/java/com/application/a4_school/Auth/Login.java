@@ -2,6 +2,7 @@ package com.application.a4_school.Auth;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
@@ -101,23 +102,24 @@ public class Login extends Activity implements View.OnClickListener {
                     public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                         pd.dismiss();
                         if (response.isSuccessful()){
+
                             try {
                                 String responseJSON = response.body().string();
-                                Log.d("auth", "response : "+responseJSON);
+                                Log.d("auth", "response : " + responseJSON);
                                 Gson objGson = new Gson();
                                 SessionResponse objResp = objGson.fromJson(responseJSON, SessionResponse.class);
-                                if (objResp.getToken() != null){
+                                if (objResp.getToken() != null) {
                                     String role = objResp.getUserInfo().getRole();
                                     Log.d("role", "role : " + role);
                                     sessionManager.createSession(objResp.getToken(), role);
-                                    if (role.equals("guru")){
+                                    if (role.equals("guru")) {
                                         Intent toDasboard = new Intent(Login.this, MainActivity.class);
                                         startActivity(toDasboard);
                                         finish();
-                                    }else{
+                                    } else {
                                         Toast.makeText(Login.this, "Halaman siswa belum dibuat", Toast.LENGTH_SHORT).show();
                                     }
-                                }else{
+                                } else {
                                     Toast.makeText(Login.this, "Email or password is incorrect", Toast.LENGTH_SHORT).show();
                                 }
                             } catch (IOException e) {
@@ -125,53 +127,52 @@ public class Login extends Activity implements View.OnClickListener {
                                 Toast.makeText(Login.this, e.getMessage(), Toast.LENGTH_SHORT).show();
                                 Log.d("Login", "" + e.getMessage());
                             }
-                        }
-                        else if (username.isEmpty()){
+                        } else if (username.isEmpty()) {
                             AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(Login.this);
                             alertDialogBuilder.setTitle("Field the Blank Form Input");
                             alertDialogBuilder
                                     .setMessage("Please Enter Username or Password")
                                     .setCancelable(false)
-                                    .setPositiveButton("OK",new DialogInterface.OnClickListener() {
+                                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                                         public void onClick(DialogInterface dialog, int id) {
                                             dialog.cancel();
                                         }
                                     });
                             AlertDialog alertDialog = alertDialogBuilder.create();
                             alertDialog.show();
-                        } else if (!android.util.Patterns.EMAIL_ADDRESS.matcher(username).matches()){
+                        } else if (!android.util.Patterns.EMAIL_ADDRESS.matcher(username).matches()) {
                             AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(Login.this);
                             alertDialogBuilder.setTitle("Incorrect Form Input");
                             alertDialogBuilder
                                     .setMessage("Please enter your Email or password correctly")
                                     .setCancelable(false)
-                                    .setPositiveButton("OK",new DialogInterface.OnClickListener() {
+                                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                                         public void onClick(DialogInterface dialog, int id) {
                                             dialog.cancel();
                                         }
                                     });
                             AlertDialog alertDialog = alertDialogBuilder.create();
                             alertDialog.show();
-                        }else if (pw.isEmpty()){
+                        } else if (pw.isEmpty()) {
                             AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(Login.this);
                             alertDialogBuilder.setTitle("Field the Blank Form Input");
                             alertDialogBuilder
                                     .setMessage("Please Enter Password")
                                     .setCancelable(false)
-                                    .setPositiveButton("OK",new DialogInterface.OnClickListener() {
+                                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                                         public void onClick(DialogInterface dialog, int id) {
                                             dialog.cancel();
                                         }
                                     });
                             AlertDialog alertDialog = alertDialogBuilder.create();
                             alertDialog.show();
-                        }else{
+                        } else {
                             AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(Login.this);
                             alertDialogBuilder.setTitle("Incorrect");
                             alertDialogBuilder
                                     .setMessage("Email or password not recornized")
                                     .setCancelable(false)
-                                    .setPositiveButton("OK",new DialogInterface.OnClickListener() {
+                                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                                         public void onClick(DialogInterface dialog, int id) {
                                             dialog.cancel();
                                         }
@@ -189,7 +190,7 @@ public class Login extends Activity implements View.OnClickListener {
                         alertDialogBuilder
                                 .setMessage("Please check your internet connection")
                                 .setCancelable(false)
-                                .setPositiveButton("OK",new DialogInterface.OnClickListener() {
+                                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int id) {
                                         dialog.cancel();
                                     }
@@ -197,7 +198,7 @@ public class Login extends Activity implements View.OnClickListener {
                         AlertDialog alertDialog = alertDialogBuilder.create();
                         alertDialog.show();
                         Toast.makeText(Login.this, "Please check your internet connection", Toast.LENGTH_SHORT).show();
-                        Log.d("failure", "Message : "+t.getMessage());
+                        Log.d("failure", "Message : " + t.getMessage());
                     }
                 });
                 break;
