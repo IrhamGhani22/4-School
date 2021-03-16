@@ -1,6 +1,7 @@
 package com.application.a4_school.UserInteraction;
 
 import android.app.Dialog;
+import android.content.SharedPreferences;
 import android.content.res.TypedArray;
 import android.os.Bundle;
 
@@ -14,12 +15,17 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.application.a4_school.Models.Schedule;
 import com.application.a4_school.Models.ScheduleData;
 import com.application.a4_school.R;
+import com.application.a4_school.RestAPI.APIClient;
+import com.application.a4_school.RestAPI.APIService;
+import com.application.a4_school.RestAPI.ResponseData;
 import com.application.a4_school.adapter.ScheduleListAdapter;
 import com.application.a4_school.ui.schedule.ScheduleFragment;
 import com.google.android.material.appbar.AppBarLayout;
@@ -29,17 +35,28 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
 import java.util.ArrayList;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class JobsBottomSheet extends BottomSheetDialogFragment {
     private AppBarLayout appBarLayout;
     private LinearLayout linearLayout;
     private RecyclerView rv_schedule;
-    private TextView shTitle;
+    private TextView shTitle, shMessage;
+    private ProgressBar progressBar;
+    private Button btnRefresh;
     ScheduleListAdapter adapter;
     String title;
-    private ArrayList<Schedule> list = ScheduleFragment.getInstance().getList();
+    boolean isSuccess;
+    private ArrayList<Schedule> list = new ArrayList<>();
 
     public JobsBottomSheet(String days){
         this.title = days;
+    }
+
+    public void setSuccess(boolean success) {
+        isSuccess = success;
     }
 
     @NonNull
@@ -52,15 +69,16 @@ public class JobsBottomSheet extends BottomSheetDialogFragment {
         bottomSheetBehavior.setPeekHeight(BottomSheetBehavior.PEEK_HEIGHT_AUTO);
         appBarLayout    = view.findViewById(R.id.appbarBottomSheet);
         shTitle         = view.findViewById(R.id.textHeaderDays);
+        shMessage       = view.findViewById(R.id.txtMessageBtmSheet);
         linearLayout    = view.findViewById(R.id.bottom_sheet_linear);
-        hideView(appBarLayout);
         rv_schedule     = view.findViewById(R.id.rv_schedule);
+        progressBar     = view.findViewById(R.id.bottom_loading);
+        btnRefresh      = view.findViewById(R.id.btn_refresh);
+        hideView(appBarLayout);
+        getListScheduleData();
         Log.d("titleBottomSheet", "title: "+title);
         shTitle.setText(title);
-        rv_schedule.setLayoutManager(new LinearLayoutManager(getActivity()));
-        adapter = new ScheduleListAdapter(list, getActivity());
-        Log.d("BottomSheet", "listvalue: "+list);
-        rv_schedule.setAdapter(adapter);
+
         bottomSheetBehavior.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
             @Override
             public void onStateChanged(@NonNull View bottomSheet, int newState) {
@@ -89,7 +107,62 @@ public class JobsBottomSheet extends BottomSheetDialogFragment {
                 dismiss();
             }
         });
+
+        btnRefresh.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                progressBar.setVisibility(View.VISIBLE);
+                getListScheduleData();
+            }
+        });
         return dialog;
+    }
+
+    private void getListScheduleData(){
+        SharedPreferences getId_user = getActivity().getSharedPreferences("userInfo", 0);
+        String id_user = getId_user.getString("id", "");
+        APIService api = APIClient.getClient().create(APIService.class);
+        Call<ResponseData> listSchedule = api.getListSchedule("1");
+        listSchedule.enqueue(new Callback<ResponseData>() {
+            @Override
+            public void onResponse(Call<ResponseData> call, final Response<ResponseData> response) {
+                if (response.isSuccessful()){
+                    list.clear();
+                    list.addAll(response.body().getJadwal_mengajar());
+                    if (list.isEmpty()){
+                        shMessage.setVisibility(View.VISIBLE);
+                        progressBar.setVisibility(View.GONE);
+                        shMessage.setText("You dont have schedule on this day");
+                    }else{
+                        rv_schedule.setVisibility(View.VISIBLE);
+                        shMessage.setVisibility(View.GONE);
+                        btnRefresh.setVisibility(View.GONE);
+                        progressBar.setVisibility(View.GONE);
+                        rv_schedule.setLayoutManager(new LinearLayoutManager(getActivity()));
+                        adapter = new ScheduleListAdapter(list, getActivity());
+                        rv_schedule.setAdapter(adapter);
+                        Log.d("sendparameter", "isSuccess : true");
+                        Log.d("ScheduleFragment", "Success: "+response.body().getJadwal_mengajar());
+                    }
+
+                }else{
+                    Log.d("ScheduleFragment", "System error");
+                    progressBar.setVisibility(View.GONE);
+                    btnRefresh.setVisibility(View.VISIBLE);
+                    shMessage.setVisibility(View.VISIBLE);
+                    shMessage.setText("Unknown System error");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseData> call, Throwable t) {
+                progressBar.setVisibility(View.GONE);
+                btnRefresh.setVisibility(View.VISIBLE);
+                shMessage.setVisibility(View.VISIBLE);
+                shMessage.setText("Can't connect to server, please check your internet connection");
+                Log.d("ScheduleFragment", "System error : "+t.getMessage());
+            }
+        });
     }
 
     private void hideView(View view){

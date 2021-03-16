@@ -70,34 +70,30 @@ public class ScheduleFragment extends Fragment {
             @Override
             public void onItemClicked(Schedule dataSchedule) {
                 Toast.makeText(getActivity(), dataSchedule.getDays(), Toast.LENGTH_SHORT).show();
-                getListScheduleData(dataSchedule.getDays());
+                final JobsBottomSheet jobsBottomSheet = new JobsBottomSheet(dataSchedule.getDays());
+                jobsBottomSheet.show(getFragmentManager(), jobsBottomSheet.getTag());
             }
         });
     }
 
-    private void getListScheduleData(final String days){
+    public void getNowSchedule(){
         SharedPreferences getId_user = getActivity().getSharedPreferences("userInfo", 0);
         String id_user = getId_user.getString("id", "");
         APIService api = APIClient.getClient().create(APIService.class);
-        Call<ResponseData> listSchedule = api.getListSchedule("1");
-        listSchedule.enqueue(new Callback<ResponseData>() {
+        Call<ResponseData> getScheduleNow = api.getListSchedule("1");
+        getScheduleNow.enqueue(new Callback<ResponseData>() {
             @Override
-            public void onResponse(Call<ResponseData> call, final Response<ResponseData> response) {
+            public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
                 if (response.isSuccessful()){
-                    list.clear();
-                    list.addAll(response.body().getJadwal_mengajar());
-                    JobsBottomSheet jobsBottomSheet = new JobsBottomSheet(days);
-                    jobsBottomSheet.show(getFragmentManager(), jobsBottomSheet.getTag());
-                    Log.d("ScheduleFragment", "Success: "+response.body().getJadwal_mengajar());
+
                 }else{
-                    Log.d("ScheduleFragment", "System error");
+
                 }
             }
 
             @Override
             public void onFailure(Call<ResponseData> call, Throwable t) {
 
-                Log.d("ScheduleFragment", "System error : "+t.getMessage());
             }
         });
     }

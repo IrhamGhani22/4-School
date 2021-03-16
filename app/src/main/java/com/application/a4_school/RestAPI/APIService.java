@@ -42,6 +42,6 @@ public interface APIService {
     Call<ResponseBody> uploadBase64Pict(@Path("id") String id_user, @Field("photo") String encodedPhoto);
 
     @FormUrlEncoded
-    @POST("jadwal-guru")
+    @POST("GuruSchedule")
     Call<ResponseData> getListSchedule(@Field("id") String id_user);
 }
