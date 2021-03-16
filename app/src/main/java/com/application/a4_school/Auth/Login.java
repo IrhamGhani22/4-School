@@ -102,83 +102,40 @@ public class Login extends Activity implements View.OnClickListener {
                     public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                         pd.dismiss();
                         if (response.isSuccessful()){
-
-                            try {
-                                String responseJSON = response.body().string();
-                                Log.d("auth", "response : " + responseJSON);
-                                Gson objGson = new Gson();
-                                SessionResponse objResp = objGson.fromJson(responseJSON, SessionResponse.class);
-                                if (objResp.getToken() != null) {
-                                    String role = objResp.getUserInfo().getRole();
-                                    Log.d("role", "role : " + role);
-                                    sessionManager.createSession(objResp.getToken(), role);
-                                    if (role.equals("guru")) {
-                                        Intent toDasboard = new Intent(Login.this, MainActivity.class);
-                                        startActivity(toDasboard);
-                                        finish();
+                            if (response.body() != null){
+                                try {
+                                    String responseJSON = response.body().string();
+                                    Log.d("auth", "response : " + responseJSON);
+                                    Gson objGson = new Gson();
+                                    SessionResponse objResp = objGson.fromJson(responseJSON, SessionResponse.class);
+                                    if (objResp.getToken() != null) {
+                                        String role = objResp.getUserInfo().getRole();
+                                        Log.d("role", "role : " + role);
+                                        sessionManager.createSession(objResp.getToken(), role);
+                                        if (role.equals("guru")) {
+                                            Intent toDasboard = new Intent(Login.this, MainActivity.class);
+                                            startActivity(toDasboard);
+                                            finish();
+                                        } else {
+                                            Toast.makeText(Login.this, "Halaman siswa belum dibuat", Toast.LENGTH_SHORT).show();
+                                        }
                                     } else {
-                                        Toast.makeText(Login.this, "Halaman siswa belum dibuat", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(Login.this, "Email or password is incorrect", Toast.LENGTH_SHORT).show();
                                     }
-                                } else {
-                                    Toast.makeText(Login.this, "Email or password is incorrect", Toast.LENGTH_SHORT).show();
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                    Toast.makeText(Login.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                                    Log.d("Login", "" + e.getMessage());
                                 }
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                                Toast.makeText(Login.this, e.getMessage(), Toast.LENGTH_SHORT).show();
-                                Log.d("Login", "" + e.getMessage());
+                            }else if(response.code() == 422) {
+                                Toast.makeText(Login.this, "Username/Password masih kosong", Toast.LENGTH_SHORT).show();
+                            } else if(response.code() == 401){
+                                Toast.makeText(Login.this, "Username/Password salah", Toast.LENGTH_SHORT).show();
+                            } else if(response.code() == 403){
+                                Toast.makeText(Login.this, "Token Invalid", Toast.LENGTH_SHORT).show();
+                            } else if(response.code() == 404 || response.code() == 405){
+                                Toast.makeText(Login.this, "Terjadi kesalahan server", Toast.LENGTH_SHORT).show();
                             }
-                        } else if (username.isEmpty()) {
-                            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(Login.this);
-                            alertDialogBuilder.setTitle("Field the Blank Form Input");
-                            alertDialogBuilder
-                                    .setMessage("Please Enter Username or Password")
-                                    .setCancelable(false)
-                                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                                        public void onClick(DialogInterface dialog, int id) {
-                                            dialog.cancel();
-                                        }
-                                    });
-                            AlertDialog alertDialog = alertDialogBuilder.create();
-                            alertDialog.show();
-                        } else if (!android.util.Patterns.EMAIL_ADDRESS.matcher(username).matches()) {
-                            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(Login.this);
-                            alertDialogBuilder.setTitle("Incorrect Form Input");
-                            alertDialogBuilder
-                                    .setMessage("Please enter your Email or password correctly")
-                                    .setCancelable(false)
-                                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                                        public void onClick(DialogInterface dialog, int id) {
-                                            dialog.cancel();
-                                        }
-                                    });
-                            AlertDialog alertDialog = alertDialogBuilder.create();
-                            alertDialog.show();
-                        } else if (pw.isEmpty()) {
-                            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(Login.this);
-                            alertDialogBuilder.setTitle("Field the Blank Form Input");
-                            alertDialogBuilder
-                                    .setMessage("Please Enter Password")
-                                    .setCancelable(false)
-                                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                                        public void onClick(DialogInterface dialog, int id) {
-                                            dialog.cancel();
-                                        }
-                                    });
-                            AlertDialog alertDialog = alertDialogBuilder.create();
-                            alertDialog.show();
-                        } else {
-                            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(Login.this);
-                            alertDialogBuilder.setTitle("Incorrect");
-                            alertDialogBuilder
-                                    .setMessage("Email or password not recornized")
-                                    .setCancelable(false)
-                                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                                        public void onClick(DialogInterface dialog, int id) {
-                                            dialog.cancel();
-                                        }
-                                    });
-                            AlertDialog alertDialog = alertDialogBuilder.create();
-                            alertDialog.show();
                         }
                     }
 
@@ -216,3 +173,58 @@ public class Login extends Activity implements View.OnClickListener {
 
     }
 }
+
+
+//else if (username.isEmpty()) {
+//        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(Login.this);
+//        alertDialogBuilder.setTitle("Field the Blank Form Input");
+//        alertDialogBuilder
+//        .setMessage("Please Enter Username or Password")
+//        .setCancelable(false)
+//        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+//public void onClick(DialogInterface dialog, int id) {
+//        dialog.cancel();
+//        }
+//        });
+//        AlertDialog alertDialog = alertDialogBuilder.create();
+//        alertDialog.show();
+//        } else if (!android.util.Patterns.EMAIL_ADDRESS.matcher(username).matches()) {
+//        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(Login.this);
+//        alertDialogBuilder.setTitle("Incorrect Form Input");
+//        alertDialogBuilder
+//        .setMessage("Please enter your Email or password correctly")
+//        .setCancelable(false)
+//        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+//public void onClick(DialogInterface dialog, int id) {
+//        dialog.cancel();
+//        }
+//        });
+//        AlertDialog alertDialog = alertDialogBuilder.create();
+//        alertDialog.show();
+//        } else if (pw.isEmpty()) {
+//        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(Login.this);
+//        alertDialogBuilder.setTitle("Field the Blank Form Input");
+//        alertDialogBuilder
+//        .setMessage("Please Enter Password")
+//        .setCancelable(false)
+//        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+//public void onClick(DialogInterface dialog, int id) {
+//        dialog.cancel();
+//        }
+//        });
+//        AlertDialog alertDialog = alertDialogBuilder.create();
+//        alertDialog.show();
+//        } else {
+//        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(Login.this);
+//        alertDialogBuilder.setTitle("Incorrect");
+//        alertDialogBuilder
+//        .setMessage("Email or password not recornized")
+//        .setCancelable(false)
+//        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+//public void onClick(DialogInterface dialog, int id) {
+//        dialog.cancel();
+//        }
+//        });
+//        AlertDialog alertDialog = alertDialogBuilder.create();
+//        alertDialog.show();
+//        }

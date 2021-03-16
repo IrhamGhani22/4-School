@@ -66,18 +66,18 @@ public class ProfileFragment extends Fragment{
         View root = inflater.inflate(R.layout.fragment_profile, container, false);
         initialize(root);
 
-        final Toolbar toolbar = (Toolbar)root.findViewById(R.id.toolbarpf);
-        toolbar.setBackgroundColor(R.color.BlueishPurple);
-//        final Toolbar tb = (Toolbar)root.findViewById(R.id.toolbar);
+//        final Toolbar toolbar = (Toolbar)root.findViewById(R.id.toolbarpf);
+//        toolbar.setBackgroundColor(R.color.BlueishPurple);
+////        final Toolbar tb = (Toolbar)root.findViewById(R.id.toolbar);
+////
 //
-
-        AppCompatActivity app = (AppCompatActivity) getActivity();
-        app.setSupportActionBar(toolbar);
-        app.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-        CollapsingToolbarLayout collapsingToolbar =
-                (CollapsingToolbarLayout)root.findViewById(R.id.collaps);
-        collapsingToolbar.setTitle("APP");
+//        AppCompatActivity app = (AppCompatActivity) getActivity();
+//        app.setSupportActionBar(toolbar);
+//        app.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+//
+//        CollapsingToolbarLayout collapsingToolbar =
+//                (CollapsingToolbarLayout)root.findViewById(R.id.collaps);
+//        collapsingToolbar.setTitle("APP");
 //        int bgColor = ContextCompat.getColor(context, R.color.BluePurple);
 //        collapsingToolbar.setExpandedTitleColor( ContextCompat.getColor(context, bgColor));
 
