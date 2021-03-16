@@ -4,21 +4,24 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.application.a4_school.Models.Home;
 import com.application.a4_school.Models.Schedule;
 import com.application.a4_school.R;
 
 import java.util.List;
 
 public class HomeListAdapter extends RecyclerView.Adapter<HomeListAdapter.HomeViewHolder> {
-    private List<Schedule> list;
+    private List<Home> list;
     private Context context;
 
-    public HomeListAdapter(List<Schedule> list, Context context){
+    public HomeListAdapter(List<Home> list, Context context){
         this.list = list;
         this.context = context;
     }
@@ -34,9 +37,13 @@ public class HomeListAdapter extends RecyclerView.Adapter<HomeListAdapter.HomeVi
 
     @Override
     public void onBindViewHolder(@NonNull HomeViewHolder holder, int position) {
-        if (list.get(position).getJam_mulai() != null) {
-            holder.shTime.setText(list.get(position).getJam_mulai() + " - " + list.get(position).getJam_selesai());
-            holder.shRoom.setText(list.get(position).getRuangan());
+        holder.shJudul.setText(list.get(position).getJudul());
+        holder.shRoom.setText(list.get(position).getDetail());
+        final int sdk = android.os.Build.VERSION.SDK_INT;
+        if(sdk < android.os.Build.VERSION_CODES.JELLY_BEAN) {
+            holder.img.setBackgroundDrawable(ContextCompat.getDrawable(context, list.get(position).getBghome()) );
+        } else {
+            holder.img.setBackground(ContextCompat.getDrawable(context, list.get(position).getBghome()));
         }
     }
 
@@ -46,12 +53,15 @@ public class HomeListAdapter extends RecyclerView.Adapter<HomeListAdapter.HomeVi
     }
 
     public class HomeViewHolder extends RecyclerView.ViewHolder {
-        TextView shTime, shRoom;
+        TextView shJudul, shRoom;
+        ImageView img;
 
         public HomeViewHolder(@NonNull View itemView) {
             super(itemView);
-            shTime = itemView.findViewById(R.id.nama_mapel);
+            shJudul = itemView.findViewById(R.id.nama_mapel);
             shRoom = itemView.findViewById(R.id.ruang_jam);
+            img = itemView.findViewById(R.id.img_home);
+            
         }
     }
 }
