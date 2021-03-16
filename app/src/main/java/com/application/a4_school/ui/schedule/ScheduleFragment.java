@@ -80,53 +80,53 @@ public class ScheduleFragment extends Fragment {
         });
     }
 
-//    public void getNowSchedule(){
-//        SharedPreferences getId_user = getActivity().getSharedPreferences("userInfo", 0);
-//        String id_user = getId_user.getString("id", "");
-//        APIService api = APIClient.getClient().create(APIService.class);
-//        Call<ResponseData> getScheduleNow = api.getListSchedule("1");
-//        getScheduleNow.enqueue(new Callback<ResponseData>() {
-//            @Override
-//            public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
-//                if (response.isSuccessful()){
-//                    if(response.body() != null){
-//                        try {
-//                            list.clear();
+    public void getNowSchedule(){
+        SharedPreferences getId_user = getActivity().getSharedPreferences("userInfo", 0);
+        String id_user = getId_user.getString("id", "");
+        APIService api = APIClient.getClient().create(APIService.class);
+        Call<ResponseData> getScheduleNow = api.getListSchedule("1");
+        getScheduleNow.enqueue(new Callback<ResponseData>() {
+            @Override
+            public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
+                if (response.isSuccessful()){
+                    if(response.body() != null){
+                        try {
+                            list.clear();
 //                            list.addAll(response.body().getJadwal_mengajar());
 ////                            JobsBottomSheet jobsBottomSheet = new JobsBottomSheet(days);
 //                            JobsBottomSheet jobsBottomSheet = new JobsBottomSheet(days);
 //                            jobsBottomSheet.show(getFragmentManager(), jobsBottomSheet.getTag());
-//                            Log.d("ScheduleFragment", "Success: "+response.body().getJadwal_mengajar());
-//                        }catch (Exception e){
-//                            e.printStackTrace();
-//                        }
-//
-//                    }else if (response.code() == 401){
-//                        startActivity(new Intent(context, Login.class));
-//                        Toast.makeText( context, "Sesi telah berakhir, silahkan login kembali", Toast.LENGTH_SHORT).show();
-//                    }
-//                    else if(response.code() == 422){
-//                        Toast.makeText( context, "Terjadi Kesalahan silakan refresh terlebih dahulu", Toast.LENGTH_SHORT).show();
-//                    }else if (response.code() == 403){
-//                        Toast.makeText(context, "Unauthorized", Toast.LENGTH_SHORT).show();
-//                    }else if (response.code() == 404){
-//                        Toast.makeText(context, "Terjadi kesalahan server", Toast.LENGTH_SHORT).show();
-//                    }else if (response.code() == 405){
-//                        Toast.makeText(context, "Method Tidak diterima server, silakan login kembali", Toast.LENGTH_SHORT).show();
-//                        startActivity(new Intent(context, Login.class));
-//
-//                    }
-//
-//                }else{
-//
-//                }
-//            }
-//
-//            @Override
-//            public void onFailure(Call<ResponseData> call, Throwable t) {
-//                Log.d("ScheduleFragment", "System error : "+t.getMessage());
-//
-//            }
-//        });
-//    }
+                            Log.d("ScheduleFragment", "Success: "+response.body().getJadwal_mengajar());
+                        }catch (Exception e){
+                            e.printStackTrace();
+                        }
+
+                    }else if (response.code() == 401){
+                        startActivity(new Intent(context, Login.class));
+                        Toast.makeText( context, "Sesi telah berakhir, silahkan login kembali", Toast.LENGTH_SHORT).show();
+                    }
+                    else if(response.code() == 422){
+                        Toast.makeText( context, "Terjadi Kesalahan silakan refresh terlebih dahulu", Toast.LENGTH_SHORT).show();
+                    }else if (response.code() == 403){
+                        Toast.makeText(context, "Unauthorized", Toast.LENGTH_SHORT).show();
+                    }else if (response.code() == 404){
+                        Toast.makeText(context, "Terjadi kesalahan server", Toast.LENGTH_SHORT).show();
+                    }else if (response.code() == 405){
+                        Toast.makeText(context, "Method Tidak diterima server, silakan login kembali", Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(context, Login.class));
+
+                    }
+
+                }else{
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseData> call, Throwable t) {
+                Log.d("ScheduleFragment", "System error : "+t.getMessage());
+
+            }
+        });
+    }
 }

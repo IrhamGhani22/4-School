@@ -4,6 +4,7 @@ import com.google.gson.annotations.SerializedName;
 
 public class Schedule {
     private int background;
+    @SerializedName("hari")
     private String days;
     private String jam_mulai;
     private String jam_selesai;
