@@ -1,6 +1,11 @@
 package com.application.a4_school;
 
+import android.content.Intent;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.view.MenuItem;
 
 import com.application.a4_school.ui.help.HelpFragment;
@@ -11,9 +16,12 @@ import com.application.a4_school.ui.schedule.ScheduleFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.appcompat.app.AppCompatActivity;
+
+import java.io.IOException;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -64,5 +72,11 @@ public class MainActivity extends AppCompatActivity {
         return  true;
         }
         return false;
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
     }
 }

@@ -38,7 +38,7 @@ public interface APIService {
                                 @Field("name") String name);
 
     @FormUrlEncoded
-    @PATCH("/uploadPict/{id}")
+    @PATCH("upload/{id}")
     Call<ResponseBody> uploadBase64Pict(@Path("id") int id_user, @Field("photo") String encodedPhoto);
 
     @FormUrlEncoded
