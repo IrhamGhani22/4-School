@@ -1,6 +1,7 @@
 package com.application.a4_school.Auth;
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -11,6 +12,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AlertDialog;
 
 import com.application.a4_school.ForgotPassword;
 import com.application.a4_school.MainActivity;
@@ -135,10 +138,35 @@ public class Login extends Activity implements View.OnClickListener {
                 break;
 
             case R.id.register:
-                Intent toRegister = new Intent(Login.this, Register.class);
-                startActivity(toRegister);
+                showDialog();
                 break;
         }
 
+    }
+
+    private void showDialog(){
+        final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+                this);
+
+        // set title dialog
+        alertDialogBuilder.setTitle("Keluar dari aplikasi?");
+
+        // set pesan dari dialog
+        alertDialogBuilder
+                .setMessage("Klik Ya untuk keluar!")
+                .setIcon(R.mipmap.ic_launcher)
+                .setCancelable(false);
+
+        // membuat alert dialog dari builder
+        final AlertDialog alertDialog = alertDialogBuilder.create();
+        alertDialog.setButton(DialogInterface.BUTTON_POSITIVE, "Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                alertDialog.dismiss();
+            }
+        });
+
+        // menampilkan alert dialog
+        alertDialog.show();
     }
 }

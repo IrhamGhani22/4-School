@@ -33,7 +33,6 @@ public class ScheduleFragment extends Fragment {
         View root = inflater.inflate(R.layout.fragment_schedule, container, false);
         rv_Schedule = root.findViewById(R.id.rv_schedule);
         rv_Schedule.setHasFixedSize(true);
-
         list.addAll(ScheduleData.getListData());
         showRecyclerGrid();
         return root;
