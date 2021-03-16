@@ -1,6 +1,10 @@
 package com.application.a4_school.Auth;
 
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -16,6 +20,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AlertDialog;
 
 import com.application.a4_school.ForgotPassword;
+import com.application.a4_school.LocalStorage.UserInfoStorage;
 import com.application.a4_school.MainActivity;
 import com.application.a4_school.R;
 import com.application.a4_school.RestAPI.APIClient;
@@ -35,6 +40,7 @@ public class Login extends Activity implements View.OnClickListener {
     TextView resetPw;
     TextView txtRegister;
     SessionManager sessionManager;
+    UserInfoStorage userInfoStorage;
     private boolean exit = false;
 
     @Override
@@ -43,6 +49,7 @@ public class Login extends Activity implements View.OnClickListener {
         setContentView(R.layout.activity_login);
 
         sessionManager = new SessionManager(getApplicationContext());
+        userInfoStorage = new UserInfoStorage(getApplicationContext());
         etUsername = findViewById(R.id.inputlogin);
         etPw = findViewById(R.id.inputpassword);
         btnlogin = findViewById(R.id.btn_login);
@@ -85,49 +92,78 @@ public class Login extends Activity implements View.OnClickListener {
 
     @Override
     public void onClick(View view) {
+        final ProgressDialog pd = new ProgressDialog(this);
+        pd.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        pd.setMessage("Wait a second...");
+        pd.show();
         switch (view.getId()){
             case R.id.btn_login:
-                String username = etUsername.getText().toString();
-                String pw = etPw.getText().toString();
+                final String username = etUsername.getText().toString();
+                final String pw = etPw.getText().toString();
                 APIService api = APIClient.getClient().create(APIService.class);
                 Call<ResponseBody> login = api.login(username, pw);
                 login.enqueue(new Callback<ResponseBody>() {
                     @Override
                     public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                        pd.dismiss();
                         if (response.isSuccessful()){
-                            try {
-                                String responseJSON = response.body().string();
-                                Log.d("auth", "response : "+responseJSON);
-                                Gson objGson = new Gson();
-                                SessionResponse objResp = objGson.fromJson(responseJSON, SessionResponse.class);
-                                if (objResp.getToken() != null){
-                                    String role = objResp.getUserInfo().getRole();
-                                    Log.d("role", "role : " + role);
-                                    sessionManager.createSession(objResp.getToken(), role);
-                                    if (role.equals("guru")){
-                                        Intent toDasboard = new Intent(Login.this, MainActivity.class);
-                                        startActivity(toDasboard);
-                                        finish();
-                                    }else{
-                                        Toast.makeText(Login.this, "Halaman siswa belum dibuat", Toast.LENGTH_SHORT).show();
+                            if (response.body() != null){
+                                try {
+                                    String responseJSON = response.body().string();
+                                    Log.d("login", "response : " + responseJSON);
+                                    Gson objGson = new Gson();
+                                    SessionResponse objResp = objGson.fromJson(responseJSON, SessionResponse.class);
+                                    if (objResp.getToken() != null) {
+                                        String role = objResp.getUserInfo().getRole();
+                                        Log.d("login", "role : " + role);
+                                        sessionManager.createSession(objResp.getToken(), role);
+                                        userInfoStorage.createInfo(objResp.getUserInfo().getName(), objResp.getUserInfo().getEmail(), objResp.getUserInfo().getId());
+                                        if (role.equals("guru")) {
+                                            Intent toDasboard = new Intent(Login.this, MainActivity.class);
+                                            startActivity(toDasboard);
+                                            finish();
+                                        } else {
+                                            Toast.makeText(Login.this, "Halaman siswa belum dibuat", Toast.LENGTH_SHORT).show();
+                                        }
+                                    } else {
+                                        Toast.makeText(Login.this, "Email or password is incorrect", Toast.LENGTH_SHORT).show();
                                     }
-                                }else{
-                                    Toast.makeText(Login.this, "Email or password is incorrect", Toast.LENGTH_SHORT).show();
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                    Toast.makeText(Login.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                                    Log.d("Login", "" + e.getMessage());
                                 }
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                                Toast.makeText(Login.this, e.getMessage(), Toast.LENGTH_SHORT).show();
-                                Log.d("Login", "" + e.getMessage());
+                            }else if(response.code() == 422) {
+                                Toast.makeText(Login.this, "Username/Password masih kosong", Toast.LENGTH_SHORT).show();
+                            } else if(response.code() == 401){
+                                Toast.makeText(Login.this, "Username/Password salah", Toast.LENGTH_SHORT).show();
+                            } else if(response.code() == 403){
+                                Toast.makeText(Login.this, "Token Invalid", Toast.LENGTH_SHORT).show();
+                            } else if(response.code() == 404 || response.code() == 405){
+                                Toast.makeText(Login.this, "Terjadi kesalahan server", Toast.LENGTH_SHORT).show();
                             }
                         }else{
-                            Toast.makeText(Login.this, "System error, please try again later", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(Login.this, "Username/Password salah", Toast.LENGTH_SHORT).show();
                         }
                     }
 
                     @Override
                     public void onFailure(Call<ResponseBody> call, Throwable t) {
+                        pd.dismiss();
+                        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(Login.this);
+                        alertDialogBuilder.setTitle("Internet Connection Error");
+                        alertDialogBuilder
+                                .setMessage("Please check your internet connection")
+                                .setCancelable(false)
+                                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int id) {
+                                        dialog.cancel();
+                                    }
+                                });
+                        AlertDialog alertDialog = alertDialogBuilder.create();
+                        alertDialog.show();
                         Toast.makeText(Login.this, "Please check your internet connection", Toast.LENGTH_SHORT).show();
-                        Log.d("failure", "Message : "+t.getMessage());
+                        Log.d("login", "Message : " + t.getMessage());
                     }
                 });
                 break;
@@ -170,3 +206,58 @@ public class Login extends Activity implements View.OnClickListener {
         alertDialog.show();
     }
 }
+
+
+//else if (username.isEmpty()) {
+//        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(Login.this);
+//        alertDialogBuilder.setTitle("Field the Blank Form Input");
+//        alertDialogBuilder
+//        .setMessage("Please Enter Username or Password")
+//        .setCancelable(false)
+//        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+//public void onClick(DialogInterface dialog, int id) {
+//        dialog.cancel();
+//        }
+//        });
+//        AlertDialog alertDialog = alertDialogBuilder.create();
+//        alertDialog.show();
+//        } else if (!android.util.Patterns.EMAIL_ADDRESS.matcher(username).matches()) {
+//        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(Login.this);
+//        alertDialogBuilder.setTitle("Incorrect Form Input");
+//        alertDialogBuilder
+//        .setMessage("Please enter your Email or password correctly")
+//        .setCancelable(false)
+//        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+//public void onClick(DialogInterface dialog, int id) {
+//        dialog.cancel();
+//        }
+//        });
+//        AlertDialog alertDialog = alertDialogBuilder.create();
+//        alertDialog.show();
+//        } else if (pw.isEmpty()) {
+//        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(Login.this);
+//        alertDialogBuilder.setTitle("Field the Blank Form Input");
+//        alertDialogBuilder
+//        .setMessage("Please Enter Password")
+//        .setCancelable(false)
+//        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+//public void onClick(DialogInterface dialog, int id) {
+//        dialog.cancel();
+//        }
+//        });
+//        AlertDialog alertDialog = alertDialogBuilder.create();
+//        alertDialog.show();
+//        } else {
+//        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(Login.this);
+//        alertDialogBuilder.setTitle("Incorrect");
+//        alertDialogBuilder
+//        .setMessage("Email or password not recornized")
+//        .setCancelable(false)
+//        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+//public void onClick(DialogInterface dialog, int id) {
+//        dialog.cancel();
+//        }
+//        });
+//        AlertDialog alertDialog = alertDialogBuilder.create();
+//        alertDialog.show();
+//        }

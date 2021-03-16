@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout android:layout_marginTop="20dp"
+    app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
@@ -9,24 +10,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <TextView
-        android:id="@+id/username"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Muhamad Sabil Fausta"
-        android:textAlignment="center"
-        android:textAllCaps="false"
-        android:textSize="25sp"
-        android:textStyle="bold" />
 
-    <TextView
-        android:id="@+id/nis"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="1819117624"
-        android:textAlignment="center"
-        android:textAllCaps="false"
-        android:textSize="20sp"/>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"

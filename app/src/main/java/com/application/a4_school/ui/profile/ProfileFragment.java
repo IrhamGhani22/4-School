@@ -1,6 +1,8 @@
 package com.application.a4_school.ui.profile;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
@@ -15,8 +17,12 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
@@ -29,6 +35,7 @@ import com.application.a4_school.RestAPI.ResponseData;
 import com.application.a4_school.ui.help.HelpViewModel;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.gson.Gson;
 
@@ -52,10 +59,29 @@ public class ProfileFragment extends Fragment{
     private Bitmap bitmap;
     private CircleImageView userImage;
     String part_image = "";
+    Context context;
 
+    @SuppressLint("ResourceAsColor")
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_profile, container, false);
         initialize(root);
+
+//        final Toolbar toolbar = (Toolbar)root.findViewById(R.id.toolbarpf);
+//        toolbar.setBackgroundColor(R.color.BlueishPurple);
+////        final Toolbar tb = (Toolbar)root.findViewById(R.id.toolbar);
+////
+//
+//        AppCompatActivity app = (AppCompatActivity) getActivity();
+//        app.setSupportActionBar(toolbar);
+//        app.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+//
+//        CollapsingToolbarLayout collapsingToolbar =
+//                (CollapsingToolbarLayout)root.findViewById(R.id.collaps);
+//        collapsingToolbar.setTitle("APP");
+//        int bgColor = ContextCompat.getColor(context, R.color.BluePurple);
+//        collapsingToolbar.setExpandedTitleColor( ContextCompat.getColor(context, bgColor));
+
+
 
         SharedPreferences getUserInfo = getActivity().getSharedPreferences("userInfo", 0);
         String url_image = getUserInfo.getString("image", "");
@@ -144,9 +170,9 @@ public class ProfileFragment extends Fragment{
     private void imageDecodedUpload(final Bitmap bitmap) {
         String image = imageToString();
         SharedPreferences getId_user = getActivity().getSharedPreferences("userInfo", 0);
-        String id_user = getId_user.getString("id", "");
+        int id_user = getId_user.getInt("id", 0);
         APIService api = APIClient.getClient().create(APIService.class);
-        Call<ResponseBody> upload = api.uploadBase64Pict("1", image);
+        Call<ResponseBody> upload = api.uploadBase64Pict(id_user, image);
         upload.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
