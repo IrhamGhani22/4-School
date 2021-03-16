@@ -1,6 +1,8 @@
 package com.application.a4_school.UserInteraction;
 
 import android.app.Dialog;
+import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.TypedArray;
 import android.os.Bundle;
@@ -19,7 +21,9 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.application.a4_school.Auth.Login;
 import com.application.a4_school.Models.Schedule;
 import com.application.a4_school.Models.ScheduleData;
 import com.application.a4_school.R;
@@ -46,6 +50,7 @@ public class JobsBottomSheet extends BottomSheetDialogFragment {
     private TextView shTitle, shMessage;
     private ProgressBar progressBar;
     private Button btnRefresh;
+    private Context context;
     ScheduleListAdapter adapter;
     String title;
     boolean isSuccess;
@@ -127,24 +132,43 @@ public class JobsBottomSheet extends BottomSheetDialogFragment {
             @Override
             public void onResponse(Call<ResponseData> call, final Response<ResponseData> response) {
                 if (response.isSuccessful()){
-                    list.clear();
-                    list.addAll(response.body().getJadwal_mengajar());
-                    if (list.isEmpty()){
-                        shMessage.setVisibility(View.VISIBLE);
-                        progressBar.setVisibility(View.GONE);
-                        shMessage.setText("You dont have schedule on this day");
-                    }else{
-                        rv_schedule.setVisibility(View.VISIBLE);
-                        shMessage.setVisibility(View.GONE);
-                        btnRefresh.setVisibility(View.GONE);
-                        progressBar.setVisibility(View.GONE);
-                        rv_schedule.setLayoutManager(new LinearLayoutManager(getActivity()));
-                        adapter = new ScheduleListAdapter(list, getActivity());
-                        rv_schedule.setAdapter(adapter);
-                        Log.d("sendparameter", "isSuccess : true");
-                        Log.d("ScheduleFragment", "Success: "+response.body().getJadwal_mengajar());
+                    if (response.body() != null){
+                        try {
+                            list.clear();
+                            list.addAll(response.body().getJadwal_mengajar());
+                            if (list.isEmpty()){
+                                shMessage.setVisibility(View.VISIBLE);
+                                progressBar.setVisibility(View.GONE);
+                                shMessage.setText("You dont have schedule on this day");
+                            }else{
+                                rv_schedule.setVisibility(View.VISIBLE);
+                                shMessage.setVisibility(View.GONE);
+                                btnRefresh.setVisibility(View.GONE);
+                                progressBar.setVisibility(View.GONE);
+                                rv_schedule.setLayoutManager(new LinearLayoutManager(getActivity()));
+                                adapter = new ScheduleListAdapter(list, getActivity());
+                                rv_schedule.setAdapter(adapter);
+                                Log.d("sendparameter", "isSuccess : true");
+                                Log.d("ScheduleFragment", "Success: "+response.body().getJadwal_mengajar());
+                            }
+                        }catch (Exception e){
+                            e.printStackTrace();
+                        }
+                    }else if (response.code() == 401){
+                        startActivity(new Intent(context, Login.class));
+                        Toast.makeText( context, "Sesi telah berakhir, silahkan login kembali", Toast.LENGTH_SHORT).show();
                     }
+                    else if(response.code() == 422){
+                        Toast.makeText( context, "Terjadi Kesalahan silakan refresh terlebih dahulu", Toast.LENGTH_SHORT).show();
+                    }else if (response.code() == 403){
+                        Toast.makeText(context, "Unauthorized", Toast.LENGTH_SHORT).show();
+                    }else if (response.code() == 404){
+                        Toast.makeText(context, "Terjadi kesalahan server", Toast.LENGTH_SHORT).show();
+                    }else if (response.code() == 405){
+                        Toast.makeText(context, "Method Tidak diterima server, silakan login kembali", Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(context, Login.class));
 
+                    }
                 }else{
                     Log.d("ScheduleFragment", "System error");
                     progressBar.setVisibility(View.GONE);
