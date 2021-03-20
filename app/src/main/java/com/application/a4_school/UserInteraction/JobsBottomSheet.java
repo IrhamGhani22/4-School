@@ -120,16 +120,20 @@ public class JobsBottomSheet extends BottomSheetDialogFragment {
 
     private void getListScheduleData(){
         SharedPreferences getId_user = getActivity().getSharedPreferences("userInfo", 0);
-        String id_user = getId_user.getString("id", "");
+        int id_user = getId_user.getInt("id", 0);
         APIService api = APIClient.getClient().create(APIService.class);
-        Call<ResponseData> listSchedule = api.getListSchedule("1");
+        Call<ResponseData> listSchedule = api.getListSchedule(id_user);
         listSchedule.enqueue(new Callback<ResponseData>() {
             @Override
             public void onResponse(Call<ResponseData> call, final Response<ResponseData> response) {
                 if (response.isSuccessful()){
                     list.clear();
-                    list.addAll(response.body().getJadwal_mengajar());
-                    if (list.isEmpty()){
+                    for(int i=0; i<response.body().getJadwal_mengajar().size(); i++){
+                        if (response.body().getJadwal_mengajar().get(i).getDays().equals(title)){
+                            list.add(response.body().getJadwal_mengajar().get(i));
+                        }
+                    }
+                    if (response.body().getJadwal_mengajar().isEmpty()){
                         shMessage.setVisibility(View.VISIBLE);
                         progressBar.setVisibility(View.GONE);
                         shMessage.setText("You dont have schedule on this day");

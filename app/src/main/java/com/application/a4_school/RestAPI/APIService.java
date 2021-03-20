@@ -38,10 +38,10 @@ public interface APIService {
                                 @Field("name") String name);
 
     @FormUrlEncoded
-    @PATCH("/uploadPict/{id}")
-    Call<ResponseBody> uploadBase64Pict(@Path("id") String id_user, @Field("photo") String encodedPhoto);
+    @PATCH("upload/{id}")
+    Call<ResponseBody> uploadBase64Pict(@Path("id") int id_user, @Field("photo") String encodedPhoto);
 
     @FormUrlEncoded
     @POST("GuruSchedule")
-    Call<ResponseData> getListSchedule(@Field("id") String id_user);
+    Call<ResponseData> getListSchedule(@Field("id") int id_user);
 }
