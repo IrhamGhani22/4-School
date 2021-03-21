@@ -7,7 +7,24 @@
     android:background="@drawable/bg_home_top"
     tools:context=".ui.home.HomeFragment">
 
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        app:layout_constraintLeft_toRightOf="@+id/container_text"
+        tools:ignore="MissingConstraints">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/home_illustration"
+            tools:ignore="MissingConstraints" />
+    </FrameLayout>
+
+
+
     <LinearLayout
+        android:id="@+id/container_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
@@ -20,8 +37,9 @@
             android:id="@+id/text_home"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="4-school"
+            android:text="4-School"
             android:textSize="14sp"
+            android:layout_marginBottom="10dp"
             android:fontFamily="@font/poppins_bold"
             android:textColor="#ffff"
             />
@@ -53,7 +71,7 @@
         android:paddingLeft="32dp"
         android:paddingTop="20dp"
         android:paddingRight="32dp"
-        android:layout_marginTop="200dp"
+        android:layout_marginTop="220dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
@@ -67,15 +85,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Selamat Pagi"
-                android:fontFamily="@font/poppins_regular"
-                android:textSize="12sp"
+                android:fontFamily="@font/poppins_bold"
                 />
             <TextView
                 android:id="@+id/name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Nama Orang"
-                android:textColor="@color/BluePurple"
+                android:text="Muhammad Irham Abdul Ghani"
                 android:fontFamily="@font/poppins_regular"
                 />
 
