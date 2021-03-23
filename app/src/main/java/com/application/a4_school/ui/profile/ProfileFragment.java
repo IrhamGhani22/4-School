@@ -11,6 +11,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Base64;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -184,6 +185,7 @@ public class ProfileFragment extends Fragment{
                         if (objResp.getImage_url() != null){
                             userImage.setImageBitmap(bitmap);
                             userInfoStorage.addPict(objResp.getImage_url());
+                            Log.d("UploadImage", "status : SUCCESS, " + JSONResponse);
                         }
                     } catch (IOException e) {
                         e.printStackTrace();
@@ -193,7 +195,7 @@ public class ProfileFragment extends Fragment{
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
-
+                Log.d("UploadImage", "Fail: "+t.getMessage());
             }
         });
     }
