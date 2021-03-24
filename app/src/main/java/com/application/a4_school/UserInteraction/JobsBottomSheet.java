@@ -75,19 +75,19 @@ public class JobsBottomSheet extends BottomSheetDialogFragment {
         userInfoStorage = new UserInfoStorage(getActivity().getApplicationContext());
         sessionManager = new SessionManager(getActivity().getApplicationContext());
 //        userInfoStorage.setPreference(context);
-        final BottomSheetDialog dialog = (BottomSheetDialog) super.onCreateDialog(savedInstanceState);
+        final BottomSheetDialog dialog = new BottomSheetDialog(getActivity(), R.style.AppBottomSheetDialogTheme);
         final View mView = View.inflate(getContext(), R.layout.fragment_jobs_bottom_sheet, null);
         dialog.setContentView(mView);
         BottomSheetBehavior bottomSheetBehavior = BottomSheetBehavior.from((View) mView.getParent());
         bottomSheetBehavior.setPeekHeight(BottomSheetBehavior.PEEK_HEIGHT_AUTO);
-        appBarLayout = mView.findViewById(R.id.appbarBottomSheet);
+        //appBarLayout = mView.findViewById(R.id.appbarBottomSheet);
         shTitle = mView.findViewById(R.id.textHeaderDays);
         shMessage = mView.findViewById(R.id.txtMessageBtmSheet);
         linearLayout = mView.findViewById(R.id.bottom_sheet_linear);
         rv_schedule = mView.findViewById(R.id.rv_schedule);
         progressBar = mView.findViewById(R.id.bottom_loading);
         btnRefresh = mView.findViewById(R.id.btn_refresh);
-        hideView(appBarLayout);
+        //hideView(appBarLayout);
         getListScheduleData();
         Log.d("titleBottomSheet", "title: " + title);
         shTitle.setText(title);
@@ -95,18 +95,18 @@ public class JobsBottomSheet extends BottomSheetDialogFragment {
         bottomSheetBehavior.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
             @Override
             public void onStateChanged(@NonNull View bottomSheet, int newState) {
-                if (BottomSheetBehavior.STATE_EXPANDED == newState) {
-                    int height = bottomSheet.getHeight();
-                    showView(appBarLayout, getActionBarSize());
-                    hideView(linearLayout);
-                }
-                if (BottomSheetBehavior.STATE_DRAGGING == newState){
-
-                }
-                if (BottomSheetBehavior.STATE_COLLAPSED == newState) {
-                    showView(linearLayout, getActionBarSize());
-                    hideView(appBarLayout);
-                }
+//                if (BottomSheetBehavior.STATE_EXPANDED == newState) {
+//                    int height = bottomSheet.getHeight();
+//                    showView(appBarLayout, getActionBarSize());
+//                    hideView(linearLayout);
+//                }
+//                if (BottomSheetBehavior.STATE_DRAGGING == newState){
+//
+//                }
+//                if (BottomSheetBehavior.STATE_COLLAPSED == newState) {
+//                    showView(linearLayout, getActionBarSize());
+//                    hideView(appBarLayout);
+//                }
                 if (BottomSheetBehavior.STATE_HIDDEN == newState) {
                     ScheduleFragment.getInstance().showRecyclerGrid();
                     dismiss();
