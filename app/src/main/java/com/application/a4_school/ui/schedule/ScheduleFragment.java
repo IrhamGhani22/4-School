@@ -100,20 +100,6 @@ public class ScheduleFragment extends Fragment {
                             e.printStackTrace();
                         }
 
-                    }else if (response.code() == 401){
-                        startActivity(new Intent(context, Login.class));
-                        Toast.makeText( context, "Sesi telah berakhir, silahkan login kembali", Toast.LENGTH_SHORT).show();
-                    }
-                    else if(response.code() == 422){
-                        Toast.makeText( context, "Terjadi Kesalahan silakan refresh terlebih dahulu", Toast.LENGTH_SHORT).show();
-                    }else if (response.code() == 403){
-                        Toast.makeText(context, "Unauthorized", Toast.LENGTH_SHORT).show();
-                    }else if (response.code() == 404){
-                        Toast.makeText(context, "Terjadi kesalahan server", Toast.LENGTH_SHORT).show();
-                    }else if (response.code() == 405){
-                        Toast.makeText(context, "Method Tidak diterima server, silakan login kembali", Toast.LENGTH_SHORT).show();
-                        startActivity(new Intent(context, Login.class));
-
                     }
 
                 }else{

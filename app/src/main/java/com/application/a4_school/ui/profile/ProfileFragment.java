@@ -34,6 +34,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
+import com.application.a4_school.Auth.Login;
 import com.application.a4_school.LocalStorage.UserInfoStorage;
 import com.application.a4_school.R;
 import com.application.a4_school.RestAPI.APIClient;
@@ -83,6 +84,9 @@ public class ProfileFragment extends Fragment{
         initialize(root);
         instance = this;
         userInfoStorage = new UserInfoStorage(getActivity().getApplicationContext());
+
+
+
 //        final Toolbar toolbar = (Toolbar)root.findViewById(R.id.toolbarpf);
 //        toolbar.setBackgroundColor(R.color.BlueishPurple);
 ////        final Toolbar tb = (Toolbar)root.findViewById(R.id.toolbar);
@@ -197,20 +201,38 @@ public class ProfileFragment extends Fragment{
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 if (response.isSuccessful()){
-                    try {
-                        String JSONResponse = response.body().string();
-                        Gson objGson = new Gson();
-                        ResponseData objResp = objGson.fromJson(JSONResponse, ResponseData.class);
-                        Log.d("Uploadimage", ""+JSONResponse);
-                        Log.d("Uploadimage", ""+objResp.getImage_url());
-                        if (objResp.getImage_url() != null){
-                            userImage.setImageBitmap(bitmap);
-                            userInfoStorage.addPict(objResp.getImage_url());
+                    if (response.body() != null){
+                        try {
+                            String JSONResponse = response.body().string();
+                            Gson objGson = new Gson();
+                            ResponseData objResp = objGson.fromJson(JSONResponse, ResponseData.class);
+                            Log.d("Uploadimage", ""+JSONResponse);
+                            Log.d("Uploadimage", ""+objResp.getImage_url());
+                            if (objResp.getImage_url() != null){
+                                userImage.setImageBitmap(bitmap);
+                                userInfoStorage.addPict(objResp.getImage_url());
+                            }
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                            Log.d("Uploadimage", ""+e.getMessage());
                         }
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                        Log.d("Uploadimage", ""+e.getMessage());
+                    }else if (response.code() == 401){
+                        startActivity(new Intent(context, Login.class));
+                        getActivity().finishAffinity();
+                        userInfoStorage.preferenceLogout();
+                        Toast.makeText( context, "Sesi telah berakhir, silahkan login kembali", Toast.LENGTH_SHORT).show();
                     }
+                    else if(response.code() == 422){
+                        Toast.makeText( context, "Terjadi Kesalahan silakan refresh terlebih dahulu", Toast.LENGTH_SHORT).show();
+                    }else if (response.code() == 403){
+                        Toast.makeText(context, "Unauthorized", Toast.LENGTH_SHORT).show();
+                    }else if (response.code() == 404){
+                        Toast.makeText(context, "Terjadi kesalahan server", Toast.LENGTH_SHORT).show();
+                    }else if (response.code() == 405){
+                        Toast.makeText(context, "Method Tidak diterima server, silakan login kembali", Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(context, Login.class));
+                    }
+
                 }else{
                     Toast.makeText(getActivity(), "System Error, please try again later", Toast.LENGTH_SHORT).show();
                 }
