@@ -20,10 +20,15 @@ import java.util.List;
 public class HomeListAdapter extends RecyclerView.Adapter<HomeListAdapter.HomeViewHolder> {
     private List<Home> list;
     private Context context;
+    private OnItemClickCallbackHome onItemClickCallback;
 
     public HomeListAdapter(List<Home> list, Context context){
         this.list = list;
         this.context = context;
+    }
+
+    public void setOnItemClickCallback(OnItemClickCallbackHome onItemClickCallback) {
+        this.onItemClickCallback = onItemClickCallback;
     }
 
 
@@ -36,7 +41,7 @@ public class HomeListAdapter extends RecyclerView.Adapter<HomeListAdapter.HomeVi
     }
 
     @Override
-    public void onBindViewHolder(@NonNull HomeViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull final HomeViewHolder holder, int position) {
         holder.shJudul.setText(list.get(position).getJudul());
         holder.shRoom.setText(list.get(position).getDetail());
         final int sdk = android.os.Build.VERSION.SDK_INT;
@@ -45,11 +50,21 @@ public class HomeListAdapter extends RecyclerView.Adapter<HomeListAdapter.HomeVi
         } else {
             holder.img.setBackground(ContextCompat.getDrawable(context, list.get(position).getBghome()));
         }
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onItemClickCallback.onItemClicked(list.get(holder.getAdapterPosition()));
+            }
+        });
     }
 
     @Override
     public int getItemCount() {
         return list.size();
+    }
+
+    public interface OnItemClickCallbackHome {
+        void onItemClicked(Home homeList);
     }
 
     public class HomeViewHolder extends RecyclerView.ViewHolder {

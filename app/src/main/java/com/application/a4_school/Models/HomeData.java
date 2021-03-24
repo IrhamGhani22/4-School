@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 public class HomeData {
   public static String[] judul = new  String []{
-        "PBO",
+        "JOBS",
         "MAPS"
   };
 

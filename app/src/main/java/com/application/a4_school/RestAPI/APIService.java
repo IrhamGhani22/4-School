@@ -43,5 +43,5 @@ public interface APIService {
 
     @FormUrlEncoded
     @POST("GuruSchedule")
-    Call<ResponseData> getListSchedule(@Field("id") int id_user);
+    Call<ResponseData> getListSchedule(@Field("id") int id_user, @Header("Authorization") String token);
 }

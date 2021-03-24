@@ -52,13 +52,12 @@ public class JobsBottomSheet extends BottomSheetDialogFragment {
     private ProgressBar progressBar;
     private Button btnRefresh;
     private UserInfoStorage userInfoStorage;
-    Context context;
     ScheduleListAdapter adapter;
     String title;
     boolean isSuccess;
     private ArrayList<Schedule> list = new ArrayList<>();
 
-    public JobsBottomSheet(String days){
+    public JobsBottomSheet(String days) {
         this.title = days;
     }
 
@@ -69,41 +68,42 @@ public class JobsBottomSheet extends BottomSheetDialogFragment {
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
-        userInfoStorage =  new UserInfoStorage(getActivity().getApplicationContext());
+        userInfoStorage = new UserInfoStorage(getActivity().getApplicationContext());
 //        userInfoStorage.setPreference(context);
         final BottomSheetDialog dialog = (BottomSheetDialog) super.onCreateDialog(savedInstanceState);
         final View view = View.inflate(getContext(), R.layout.fragment_jobs_bottom_sheet, null);
         dialog.setContentView(view);
-        BottomSheetBehavior bottomSheetBehavior = BottomSheetBehavior.from((View)view.getParent());
+        BottomSheetBehavior bottomSheetBehavior = BottomSheetBehavior.from((View) view.getParent());
         bottomSheetBehavior.setPeekHeight(BottomSheetBehavior.PEEK_HEIGHT_AUTO);
-        appBarLayout    = view.findViewById(R.id.appbarBottomSheet);
-        shTitle         = view.findViewById(R.id.textHeaderDays);
-        shMessage       = view.findViewById(R.id.txtMessageBtmSheet);
-        linearLayout    = view.findViewById(R.id.bottom_sheet_linear);
-        rv_schedule     = view.findViewById(R.id.rv_schedule);
-        progressBar     = view.findViewById(R.id.bottom_loading);
-        btnRefresh      = view.findViewById(R.id.btn_refresh);
+        appBarLayout = view.findViewById(R.id.appbarBottomSheet);
+        shTitle = view.findViewById(R.id.textHeaderDays);
+        shMessage = view.findViewById(R.id.txtMessageBtmSheet);
+        linearLayout = view.findViewById(R.id.bottom_sheet_linear);
+        rv_schedule = view.findViewById(R.id.rv_schedule);
+        progressBar = view.findViewById(R.id.bottom_loading);
+        btnRefresh = view.findViewById(R.id.btn_refresh);
         hideView(appBarLayout);
         getListScheduleData();
-        Log.d("titleBottomSheet", "title: "+title);
+        Log.d("titleBottomSheet", "title: " + title);
         shTitle.setText(title);
 
         bottomSheetBehavior.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
             @Override
             public void onStateChanged(@NonNull View bottomSheet, int newState) {
-                if (BottomSheetBehavior.STATE_EXPANDED == newState){
+                if (BottomSheetBehavior.STATE_EXPANDED == newState) {
                     showView(appBarLayout, getActionBarSize());
                     hideView(linearLayout);
                 }
-                if (BottomSheetBehavior.STATE_COLLAPSED == newState){
+                if (BottomSheetBehavior.STATE_COLLAPSED == newState) {
                     showView(linearLayout, getActionBarSize());
                     hideView(appBarLayout);
                 }
-                if (BottomSheetBehavior.STATE_HIDDEN == newState){
+                if (BottomSheetBehavior.STATE_HIDDEN == newState) {
                     ScheduleFragment.getInstance().showRecyclerGrid();
                     dismiss();
                 }
             }
+
             @Override
             public void onSlide(@NonNull View bottomSheet, float slideOffset) {
 
@@ -127,67 +127,78 @@ public class JobsBottomSheet extends BottomSheetDialogFragment {
         return dialog;
     }
 
-    private void getListScheduleData(){
+    private void getListScheduleData() {
         SharedPreferences getId_user = getActivity().getSharedPreferences("userInfo", 0);
         int id_user = getId_user.getInt("id", 0);
+        String token = getActivity().getSharedPreferences("session", 0).getString("token", "");
+        Log.d("tokenvalue", "value: " + token);
+        Log.d("tokenvalue", "value: " + id_user);
         APIService api = APIClient.getClient().create(APIService.class);
-        Call<ResponseData> listSchedule = api.getListSchedule(id_user);
+        Call<ResponseData> listSchedule = api.getListSchedule(id_user, "Bearer " + token);
         listSchedule.enqueue(new Callback<ResponseData>() {
             @Override
             public void onResponse(Call<ResponseData> call, final Response<ResponseData> response) {
-                if (response.isSuccessful()){
-                    if (response.body() != null){
-                        try {
-                            list.clear();
-                            for(int i=0; i<response.body().getJadwal_mengajar().size(); i++){
-                                if (response.body().getJadwal_mengajar().get(i).getDays().equals(title)){
-                                    list.add(response.body().getJadwal_mengajar().get(i));
-                                }
+                if (response.isSuccessful()) {
+                    try {
+                        list.clear();
+                        for (int i = 0; i < response.body().getJadwal_mengajar().size(); i++) {
+                            if (response.body().getJadwal_mengajar().get(i).getDays().equals(title)) {
+                                list.add(response.body().getJadwal_mengajar().get(i));
                             }
-                            if (response.body().getJadwal_mengajar().isEmpty()){
-                                shMessage.setVisibility(View.VISIBLE);
-                                progressBar.setVisibility(View.GONE);
-                                shMessage.setText("You dont have schedule on this day");
-                            }else{
-                                rv_schedule.setVisibility(View.VISIBLE);
-                                shMessage.setVisibility(View.GONE);
-                                btnRefresh.setVisibility(View.GONE);
-                                progressBar.setVisibility(View.GONE);
-                                rv_schedule.setLayoutManager(new LinearLayoutManager(getActivity()));
-                                adapter = new ScheduleListAdapter(list, getActivity());
-                                rv_schedule.setAdapter(adapter);
-                                Log.d("sendparameter", "isSuccess : true");
-                                Log.d("ScheduleFragment", "Success: "+response.body().getJadwal_mengajar());
-                            }
-                        }catch (Exception e){
-                            e.printStackTrace();
                         }
-                    }else if (response.code() == 401){
-                        startActivity(new Intent(context, Login.class));
-                        userInfoStorage.preferenceLogout();
-                        getActivity().finishAffinity();
-                        Toast.makeText( context, "Sesi telah berakhir, silahkan login kembali", Toast.LENGTH_SHORT).show();
+                        if (response.body().getJadwal_mengajar().isEmpty()) {
+                            shMessage.setVisibility(View.VISIBLE);
+                            progressBar.setVisibility(View.GONE);
+                            shMessage.setText("You dont have schedule on this day");
+                        } else {
+                            rv_schedule.setVisibility(View.VISIBLE);
+                            shMessage.setVisibility(View.GONE);
+                            btnRefresh.setVisibility(View.GONE);
+                            progressBar.setVisibility(View.GONE);
+                            rv_schedule.setLayoutManager(new LinearLayoutManager(getActivity()));
+                            adapter = new ScheduleListAdapter(list, getActivity());
+                            rv_schedule.setAdapter(adapter);
+                            Log.d("sendparameter", "isSuccess : true");
+                            Log.d("ScheduleFragment", "Success: " + response.body().getJadwal_mengajar());
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
-                    else if(response.code() == 422){
-                        Toast.makeText( context, "Terjadi Kesalahan silakan refresh terlebih dahulu", Toast.LENGTH_SHORT).show();
-                    }else if (response.code() == 403){
-                        Toast.makeText(context, "Unauthorized", Toast.LENGTH_SHORT).show();
-                    }else if (response.code() == 404){
-                        Toast.makeText(context, "Terjadi kesalahan server", Toast.LENGTH_SHORT).show();
-                    }else if (response.code() == 405){
-                        Toast.makeText(context, "Method Tidak diterima server, silakan login kembali", Toast.LENGTH_SHORT).show();
-                        startActivity(new Intent(context, Login.class));
-                        getActivity().finishAffinity();
-                        userInfoStorage.preferenceLogout();
+                } else {
+                    switch (response.code()){
+                        case 401:
+                            userInfoStorage.preferenceLogout();
+                            progressBar.setVisibility(View.GONE);
+                            btnRefresh.setVisibility(View.VISIBLE);
+                            btnRefresh.setText("Relogin here");
+                            shMessage.setVisibility(View.VISIBLE);
+                            shMessage.setText("Sesi telah berakhir, silahkan login kembali");
+                            btnRefresh.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    startActivity(new Intent(getActivity(), Login.class));
+                                    getActivity().finishAffinity();
+                                }
+                            });
+                            break;
+
+                        case 422:
+                            progressBar.setVisibility(View.GONE);
+                            btnRefresh.setVisibility(View.VISIBLE);
+                            shMessage.setVisibility(View.VISIBLE);
+                            shMessage.setText("Terjadi Kesalahan silakan refresh terlebih dahulu");
+                            break;
+
+                        default:
+                            progressBar.setVisibility(View.GONE);
+                            btnRefresh.setVisibility(View.VISIBLE);
+                            shMessage.setVisibility(View.VISIBLE);
+                            shMessage.setText("Unknown error");
+                            break;
                     }
-                }else{
-                    Log.d("ScheduleFragment", "System error");
-                    progressBar.setVisibility(View.GONE);
-                    btnRefresh.setVisibility(View.VISIBLE);
-                    shMessage.setVisibility(View.VISIBLE);
-                    shMessage.setText("Unknown System error");
                 }
             }
+
 
             @Override
             public void onFailure(Call<ResponseData> call, Throwable t) {
@@ -195,27 +206,27 @@ public class JobsBottomSheet extends BottomSheetDialogFragment {
                 btnRefresh.setVisibility(View.VISIBLE);
                 shMessage.setVisibility(View.VISIBLE);
                 shMessage.setText("Can't connect to server, please check your internet connection");
-                Log.d("ScheduleFragment", "System error : "+t.getMessage());
+                Log.d("ScheduleFragment", "System error : " + t.getMessage());
             }
         });
     }
 
-    private void hideView(View view){
+    private void hideView(View view) {
         ViewGroup.LayoutParams params = view.getLayoutParams();
         params.height = 0;
         view.setLayoutParams(params);
     }
 
-    private void showView(View view, int size){
+    private void showView(View view, int size) {
         ViewGroup.LayoutParams params = view.getLayoutParams();
         params.height = size;
         view.setLayoutParams(params);
     }
 
-    private int getActionBarSize(){
+    private int getActionBarSize() {
         final TypedArray typedArray = getContext().getTheme().obtainStyledAttributes(new int[]{
                 android.R.attr.actionBarSize
         });
-        return (int) typedArray.getDimension(0,0);
+        return (int) typedArray.getDimension(0, 0);
     }
 }

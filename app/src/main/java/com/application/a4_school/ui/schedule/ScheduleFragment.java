@@ -82,8 +82,9 @@ public class ScheduleFragment extends Fragment {
     public void getNowSchedule(){
         SharedPreferences getId_user = getActivity().getSharedPreferences("userInfo", 0);
         int id_user = getId_user.getInt("id", 0);
+        String token = getActivity().getSharedPreferences("session", 0).getString("token", "");
         APIService api = APIClient.getClient().create(APIService.class);
-        Call<ResponseData> getScheduleNow = api.getListSchedule(id_user);
+        Call<ResponseData> getScheduleNow = api.getListSchedule(id_user, "Bearer "+token);
         getScheduleNow.enqueue(new Callback<ResponseData>() {
             @Override
             public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {

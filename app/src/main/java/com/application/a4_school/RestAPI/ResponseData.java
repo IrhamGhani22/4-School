@@ -8,6 +8,12 @@ import java.util.List;
 public class ResponseData {
     private String image_url;
     private List<Schedule> jadwal_mengajar;
+    @SerializedName("message")
+    private String messageJson;
+
+    public String getMessageJson() {
+        return messageJson;
+    }
 
     public String getImage_url() {
         return image_url;
