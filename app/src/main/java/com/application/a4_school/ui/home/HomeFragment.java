@@ -30,6 +30,7 @@ import com.application.a4_school.adapter.HomeListAdapter;
 import com.application.a4_school.ui.maps.MapsFragment;
 import com.application.a4_school.ui.schedule.ScheduleFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.ismaeldivita.chipnavigation.ChipNavigationBar;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -83,18 +84,18 @@ public class HomeFragment extends Fragment {
         adapter.setOnItemClickCallback(new HomeListAdapter.OnItemClickCallbackHome() {
             @Override
             public void onItemClicked(Home homeList) {
-                BottomNavigationView navigationView = getActivity().findViewById(R.id.nav_view);
+                ChipNavigationBar navigationView = getActivity().findViewById(R.id.nav_view);
                 Fragment fragment = null;
                 switch (homeList.getJudul()) {
                     case "JOBS":
                         fragment = new ScheduleFragment();
-                        navigationView.setSelectedItemId(R.id.nav_jobs);
+                        navigationView.setItemSelected(R.id.nav_jobs, true);
                         getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, fragment).commit();
                         break;
 
                     case "MAPS":
                         fragment = new MapsFragment();
-                        navigationView.setSelectedItemId(R.id.nav_maps);
+                        navigationView.setItemSelected(R.id.nav_maps, true);
                         getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, fragment).commit();
                         break;
                 }

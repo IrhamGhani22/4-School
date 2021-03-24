@@ -23,6 +23,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.application.a4_school.Auth.Login;
 import com.application.a4_school.Auth.SessionManager;
 import com.application.a4_school.LocalStorage.UserInfoStorage;
@@ -51,7 +52,7 @@ public class JobsBottomSheet extends BottomSheetDialogFragment {
     private LinearLayout linearLayout;
     private RecyclerView rv_schedule;
     private TextView shTitle, shMessage;
-    private ProgressBar progressBar;
+    private LottieAnimationView progressBar;
     private Button btnRefresh;
     private UserInfoStorage userInfoStorage;
     private SessionManager sessionManager;

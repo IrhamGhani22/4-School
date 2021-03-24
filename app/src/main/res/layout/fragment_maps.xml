@@ -13,9 +13,9 @@
         android:id="@+id/loading_maps"
         android:layout_width="match_parent"
         android:layout_height="45dp"
-        app:lottie_fileName="progress_loading.json"
         android:layout_marginRight="10dp"
         android:layout_gravity="center"
+        app:lottie_fileName="progress_loading.json"
         app:lottie_loop="true"
         app:lottie_autoPlay="true"/>
 
