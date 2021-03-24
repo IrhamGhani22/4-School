@@ -225,18 +225,18 @@ public class ProfileFragment extends Fragment{
                     }else if (response.code() == 401){
                         startActivity(new Intent(context, Login.class));
                         getActivity().finishAffinity();
+                        Toast.makeText( context, "The session has ended, please login again", Toast.LENGTH_SHORT).show();
                         userInfoStorage.clearUser();
                         sessionManager.preferenceLogout();
-                        Toast.makeText( context, "Sesi telah berakhir, silahkan login kembali", Toast.LENGTH_SHORT).show();
                     }
                     else if(response.code() == 422){
-                        Toast.makeText( context, "Terjadi Kesalahan silakan refresh terlebih dahulu", Toast.LENGTH_SHORT).show();
+                        Toast.makeText( context, "An error occurs, please refresh first", Toast.LENGTH_SHORT).show();
                     }else if (response.code() == 403){
                         Toast.makeText(context, "Unauthorized", Toast.LENGTH_SHORT).show();
                     }else if (response.code() == 404){
-                        Toast.makeText(context, "Terjadi kesalahan server", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context, "A server error has occurred", Toast.LENGTH_SHORT).show();
                     }else if (response.code() == 405){
-                        Toast.makeText(context, "Method Tidak diterima server, silakan login kembali", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context, "Method Not accepted by server, please login again", Toast.LENGTH_SHORT).show();
                         startActivity(new Intent(context, Login.class));
                     }
 

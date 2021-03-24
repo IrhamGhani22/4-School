@@ -21,14 +21,17 @@ import com.application.a4_school.RestAPI.APIClient;
 import static com.application.a4_school.R.id.WebView1;
 
 public class MapsFragment extends Fragment {
+
     WebView webviewku;
     WebSettings webSettingsku;
     LottieAnimationView pd;
+
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
         View root = inflater.inflate(R.layout.fragment_maps, container, false);
+
 
         webviewku = (WebView) root.findViewById(WebView1);
         pd = root.findViewById(R.id.loading_maps);
@@ -62,7 +65,6 @@ public class MapsFragment extends Fragment {
             }
         });
         webviewku.loadUrl(APIClient.BASE_URL);
-
         return root;
     }
 }
