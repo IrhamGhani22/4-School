@@ -9,6 +9,7 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Adapter;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -41,12 +42,16 @@ public class HomeFragment extends Fragment {
     private HomeViewModel HomeViewModel;
     RecyclerView rv;
     HomeListAdapter adapter;
+    TextView shName;
     private ArrayList<Home> homeList = new ArrayList<>() ;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
      View root = inflater.inflate(R.layout.fragment_home, container, false);
 
+        shName = root.findViewById(R.id.nameHome);
+        String name = getActivity().getSharedPreferences("userInfo", 0).getString("name", "Hmm something wen't wrong i cant see your name):");
+        shName.setText(name);
         rv = root.findViewById(rv_mapel);
         rv.setHasFixedSize(true);
         showList();

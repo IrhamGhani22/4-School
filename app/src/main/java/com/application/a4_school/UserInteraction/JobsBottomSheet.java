@@ -24,6 +24,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.application.a4_school.Auth.Login;
+import com.application.a4_school.Auth.SessionManager;
 import com.application.a4_school.LocalStorage.UserInfoStorage;
 import com.application.a4_school.Models.Schedule;
 import com.application.a4_school.Models.ScheduleData;
@@ -52,6 +53,7 @@ public class JobsBottomSheet extends BottomSheetDialogFragment {
     private ProgressBar progressBar;
     private Button btnRefresh;
     private UserInfoStorage userInfoStorage;
+    private SessionManager sessionManager;
     ScheduleListAdapter adapter;
     String title;
     boolean isSuccess;
@@ -69,6 +71,7 @@ public class JobsBottomSheet extends BottomSheetDialogFragment {
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
         userInfoStorage = new UserInfoStorage(getActivity().getApplicationContext());
+        sessionManager = new SessionManager(getActivity().getApplicationContext());
 //        userInfoStorage.setPreference(context);
         final BottomSheetDialog dialog = (BottomSheetDialog) super.onCreateDialog(savedInstanceState);
         final View view = View.inflate(getContext(), R.layout.fragment_jobs_bottom_sheet, null);
@@ -167,7 +170,8 @@ public class JobsBottomSheet extends BottomSheetDialogFragment {
                 } else {
                     switch (response.code()){
                         case 401:
-                            userInfoStorage.preferenceLogout();
+                            userInfoStorage.clearUser();
+                            sessionManager.preferenceLogout();
                             progressBar.setVisibility(View.GONE);
                             btnRefresh.setVisibility(View.VISIBLE);
                             btnRefresh.setText("Relogin here");

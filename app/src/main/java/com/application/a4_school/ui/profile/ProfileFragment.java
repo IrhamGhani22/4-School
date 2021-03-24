@@ -35,6 +35,7 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.application.a4_school.Auth.Login;
+import com.application.a4_school.Auth.SessionManager;
 import com.application.a4_school.LocalStorage.UserInfoStorage;
 import com.application.a4_school.R;
 import com.application.a4_school.RestAPI.APIClient;
@@ -65,7 +66,9 @@ public class ProfileFragment extends Fragment{
     public static final int CAPTURE_REQUEST_CODE = 700;
     private static ProfileFragment instance;
     private UserInfoStorage userInfoStorage;
+    private SessionManager sessionManager;
     private Bitmap bitmap;
+    private TextView shUsername;
     private CircleImageView userImage;
     String part_image = "";
     Context context;
@@ -84,7 +87,10 @@ public class ProfileFragment extends Fragment{
         initialize(root);
         instance = this;
         userInfoStorage = new UserInfoStorage(getActivity().getApplicationContext());
-
+        sessionManager = new SessionManager(getActivity().getApplicationContext());
+        String name = getActivity().getSharedPreferences("userInfo", 0).getString("name", "Hmm something wen't wrong i cant see your name):");
+        shUsername = root.findViewById(R.id.username);
+        shUsername.setText(name);
 
 
 //        final Toolbar toolbar = (Toolbar)root.findViewById(R.id.toolbarpf);
@@ -219,7 +225,8 @@ public class ProfileFragment extends Fragment{
                     }else if (response.code() == 401){
                         startActivity(new Intent(context, Login.class));
                         getActivity().finishAffinity();
-                        userInfoStorage.preferenceLogout();
+                        userInfoStorage.clearUser();
+                        sessionManager.preferenceLogout();
                         Toast.makeText( context, "Sesi telah berakhir, silahkan login kembali", Toast.LENGTH_SHORT).show();
                     }
                     else if(response.code() == 422){

@@ -22,14 +22,13 @@
     </FrameLayout>
 
 
-
     <LinearLayout
         android:id="@+id/container_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_marginTop="40dp"
         android:layout_marginStart="20dp"
+        android:layout_marginTop="40dp"
+        android:orientation="vertical"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -37,41 +36,40 @@
             android:id="@+id/text_home"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="4-School"
-            android:textSize="14sp"
             android:layout_marginBottom="10dp"
             android:fontFamily="@font/poppins_bold"
+            android:text="4-School"
             android:textColor="#ffff"
-            />
+            android:textSize="14sp" />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="-15dp"
-            android:textColor="#ffff"
             android:fontFamily="@font/poppins_bold"
-            android:textSize="24sp"
             android:text="Lorem Ipsum"
-            />
+            android:textColor="#ffff"
+            android:textSize="24sp" />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="-15dp"
-            android:textColor="#ffff"
             android:fontFamily="@font/poppins_bold"
-            android:textSize="24sp"
             android:text="Color Damet"
-            />
+            android:textColor="#ffff"
+            android:textSize="24sp" />
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginTop="220dp"
         android:background="@drawable/home_background"
         android:orientation="vertical"
         android:paddingLeft="32dp"
         android:paddingTop="20dp"
         android:paddingRight="32dp"
-        android:layout_marginTop="220dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
@@ -79,42 +77,40 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            >
+            android:orientation="vertical">
+
             <TextView
+                android:id="@+id/greeting_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Selamat Pagi"
                 android:fontFamily="@font/poppins_bold"
-                />
+                android:text="Good Morning" />
+
             <TextView
-                android:id="@+id/name"
+                android:id="@+id/nameHome"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Muhammad Irham Abdul Ghani"
                 android:fontFamily="@font/poppins_regular"
-                />
+                android:text="Your name" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Kelas Anda : "
                 android:fontFamily="@font/poppins_bold"
-                />
+                android:text="How do you feel today?" />
         </LinearLayout>
 
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
             android:id="@+id/refresh"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_mapel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                tools:listitem="@layout/item_home"
-                />
+                tools:listitem="@layout/item_home" />
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
-
 
 
     </LinearLayout>
