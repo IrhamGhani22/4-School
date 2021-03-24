@@ -1,18 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_web_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="horizontal"
     tools:context=".ui.home.HomeFragment">
 
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/loading_maps"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        app:lottie_fileName="progress_loading.json"
+        android:layout_marginRight="10dp"
+        android:layout_gravity="center"
+        app:lottie_loop="true"
+        app:lottie_autoPlay="true"/>
 
     <WebView
         android:id="@+id/WebView1"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"/>
 
 
-</RelativeLayout>
+</LinearLayout>

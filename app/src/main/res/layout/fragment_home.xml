@@ -22,8 +22,8 @@
             android:layout_marginLeft="16dp"/>
 
         <com.airbnb.lottie.LottieAnimationView
-            android:layout_width="220dp"
-            android:layout_height="140dp"
+            android:layout_width="250dp"
+            android:layout_height="150dp"
             app:lottie_fileName="home_ilustration.json"
             android:layout_marginRight="10dp"
             android:layout_gravity="center"
