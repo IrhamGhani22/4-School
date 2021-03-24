@@ -42,7 +42,7 @@ public class HomeListAdapter extends RecyclerView.Adapter<HomeListAdapter.HomeVi
 
     @Override
     public void onBindViewHolder(@NonNull final HomeViewHolder holder, int position) {
-        holder.shJudul.setText(list.get(position).getJudul());
+        holder.shtitle.setText(list.get(position).getJudul());
         holder.shRoom.setText(list.get(position).getDetail());
         final int sdk = android.os.Build.VERSION.SDK_INT;
         if(sdk < android.os.Build.VERSION_CODES.JELLY_BEAN) {
@@ -68,12 +68,12 @@ public class HomeListAdapter extends RecyclerView.Adapter<HomeListAdapter.HomeVi
     }
 
     public class HomeViewHolder extends RecyclerView.ViewHolder {
-        TextView shJudul, shRoom;
+        TextView shtitle, shRoom;
         ImageView img;
 
         public HomeViewHolder(@NonNull View itemView) {
             super(itemView);
-            shJudul = itemView.findViewById(R.id.nama_mapel);
+            shtitle = itemView.findViewById(R.id.nama_mapel);
             shRoom = itemView.findViewById(R.id.ruang_jam);
             img = itemView.findViewById(R.id.img_home);
             

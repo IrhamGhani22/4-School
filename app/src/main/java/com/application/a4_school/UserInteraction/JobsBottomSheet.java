@@ -188,7 +188,7 @@ public class JobsBottomSheet extends BottomSheetDialogFragment {
                             btnRefresh.setVisibility(View.VISIBLE);
                             btnRefresh.setText("Relogin here");
                             shMessage.setVisibility(View.VISIBLE);
-                            shMessage.setText("Sesi telah berakhir, silahkan login kembali");
+                            shMessage.setText("The session has ended, please login again");
                             btnRefresh.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
@@ -202,7 +202,7 @@ public class JobsBottomSheet extends BottomSheetDialogFragment {
                             progressBar.setVisibility(View.GONE);
                             btnRefresh.setVisibility(View.VISIBLE);
                             shMessage.setVisibility(View.VISIBLE);
-                            shMessage.setText("Terjadi Kesalahan silakan refresh terlebih dahulu");
+                            shMessage.setText("An error occurs, please refresh first");
                             break;
 
                         default:

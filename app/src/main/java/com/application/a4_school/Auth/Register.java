@@ -55,15 +55,20 @@ public class Register extends AppCompatActivity {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 if (response.isSuccessful()){
-                    try {
-                        String responseJSON = response.body().string();
-                        Log.d("auth", ""+responseJSON);
-                        Toast.makeText(Register.this, "Register Successfully", Toast.LENGTH_SHORT).show();
-                        Intent toLogin = new Intent(Register.this, Login.class);
-                        startActivity(toLogin);
-                    } catch (IOException e) {
-                        e.printStackTrace();
+                    if  (response.body() != null){
+                        try {
+                            String responseJSON = response.body().string();
+                            Log.d("auth", ""+responseJSON);
+                            Toast.makeText(Register.this, "Register Successfully", Toast.LENGTH_SHORT).show();
+                            Intent toLogin = new Intent(Register.this, Login.class);
+                            startActivity(toLogin);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }else if (response.code() == 401){
+
                     }
+
 
                 }else{
                     //system error

@@ -123,7 +123,7 @@ public class Login extends Activity implements View.OnClickListener {
                                             startActivity(toDasboard);
                                             finish();
                                         } else {
-                                            Toast.makeText(Login.this, "Halaman siswa belum dibuat", Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(Login.this, "student page has not been created", Toast.LENGTH_SHORT).show();
                                         }
                                     } else {
                                         Toast.makeText(Login.this, "Email or password is incorrect", Toast.LENGTH_SHORT).show();
@@ -134,16 +134,16 @@ public class Login extends Activity implements View.OnClickListener {
                                     Log.d("Login", "" + e.getMessage());
                                 }
                             }else if(response.code() == 422) {
-                                Toast.makeText(Login.this, "Username/Password masih kosong", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(Login.this, "Username / Password is still blank", Toast.LENGTH_SHORT).show();
                             } else if(response.code() == 401){
-                                Toast.makeText(Login.this, "Username/Password salah", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(Login.this, "Wrong username / password", Toast.LENGTH_SHORT).show();
                             } else if(response.code() == 403){
                                 Toast.makeText(Login.this, "Token Invalid", Toast.LENGTH_SHORT).show();
                             } else if(response.code() == 404 || response.code() == 405){
-                                Toast.makeText(Login.this, "Terjadi kesalahan server", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(Login.this, "A server error has occurred", Toast.LENGTH_SHORT).show();
                             }
                         }else{
-                            Toast.makeText(Login.this, "Username/Password salah", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(Login.this, "Wrong Username / Password ", Toast.LENGTH_SHORT).show();
                         }
                     }
 
