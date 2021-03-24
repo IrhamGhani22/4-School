@@ -8,17 +8,26 @@
     tools:context=".ui.home.HomeFragment">
 
     <FrameLayout
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
         app:layout_constraintLeft_toRightOf="@+id/container_text"
-        tools:ignore="MissingConstraints">
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/parent_container_home">
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:src="@drawable/home_illustration"
-            tools:ignore="MissingConstraints" />
+            android:layout_marginLeft="16dp"/>
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:layout_width="220dp"
+            android:layout_height="140dp"
+            app:lottie_fileName="home_ilustration.json"
+            android:layout_marginRight="10dp"
+            android:layout_gravity="center"
+            app:lottie_autoPlay="true"/>
     </FrameLayout>
 
 
@@ -62,6 +71,7 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/parent_container_home"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="220dp"

@@ -32,6 +32,7 @@ import com.application.a4_school.R;
 import com.application.a4_school.RestAPI.APIClient;
 import com.application.a4_school.RestAPI.APIService;
 import com.application.a4_school.RestAPI.ResponseData;
+import com.application.a4_school.adapter.GridScheduleAdapter;
 import com.application.a4_school.adapter.ScheduleListAdapter;
 import com.application.a4_school.ui.schedule.ScheduleFragment;
 import com.google.android.material.appbar.AppBarLayout;
@@ -74,17 +75,17 @@ public class JobsBottomSheet extends BottomSheetDialogFragment {
         sessionManager = new SessionManager(getActivity().getApplicationContext());
 //        userInfoStorage.setPreference(context);
         final BottomSheetDialog dialog = (BottomSheetDialog) super.onCreateDialog(savedInstanceState);
-        final View view = View.inflate(getContext(), R.layout.fragment_jobs_bottom_sheet, null);
-        dialog.setContentView(view);
-        BottomSheetBehavior bottomSheetBehavior = BottomSheetBehavior.from((View) view.getParent());
+        final View mView = View.inflate(getContext(), R.layout.fragment_jobs_bottom_sheet, null);
+        dialog.setContentView(mView);
+        BottomSheetBehavior bottomSheetBehavior = BottomSheetBehavior.from((View) mView.getParent());
         bottomSheetBehavior.setPeekHeight(BottomSheetBehavior.PEEK_HEIGHT_AUTO);
-        appBarLayout = view.findViewById(R.id.appbarBottomSheet);
-        shTitle = view.findViewById(R.id.textHeaderDays);
-        shMessage = view.findViewById(R.id.txtMessageBtmSheet);
-        linearLayout = view.findViewById(R.id.bottom_sheet_linear);
-        rv_schedule = view.findViewById(R.id.rv_schedule);
-        progressBar = view.findViewById(R.id.bottom_loading);
-        btnRefresh = view.findViewById(R.id.btn_refresh);
+        appBarLayout = mView.findViewById(R.id.appbarBottomSheet);
+        shTitle = mView.findViewById(R.id.textHeaderDays);
+        shMessage = mView.findViewById(R.id.txtMessageBtmSheet);
+        linearLayout = mView.findViewById(R.id.bottom_sheet_linear);
+        rv_schedule = mView.findViewById(R.id.rv_schedule);
+        progressBar = mView.findViewById(R.id.bottom_loading);
+        btnRefresh = mView.findViewById(R.id.btn_refresh);
         hideView(appBarLayout);
         getListScheduleData();
         Log.d("titleBottomSheet", "title: " + title);
@@ -94,8 +95,12 @@ public class JobsBottomSheet extends BottomSheetDialogFragment {
             @Override
             public void onStateChanged(@NonNull View bottomSheet, int newState) {
                 if (BottomSheetBehavior.STATE_EXPANDED == newState) {
+                    int height = bottomSheet.getHeight();
                     showView(appBarLayout, getActionBarSize());
                     hideView(linearLayout);
+                }
+                if (BottomSheetBehavior.STATE_DRAGGING == newState){
+
                 }
                 if (BottomSheetBehavior.STATE_COLLAPSED == newState) {
                     showView(linearLayout, getActionBarSize());
@@ -112,7 +117,7 @@ public class JobsBottomSheet extends BottomSheetDialogFragment {
 
             }
         });
-        view.findViewById(R.id.close_bottom_sheet).setOnClickListener(new View.OnClickListener() {
+        mView.findViewById(R.id.close_bottom_sheet).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 ScheduleFragment.getInstance().showRecyclerGrid();
@@ -161,6 +166,12 @@ public class JobsBottomSheet extends BottomSheetDialogFragment {
                             rv_schedule.setLayoutManager(new LinearLayoutManager(getActivity()));
                             adapter = new ScheduleListAdapter(list, getActivity());
                             rv_schedule.setAdapter(adapter);
+                            adapter.setOnItemClickCallback(new GridScheduleAdapter.OnItemClickCallback() {
+                                @Override
+                                public void onItemClicked(Schedule dataSchedule) {
+                                    Toast.makeText(getActivity(), dataSchedule.getJam_mulai(), Toast.LENGTH_SHORT).show();
+                                }
+                            });
                             Log.d("sendparameter", "isSuccess : true");
                             Log.d("ScheduleFragment", "Success: " + response.body().getJadwal_mengajar());
                         }
