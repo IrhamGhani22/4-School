@@ -35,7 +35,7 @@ public class UserInfoStorage {
         editor.putString(Name, value);
         editor.commit();
     }
-    public void preferenceLogout(){
+    public void clearUser(){
         editor.clear();
         editor.commit();
     }

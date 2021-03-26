@@ -22,4 +22,8 @@ public class SessionManager {
         editor.putString(role, role);
         editor.commit();
     }
+    public void preferenceLogout(){
+        editor.clear();
+        editor.commit();
+    }
 }

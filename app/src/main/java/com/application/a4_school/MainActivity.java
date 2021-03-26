@@ -14,6 +14,7 @@ import com.application.a4_school.ui.maps.MapsFragment;
 import com.application.a4_school.ui.profile.ProfileFragment;
 import com.application.a4_school.ui.schedule.ScheduleFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.ismaeldivita.chipnavigation.ChipNavigationBar;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -37,13 +38,13 @@ public class MainActivity extends AppCompatActivity {
         //nampilin awal fragment pertama kali
         getFragmentPage(new HomeFragment());
 
-        BottomNavigationView navigationView = findViewById(R.id.nav_view);
-        navigationView.setSelectedItemId(R.id.nav_home);
-        navigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+        ChipNavigationBar navigationView = findViewById(R.id.nav_view);
+        navigationView.setItemSelected(R.id.nav_home, true);
+        navigationView.setOnItemSelectedListener(new ChipNavigationBar.OnItemSelectedListener() {
             @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+            public void onItemSelected(int i) {
                 Fragment fragment = null;
-                switch (item.getItemId()){
+                switch (i){
                     case R.id.nav_home:
                         fragment = new HomeFragment();
                         break;
@@ -61,11 +62,11 @@ public class MainActivity extends AppCompatActivity {
                         break;
                 }
 
-                return getFragmentPage(fragment);
+                getFragmentPage(fragment);
             }
         });
-    }
 
+    }
     private boolean getFragmentPage(Fragment fragment){
         if (fragment != null){
             getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, fragment).commit();
