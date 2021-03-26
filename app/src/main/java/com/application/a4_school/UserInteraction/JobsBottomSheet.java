@@ -24,6 +24,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.airbnb.lottie.LottieAnimationView;
+import com.application.a4_school.AttedanceActivity;
 import com.application.a4_school.Auth.Login;
 import com.application.a4_school.Auth.SessionManager;
 import com.application.a4_school.LocalStorage.UserInfoStorage;
@@ -170,7 +171,10 @@ public class JobsBottomSheet extends BottomSheetDialogFragment {
                             adapter.setOnItemClickCallback(new GridScheduleAdapter.OnItemClickCallback() {
                                 @Override
                                 public void onItemClicked(Schedule dataSchedule) {
-                                    Toast.makeText(getActivity(), dataSchedule.getJam_mulai(), Toast.LENGTH_SHORT).show();
+                                    Intent toAttendance = new Intent(getActivity(), AttedanceActivity.class);
+                                    toAttendance.putExtra("EXTRA_CLASS", dataSchedule.getId_kelas());
+                                    dismiss();
+                                    startActivity(toAttendance);
                                 }
                             });
                             Log.d("sendparameter", "isSuccess : true");
@@ -182,8 +186,6 @@ public class JobsBottomSheet extends BottomSheetDialogFragment {
                 } else {
                     switch (response.code()){
                         case 401:
-                            userInfoStorage.clearUser();
-                            sessionManager.preferenceLogout();
                             progressBar.setVisibility(View.GONE);
                             btnRefresh.setVisibility(View.VISIBLE);
                             btnRefresh.setText("Relogin here");
@@ -192,6 +194,8 @@ public class JobsBottomSheet extends BottomSheetDialogFragment {
                             btnRefresh.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
+                                    userInfoStorage.clearUser();
+                                    sessionManager.preferenceLogout();
                                     startActivity(new Intent(getActivity(), Login.class));
                                     getActivity().finishAffinity();
                                 }

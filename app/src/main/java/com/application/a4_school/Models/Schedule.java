@@ -11,6 +11,7 @@ public class Schedule {
     private String ruangan;
     @SerializedName("mapel")
     private String nama_mapel;
+    private String id_kelas;
     private String tingkatan;
     private String jurusan;
 
@@ -60,6 +61,10 @@ public class Schedule {
 
     public String getTingkatan() {
         return tingkatan;
+    }
+
+    public String getId_kelas() {
+        return id_kelas;
     }
 
     public void setTingkatan(String tingkatan) {
