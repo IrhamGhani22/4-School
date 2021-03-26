@@ -10,7 +10,6 @@ public class UserInfoStorage {
     private int mode = 0;
     private static final String APPNAME = "4-School";
     private static final String REFNAME = "userInfo";
-    private static final String Token = "token";
     private static final String Id = "id";
     private static final String Name = "name";
     private static final String Email = "email";
@@ -22,11 +21,10 @@ public class UserInfoStorage {
         sharedPreferences = context.getSharedPreferences(REFNAME, mode);
         editor = sharedPreferences.edit();
     }
-    public void createInfo(String name, String email, String id, String token) {
-        editor.putString(Token, token );
+    public void createInfo(String name, String email, int id) {
         editor.putString(Name, name);
         editor.putString(Email, email);
-        editor.putString(Id, id);
+        editor.putInt(Id, id);
         editor.commit();
     }
     public void addPict(String url){
@@ -39,10 +37,6 @@ public class UserInfoStorage {
     }
     public void preferenceLogout(){
         editor.clear();
-        editor.commit();
-    }
-    public void saveToken(String value){
-        editor.putString(Token, value);
         editor.commit();
     }
     public void setPreference(Context context){

@@ -17,7 +17,10 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
+
 import com.application.a4_school.ForgotPassword;
+import com.application.a4_school.LocalStorage.UserInfoStorage;
 import com.application.a4_school.MainActivity;
 import com.application.a4_school.R;
 import com.application.a4_school.RestAPI.APIClient;
@@ -37,6 +40,7 @@ public class Login extends Activity implements View.OnClickListener {
     TextView resetPw;
     TextView txtRegister;
     SessionManager sessionManager;
+    UserInfoStorage userInfoStorage;
     private boolean exit = false;
 
     @Override
@@ -45,6 +49,7 @@ public class Login extends Activity implements View.OnClickListener {
         setContentView(R.layout.activity_login);
 
         sessionManager = new SessionManager(getApplicationContext());
+        userInfoStorage = new UserInfoStorage(getApplicationContext());
         etUsername = findViewById(R.id.inputlogin);
         etPw = findViewById(R.id.inputpassword);
         btnlogin = findViewById(R.id.btn_login);
@@ -105,13 +110,14 @@ public class Login extends Activity implements View.OnClickListener {
                             if (response.body() != null){
                                 try {
                                     String responseJSON = response.body().string();
-                                    Log.d("auth", "response : " + responseJSON);
+                                    Log.d("login", "response : " + responseJSON);
                                     Gson objGson = new Gson();
                                     SessionResponse objResp = objGson.fromJson(responseJSON, SessionResponse.class);
                                     if (objResp.getToken() != null) {
                                         String role = objResp.getUserInfo().getRole();
-                                        Log.d("role", "role : " + role);
+                                        Log.d("login", "role : " + role);
                                         sessionManager.createSession(objResp.getToken(), role);
+                                        userInfoStorage.createInfo(objResp.getUserInfo().getName(), objResp.getUserInfo().getEmail(), objResp.getUserInfo().getId());
                                         if (role.equals("guru")) {
                                             Intent toDasboard = new Intent(Login.this, MainActivity.class);
                                             startActivity(toDasboard);
@@ -136,6 +142,8 @@ public class Login extends Activity implements View.OnClickListener {
                             } else if(response.code() == 404 || response.code() == 405){
                                 Toast.makeText(Login.this, "Terjadi kesalahan server", Toast.LENGTH_SHORT).show();
                             }
+                        }else{
+                            Toast.makeText(Login.this, "Username/Password salah", Toast.LENGTH_SHORT).show();
                         }
                     }
 
@@ -155,7 +163,7 @@ public class Login extends Activity implements View.OnClickListener {
                         AlertDialog alertDialog = alertDialogBuilder.create();
                         alertDialog.show();
                         Toast.makeText(Login.this, "Please check your internet connection", Toast.LENGTH_SHORT).show();
-                        Log.d("failure", "Message : " + t.getMessage());
+                        Log.d("login", "Message : " + t.getMessage());
                     }
                 });
                 break;
@@ -166,11 +174,36 @@ public class Login extends Activity implements View.OnClickListener {
                 break;
 
             case R.id.register:
-                Intent toRegister = new Intent(Login.this, Register.class);
-                startActivity(toRegister);
+                showDialog();
                 break;
         }
 
+    }
+
+    private void showDialog(){
+        final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+                this);
+
+        // set title dialog
+        alertDialogBuilder.setTitle("Keluar dari aplikasi?");
+
+        // set pesan dari dialog
+        alertDialogBuilder
+                .setMessage("Klik Ya untuk keluar!")
+                .setIcon(R.mipmap.ic_launcher)
+                .setCancelable(false);
+
+        // membuat alert dialog dari builder
+        final AlertDialog alertDialog = alertDialogBuilder.create();
+        alertDialog.setButton(DialogInterface.BUTTON_POSITIVE, "Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                alertDialog.dismiss();
+            }
+        });
+
+        // menampilkan alert dialog
+        alertDialog.show();
     }
 }
 

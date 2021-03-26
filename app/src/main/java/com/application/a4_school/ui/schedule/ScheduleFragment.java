@@ -55,7 +55,6 @@ public class ScheduleFragment extends Fragment {
         instance = this;
         rv_Schedule = root.findViewById(R.id.rv_schedule);
         rv_Schedule.setHasFixedSize(true);
-
         showRecyclerGrid();
         return root;
     }
@@ -82,9 +81,10 @@ public class ScheduleFragment extends Fragment {
 
     public void getNowSchedule(){
         SharedPreferences getId_user = getActivity().getSharedPreferences("userInfo", 0);
-        String id_user = getId_user.getString("id", "");
+        int id_user = getId_user.getInt("id", 0);
+        String token = getActivity().getSharedPreferences("session", 0).getString("token", "");
         APIService api = APIClient.getClient().create(APIService.class);
-        Call<ResponseData> getScheduleNow = api.getListSchedule("1");
+        Call<ResponseData> getScheduleNow = api.getListSchedule(id_user, "Bearer "+token);
         getScheduleNow.enqueue(new Callback<ResponseData>() {
             @Override
             public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
@@ -100,20 +100,6 @@ public class ScheduleFragment extends Fragment {
                         }catch (Exception e){
                             e.printStackTrace();
                         }
-
-                    }else if (response.code() == 401){
-                        startActivity(new Intent(context, Login.class));
-                        Toast.makeText( context, "Sesi telah berakhir, silahkan login kembali", Toast.LENGTH_SHORT).show();
-                    }
-                    else if(response.code() == 422){
-                        Toast.makeText( context, "Terjadi Kesalahan silakan refresh terlebih dahulu", Toast.LENGTH_SHORT).show();
-                    }else if (response.code() == 403){
-                        Toast.makeText(context, "Unauthorized", Toast.LENGTH_SHORT).show();
-                    }else if (response.code() == 404){
-                        Toast.makeText(context, "Terjadi kesalahan server", Toast.LENGTH_SHORT).show();
-                    }else if (response.code() == 405){
-                        Toast.makeText(context, "Method Tidak diterima server, silakan login kembali", Toast.LENGTH_SHORT).show();
-                        startActivity(new Intent(context, Login.class));
 
                     }
 
