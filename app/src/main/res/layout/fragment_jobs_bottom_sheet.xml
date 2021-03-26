@@ -8,6 +8,13 @@
     android:orientation="vertical"
     tools:context=".UserInteraction.JobsBottomSheet">
 
+    <View
+        android:layout_width="80dp"
+        android:layout_height="3dp"
+        android:background="#AFAFAF"
+        android:layout_margin="8dp"
+        android:layout_gravity="center_horizontal" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

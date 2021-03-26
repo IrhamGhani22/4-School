@@ -9,6 +9,35 @@
     android:orientation="horizontal"
     tools:context=".ui.home.HomeFragment">
 
+    <LinearLayout
+        android:id="@+id/error_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:visibility="gone">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="28sp"
+            android:text="Oppsss..."
+            android:textColor="@color/blackCharcoal"
+            android:fontFamily="@font/poppins_regular"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Something wen't wrong"
+            android:fontFamily="@font/poppins_regular"/>
+
+        <Button
+            android:id="@+id/btn_refresh_maps"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Refresh"/>
+    </LinearLayout>
+
     <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/loading_maps"
         android:layout_width="match_parent"

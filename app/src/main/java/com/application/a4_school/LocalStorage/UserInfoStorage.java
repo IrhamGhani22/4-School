@@ -21,10 +21,11 @@ public class UserInfoStorage {
         sharedPreferences = context.getSharedPreferences(REFNAME, mode);
         editor = sharedPreferences.edit();
     }
-    public void createInfo(String name, String email, int id) {
+    public void createInfo(String name, String email, int id, String image) {
         editor.putString(Name, name);
         editor.putString(Email, email);
         editor.putInt(Id, id);
+        editor.putString(Image, image);
         editor.commit();
     }
     public void addPict(String url){
