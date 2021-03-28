@@ -27,19 +27,19 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
             />
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="Description"
-            android:textSize="20dp" />
+<!--        <TextView-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="match_parent"-->
+<!--            android:text="Description"-->
+<!--            android:textSize="20dp" />-->
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/inp_desc"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:inputType="text"
-            android:textSize="16sp" />
+<!--        <com.google.android.material.textfield.TextInputEditText-->
+<!--            android:id="@+id/inp_desc"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginBottom="10dp"-->
+<!--            android:inputType="text"-->
+<!--            android:textSize="16sp" />-->
         <TextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -59,14 +59,14 @@
                 android:layout_height="match_parent">
 
                 <TextView
-                    android:id="@+id/tambah"
+                    android:id="@+id/addf"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_gravity="center"
                     android:layout_marginStart="25dp"
                     android:fontFamily="@font/poppins_bold"
-                    android:text="Tambah File"
+                    android:text="Add File"
                     android:textSize="15sp" />
 
                 <de.hdodenhof.circleimageview.CircleImageView
@@ -92,7 +92,7 @@
                 app:iconTint="@color/SkyBlue"
                 app:backgroundTint="#ffffff"
                 android:layout_alignParentLeft="true"
-                android:text="Kembali"
+                android:text="Back"
                 style="?attr/materialButtonOutlinedStyle"/>
 
             <Button
