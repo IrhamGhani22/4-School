@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@color/whiteDefault"
-    tools:context=".ui.attendance.AttedanceActivity">
+    tools:context=".ui.attendance.ClassRoomActivity">
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
@@ -28,7 +28,7 @@
                     android:textColor="@color/blackCharcoal"/>
 
                 <TextView
-                    android:id="@+id/addnewatt"
+                    android:id="@+id/addInputFormClass"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/poppins_bold"
@@ -42,7 +42,7 @@
 
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_attendance"
+        android:id="@+id/rv_class"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="12dp"

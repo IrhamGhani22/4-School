@@ -19,7 +19,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.airbnb.lottie.LottieAnimationView;
-import com.application.a4_school.ui.attendance.AttedanceActivity;
+import com.application.a4_school.ui.attendance.ClassRoomActivity;
 import com.application.a4_school.Auth.Login;
 import com.application.a4_school.Auth.SessionManager;
 import com.application.a4_school.LocalStorage.UserInfoStorage;
@@ -165,7 +165,7 @@ public class JobsBottomSheet extends BottomSheetDialogFragment {
                             adapter.setOnItemClickCallback(new GridScheduleAdapter.OnItemClickCallback() {
                                 @Override
                                 public void onItemClicked(Schedule dataSchedule) {
-                                    Intent toAttendance = new Intent(getActivity(), AttedanceActivity.class);
+                                    Intent toAttendance = new Intent(getActivity(), ClassRoomActivity.class);
                                     toAttendance.putExtra("EXTRA_CLASS", dataSchedule.getId_kelas());
                                     dismiss();
                                     startActivity(toAttendance);

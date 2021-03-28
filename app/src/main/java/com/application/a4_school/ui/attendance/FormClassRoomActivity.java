@@ -9,20 +9,20 @@ import android.widget.Spinner;
 import com.application.a4_school.R;
 import com.application.a4_school.adapter.SpinnerAdapter;
 
-public class AddAttendanceActivity extends AppCompatActivity {
+public class FormClassRoomActivity extends AppCompatActivity {
     Spinner listtask;
 
     Button btnUpload, btnBack;
 
     //data dummy dropdown, hapus aja nanti
-    String[] task = {"AAA", "AA", "A"};
+        String[] selectOption = {"Task", "Theory"};
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_attendance);
+        setContentView(R.layout.activity_form_class_room);
         findView();
 
-        SpinnerAdapter a = new SpinnerAdapter(getApplicationContext(), task);
+        SpinnerAdapter a = new SpinnerAdapter(getApplicationContext(), selectOption);
         listtask.setAdapter(a);
 
     }

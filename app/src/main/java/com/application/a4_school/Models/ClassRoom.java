@@ -1,7 +1,7 @@
 package com.application.a4_school.Models;
 
-public class Attendance {
-    private int id_attendance;
+public class ClassRoom {
+    private int id_classRoom;
     private String date;
     private String type;
     private String title;
@@ -9,11 +9,11 @@ public class Attendance {
     private int completedcount;
 
     public int getId_attendance() {
-        return id_attendance;
+        return id_classRoom;
     }
 
-    public void setId_attendance(int id_attendance) {
-        this.id_attendance = id_attendance;
+    public void setId_attendance(int id_classRoom) {
+        this.id_classRoom = id_classRoom;
     }
 
     public String getDate() {
