@@ -68,7 +68,7 @@ public class ProfileFragment extends Fragment{
     private UserInfoStorage userInfoStorage;
     private SessionManager sessionManager;
     private Bitmap bitmap;
-    private TextView shUsername;
+    private Toolbar shUsername;
     private CircleImageView userImage;
     String part_image = "";
     Context context;
@@ -86,21 +86,20 @@ public class ProfileFragment extends Fragment{
         View root = inflater.inflate(R.layout.fragment_profile, container, false);
         initialize(root);
         instance = this;
+
         userInfoStorage = new UserInfoStorage(getActivity().getApplicationContext());
         sessionManager = new SessionManager(getActivity().getApplicationContext());
         String name = getActivity().getSharedPreferences("userInfo", 0).getString("name", "Hmm something wen't wrong i cant see your name):");
-        shUsername = root.findViewById(R.id.username);
-        shUsername.setText(name);
-
+        shUsername.setTitle(name);
 
 //        final Toolbar toolbar = (Toolbar)root.findViewById(R.id.toolbarpf);
 //        toolbar.setBackgroundColor(R.color.BlueishPurple);
 ////        final Toolbar tb = (Toolbar)root.findViewById(R.id.toolbar);
 ////
 //
-//        AppCompatActivity app = (AppCompatActivity) getActivity();
-//        app.setSupportActionBar(toolbar);
-//        app.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        AppCompatActivity app = (AppCompatActivity) getActivity();
+        shUsername.setSubtitle("1819117625");
+        app.setSupportActionBar(shUsername);
 //
 //        CollapsingToolbarLayout collapsingToolbar =
 //                (CollapsingToolbarLayout)root.findViewById(R.id.collaps);
@@ -131,6 +130,7 @@ public class ProfileFragment extends Fragment{
     private void initialize(View root){
         chooseImage = root.findViewById(R.id.chooseUserImage);
         userImage = root.findViewById(R.id.userImage);
+        shUsername = root.findViewById(R.id.toolbarpf);
     }
 
     private void chooseMenu(){

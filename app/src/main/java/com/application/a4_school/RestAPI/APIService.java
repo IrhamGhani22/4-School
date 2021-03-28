@@ -2,6 +2,9 @@ package com.application.a4_school.RestAPI;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonObject;
+
+import org.json.JSONObject;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -45,4 +48,17 @@ public interface APIService {
     @FormUrlEncoded
     @POST("GuruSchedule")
     Call<ResponseData> getListSchedule(@Field("id") int id_user, @Header("Authorization") String jwt_token);
+
+    @GET("classData")
+    Call<JsonObject> getClassInformation (@Query("id_kelas") String id_class);
+
+    @FormUrlEncoded
+    @POST("GuruSchedule/upload-materi")
+    Call<ResponseBody> uploadTaskTheory (@Field("id_kelas") String id_class,
+                                         @Field("id_matpel") String id_matpel,
+                                         @Field("judul") String title,
+                                         @Field("deskripsi") String description,
+                                         @Field("tipe") String type,
+                                         @Field("tenggat") String deadline,
+                                         @Header("Authorization") String jwt_token);
 }

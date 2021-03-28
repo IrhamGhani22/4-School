@@ -38,6 +38,7 @@
             android:layout_height="wrap_content"
             android:text="Email"
             android:textSize="15sp"
+            android:fontFamily="@font/poppins_regular"
             app:layout_constraintBottom_toTopOf="@id/nama"
             app:layout_constraintLeft_toRightOf="@+id/icon_email"
             app:layout_constraintTop_toTopOf="parent" />
@@ -48,6 +49,8 @@
             android:layout_height="wrap_content"
             android:text="181911724.siswa@smkn4bdg.sch.id"
             android:textColor="@android:color/black"
+            android:fontFamily="@font/poppins_regular"
+            android:lines="2"
             android:textSize="17sp"
             app:layout_constraintLeft_toRightOf="@id/icon_email"
             app:layout_constraintTop_toBottomOf="@+id/judul_email" />
@@ -79,6 +82,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Kelas"
+            android:fontFamily="@font/poppins_regular"
             android:textSize="15sp"
             app:layout_constraintBottom_toTopOf="@id/kelas"
             app:layout_constraintLeft_toRightOf="@id/icon_class"
@@ -89,6 +93,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="XIIRPL2"
+            android:fontFamily="@font/poppins_regular"
             android:textColor="@android:color/black"
             android:textSize="17sp"
             app:layout_constraintLeft_toRightOf="@id/icon_class"
@@ -122,6 +127,7 @@
             android:layout_height="wrap_content"
             android:text="Jurusan"
             android:textSize="15sp"
+            android:fontFamily="@font/poppins_regular"
             app:layout_constraintBottom_toTopOf="@id/jurusan"
             app:layout_constraintLeft_toRightOf="@id/icon_telp"
             app:layout_constraintTop_toTopOf="parent" />
@@ -133,6 +139,7 @@
             android:text="Rekayasa Perangkat Lunak"
             android:textColor="@android:color/black"
             android:textSize="17sp"
+            android:fontFamily="@font/poppins_regular"
             app:layout_constraintLeft_toRightOf="@id/icon_telp"
             app:layout_constraintTop_toBottomOf="@+id/judul_telp" />
 
@@ -164,6 +171,7 @@
             android:layout_height="wrap_content"
             android:text="Tanggal Lahir"
             android:textSize="15sp"
+            android:fontFamily="@font/poppins_regular"
             app:layout_constraintBottom_toTopOf="@id/tanggal"
             app:layout_constraintLeft_toRightOf="@id/icon_ttl"
             app:layout_constraintTop_toTopOf="parent" />
@@ -175,6 +183,7 @@
             android:text="16 Oktober 2021"
             android:textColor="@android:color/black"
             android:textSize="17sp"
+            android:fontFamily="@font/poppins_regular"
             app:layout_constraintLeft_toRightOf="@id/icon_ttl"
             app:layout_constraintTop_toBottomOf="@+id/judul_ttl" />
 
