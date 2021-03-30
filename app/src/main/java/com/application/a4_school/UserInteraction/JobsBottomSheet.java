@@ -51,13 +51,15 @@ public class JobsBottomSheet extends BottomSheetDialogFragment {
     private Button btnRefresh;
     private UserInfoStorage userInfoStorage;
     private SessionManager sessionManager;
+    private String role;
     ScheduleListAdapter adapter;
     String title;
     boolean isSuccess;
     private ArrayList<Schedule> list = new ArrayList<>();
 
-    public JobsBottomSheet(String days) {
+    public JobsBottomSheet(String days, String role) {
         this.title = days;
+        this.role = role;
     }
 
     public void setSuccess(boolean success) {
@@ -83,7 +85,13 @@ public class JobsBottomSheet extends BottomSheetDialogFragment {
         progressBar = mView.findViewById(R.id.bottom_loading);
         btnRefresh = mView.findViewById(R.id.btn_refresh);
         //hideView(appBarLayout);
-        getListScheduleData();
+
+        //Role
+        if (role.equals("guru")){
+            getListScheduleGuruData();
+        }else{
+            getListScheduleSiswa();
+        }
         Log.d("titleBottomSheet", "title: " + title);
         shTitle.setText(title);
 
@@ -125,13 +133,17 @@ public class JobsBottomSheet extends BottomSheetDialogFragment {
             @Override
             public void onClick(View v) {
                 progressBar.setVisibility(View.VISIBLE);
-                getListScheduleData();
+                if (role.equals("guru")){
+                    getListScheduleGuruData();
+                }else{
+                    getListScheduleSiswa();
+                }
             }
         });
         return dialog;
     }
 
-    private void getListScheduleData() {
+    private void getListScheduleGuruData() {
         SharedPreferences getId_user = getActivity().getSharedPreferences("userInfo", 0);
         int id_user = getId_user.getInt("id", 0);
         String token = getActivity().getSharedPreferences("session", 0).getString("token", "");
@@ -223,6 +235,10 @@ public class JobsBottomSheet extends BottomSheetDialogFragment {
                 Log.d("ScheduleFragment", "System error : " + t.getMessage());
             }
         });
+    }
+
+    private void getListScheduleSiswa(){
+
     }
 
     private void hideView(View view) {

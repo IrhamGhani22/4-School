@@ -43,10 +43,15 @@ import static com.application.a4_school.R.id.time;
 
 public class HomeFragment extends Fragment {
     private HomeViewModel HomeViewModel;
+    private String role;
     RecyclerView rv;
     HomeListAdapter adapter;
     TextView shName, shGreeting;
     private ArrayList<Home> homeList = new ArrayList<>();
+
+    public HomeFragment(String role) {
+        this.role = role;
+    }
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -88,7 +93,7 @@ public class HomeFragment extends Fragment {
                 Fragment fragment = null;
                 switch (homeList.getJudul()) {
                     case "JOBS":
-                        fragment = new ScheduleFragment();
+                        fragment = new ScheduleFragment(role);
                         navigationView.setItemSelected(R.id.nav_jobs, true);
                         getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, fragment).commit();
                         break;

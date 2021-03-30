@@ -120,10 +120,15 @@ public class Login extends Activity implements View.OnClickListener {
                                         userInfoStorage.createInfo(objResp.getUserInfo().getName(), objResp.getUserInfo().getEmail(), objResp.getUserInfo().getId(), objResp.getUserInfo().getPhoto());
                                         if (role.equals("guru")) {
                                             Intent toDasboard = new Intent(Login.this, MainActivity.class);
+                                            toDasboard.putExtra("EXTRA_ROLE", role);
                                             startActivity(toDasboard);
                                             finish();
                                         } else {
                                             Toast.makeText(Login.this, "student page has not been created", Toast.LENGTH_SHORT).show();
+                                            Intent toDasboard = new Intent(Login.this, MainActivity.class);
+                                            toDasboard.putExtra("EXTRA_ROLE", role);
+                                            startActivity(toDasboard);
+                                            finish();
                                         }
                                     } else {
                                         Toast.makeText(Login.this, "Email or password is incorrect", Toast.LENGTH_SHORT).show();
