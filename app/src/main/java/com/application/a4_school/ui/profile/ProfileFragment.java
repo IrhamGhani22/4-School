@@ -59,11 +59,12 @@ import retrofit2.Response;
 
 import static android.app.Activity.RESULT_OK;
 
-public class ProfileFragment extends Fragment{
+public class ProfileFragment extends Fragment {
     FloatingActionButton chooseImage;
-    private static final int MY_PERMISSIONS_REQUEST_LOCATION = 99 ;
+    private static final int MY_PERMISSIONS_REQUEST_LOCATION = 99;
     public static final int REQUEST_GALLERY = 9544;
     public static final int CAPTURE_REQUEST_CODE = 700;
+    private String role;
     private static ProfileFragment instance;
     private UserInfoStorage userInfoStorage;
     private SessionManager sessionManager;
@@ -75,6 +76,10 @@ public class ProfileFragment extends Fragment{
 
     public CircleImageView getUserImage() {
         return userImage;
+    }
+
+    public ProfileFragment(String role) {
+        this.role = role;
     }
 
     public static ProfileFragment getInstance() {
@@ -108,7 +113,6 @@ public class ProfileFragment extends Fragment{
 //        collapsingToolbar.setExpandedTitleColor( ContextCompat.getColor(context, bgColor));
 
 
-
         SharedPreferences getUserInfo = getActivity().getSharedPreferences("userInfo", 0);
         String url_image = getUserInfo.getString("image", "");
         RequestOptions options = new RequestOptions()
@@ -127,14 +131,14 @@ public class ProfileFragment extends Fragment{
         return root;
     }
 
-    private void initialize(View root){
+    private void initialize(View root) {
         chooseImage = root.findViewById(R.id.chooseUserImage);
         userImage = root.findViewById(R.id.userImage);
         shUsername = root.findViewById(R.id.toolbarpf);
     }
 
-    private void chooseMenu(){
-        if (CheckPermission()){
+    private void chooseMenu() {
+        if (CheckPermission()) {
             final Dialog popUpdialog = new Dialog(getContext(), R.style.AppBottomSheetDialogTheme);
             popUpdialog.setContentView(R.layout.dialog_select_picture);
             Button btnOpenCamera = popUpdialog.findViewById(R.id.btn_opencamera);
@@ -165,24 +169,24 @@ public class ProfileFragment extends Fragment{
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        switch (requestCode){
+        switch (requestCode) {
             case CAPTURE_REQUEST_CODE: {
-                if (resultCode == RESULT_OK){
+                if (resultCode == RESULT_OK) {
                     bitmap = (Bitmap) data.getExtras().get("data");
                     imageDecodedUpload(bitmap);
                 }
             }
             break;
-            case REQUEST_GALLERY:{
+            case REQUEST_GALLERY: {
                 if (requestCode == REQUEST_GALLERY && resultCode == RESULT_OK && data != null) {
                     Uri selectedImage = data.getData();
                     String[] imageprojection = {MediaStore.Images.Media.DATA};
                     Cursor cursor = getActivity().getContentResolver().query(selectedImage, imageprojection, null, null, null);
-                    if (cursor != null){
+                    if (cursor != null) {
                         cursor.moveToFirst();
                         int indexImage = cursor.getColumnIndex(imageprojection[0]);
                         part_image = cursor.getString(indexImage);
-                        if (part_image != null){
+                        if (part_image != null) {
                             try {
                                 bitmap = MediaStore.Images.Media.getBitmap(getContext().getContentResolver(), selectedImage);
                                 imageDecodedUpload(bitmap);
@@ -197,7 +201,7 @@ public class ProfileFragment extends Fragment{
         }
     }
 
-    private void imageDecodedUpload(final Bitmap bitmap){
+    private void imageDecodedUpload(final Bitmap bitmap) {
         String image = imageToString();
         SharedPreferences getId_user = getContext().getSharedPreferences("userInfo", 0);
         int id_user = getId_user.getInt("id", 0);
@@ -206,55 +210,54 @@ public class ProfileFragment extends Fragment{
         upload.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                if (response.isSuccessful()){
-                    if (response.body() != null){
+                if (response.isSuccessful()) {
+                    if (response.body() != null) {
                         try {
                             String JSONResponse = response.body().string();
                             Gson objGson = new Gson();
                             ResponseData objResp = objGson.fromJson(JSONResponse, ResponseData.class);
-                            Log.d("Uploadimage", ""+JSONResponse);
-                            Log.d("Uploadimage", ""+objResp.getImage_url());
-                            if (objResp.getImage_url() != null){
+                            Log.d("Uploadimage", "" + JSONResponse);
+                            Log.d("Uploadimage", "" + objResp.getImage_url());
+                            if (objResp.getImage_url() != null) {
                                 userImage.setImageBitmap(bitmap);
                                 userInfoStorage.addPict(objResp.getImage_url());
                             }
                         } catch (IOException e) {
                             e.printStackTrace();
-                            Log.d("Uploadimage", ""+e.getMessage());
+                            Log.d("Uploadimage", "" + e.getMessage());
                         }
-                    }else if (response.code() == 401){
+                    } else if (response.code() == 401) {
                         startActivity(new Intent(context, Login.class));
                         getActivity().finishAffinity();
-                        Toast.makeText( context, "The session has ended, please login again", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context, "The session has ended, please login again", Toast.LENGTH_SHORT).show();
                         userInfoStorage.clearUser();
                         sessionManager.preferenceLogout();
-                    }
-                    else if(response.code() == 422){
-                        Toast.makeText( context, "An error occurs, please refresh first", Toast.LENGTH_SHORT).show();
-                    }else if (response.code() == 403){
+                    } else if (response.code() == 422) {
+                        Toast.makeText(context, "An error occurs, please refresh first", Toast.LENGTH_SHORT).show();
+                    } else if (response.code() == 403) {
                         Toast.makeText(context, "Unauthorized", Toast.LENGTH_SHORT).show();
-                    }else if (response.code() == 404){
+                    } else if (response.code() == 404) {
                         Toast.makeText(context, "A server error has occurred", Toast.LENGTH_SHORT).show();
-                    }else if (response.code() == 405){
+                    } else if (response.code() == 405) {
                         Toast.makeText(context, "Method Not accepted by server, please login again", Toast.LENGTH_SHORT).show();
                         startActivity(new Intent(context, Login.class));
                     }
 
-                }else{
+                } else {
                     Toast.makeText(getActivity(), "System Error, please try again later", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
-                Log.d("Uploadimage", ""+t.getMessage());
+                Log.d("Uploadimage", "" + t.getMessage());
             }
         });
     }
 
-    private String imageToString(){
+    private String imageToString() {
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.JPEG,75,byteArrayOutputStream);
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 75, byteArrayOutputStream);
         byte[] imgByte = byteArrayOutputStream.toByteArray();
         return Base64.encodeToString(imgByte, Base64.DEFAULT);
     }

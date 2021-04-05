@@ -17,9 +17,11 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.airbnb.lottie.LottieAnimationView;
-import com.application.a4_school.ui.attendance.ClassRoomActivity;
+import com.application.a4_school.RestAPI.ResponseStudent;
+import com.application.a4_school.ui.classroom.ClassRoomActivity;
 import com.application.a4_school.Auth.Login;
 import com.application.a4_school.Auth.SessionManager;
 import com.application.a4_school.LocalStorage.UserInfoStorage;
@@ -38,6 +40,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
 import java.util.ArrayList;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -51,13 +54,15 @@ public class JobsBottomSheet extends BottomSheetDialogFragment {
     private Button btnRefresh;
     private UserInfoStorage userInfoStorage;
     private SessionManager sessionManager;
+    private String role;
     ScheduleListAdapter adapter;
     String title;
     boolean isSuccess;
     private ArrayList<Schedule> list = new ArrayList<>();
 
-    public JobsBottomSheet(String days) {
+    public JobsBottomSheet(String days, String role) {
         this.title = days;
+        this.role = role;
     }
 
     public void setSuccess(boolean success) {
@@ -83,7 +88,13 @@ public class JobsBottomSheet extends BottomSheetDialogFragment {
         progressBar = mView.findViewById(R.id.bottom_loading);
         btnRefresh = mView.findViewById(R.id.btn_refresh);
         //hideView(appBarLayout);
-        getListScheduleData();
+
+        //Role
+        if (role.equals("guru")){
+            getListScheduleGuruData();
+        }else{
+            getListScheduleSiswa();
+        }
         Log.d("titleBottomSheet", "title: " + title);
         shTitle.setText(title);
 
@@ -125,13 +136,17 @@ public class JobsBottomSheet extends BottomSheetDialogFragment {
             @Override
             public void onClick(View v) {
                 progressBar.setVisibility(View.VISIBLE);
-                getListScheduleData();
+                if (role.equals("guru")){
+                    getListScheduleGuruData();
+                }else{
+                    getListScheduleSiswa();
+                }
             }
         });
         return dialog;
     }
 
-    private void getListScheduleData() {
+    private void getListScheduleGuruData() {
         SharedPreferences getId_user = getActivity().getSharedPreferences("userInfo", 0);
         int id_user = getId_user.getInt("id", 0);
         String token = getActivity().getSharedPreferences("session", 0).getString("token", "");
@@ -176,6 +191,10 @@ public class JobsBottomSheet extends BottomSheetDialogFragment {
                         }
                     } catch (Exception e) {
                         e.printStackTrace();
+                        progressBar.setVisibility(View.GONE);
+                        btnRefresh.setVisibility(View.VISIBLE);
+                        shMessage.setVisibility(View.VISIBLE);
+                        shMessage.setText("Unknown error");
                     }
                 } else {
                     switch (response.code()){
@@ -223,6 +242,57 @@ public class JobsBottomSheet extends BottomSheetDialogFragment {
                 Log.d("ScheduleFragment", "System error : " + t.getMessage());
             }
         });
+    }
+
+    private void getListScheduleSiswa(){
+        SharedPreferences getId_user = getActivity().getSharedPreferences("userInfo", 0);
+        int id_user = getId_user.getInt("id", 0);
+        String token = getActivity().getSharedPreferences("session", 0).getString("token", "");
+        Log.d("tokenvalue", "value: " + token);
+        Log.d("tokenvalue", "value: " + id_user);
+        APIService api = APIClient.getClient().create(APIService.class);
+        Call<ResponseStudent> StudentSchedule = api.getSiswaSchedule(id_user, "Bearer " + token);
+        StudentSchedule.enqueue(new Callback<ResponseStudent>() {
+            @Override
+            public void onResponse(Call<ResponseStudent> call, Response<ResponseStudent> response) {
+                if(response.isSuccessful()){
+                    if (response.body() != null){
+                        try {
+                            for (int i = 0; i < response.body().getSchedule().size(); i++){
+                                if (response.body().getSchedule().get(i).getDays().equals(title)) {
+                                    list.add(response.body().getSchedule().get(i));
+                                }
+                            }
+                            rv_schedule.setVisibility(View.VISIBLE);
+                            shMessage.setVisibility(View.GONE);
+                            btnRefresh.setVisibility(View.GONE);
+                            progressBar.setVisibility(View.GONE);
+                            rv_schedule.setLayoutManager(new LinearLayoutManager(getActivity()));
+                            adapter = new ScheduleListAdapter(list, getActivity());
+                            rv_schedule.setAdapter(adapter);
+                            Log.d("sendparameter", "isSuccess : true");
+                            Log.d("ScheduleFragment", "Success: " + response.body().getSchedule());
+                        }catch (Exception e){
+                            e.printStackTrace();
+                            shMessage.setVisibility(View.VISIBLE);
+                            shMessage.setText("Can't connect to server, please check your internet connection");
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseStudent> call, Throwable t) {
+                progressBar.setVisibility(View.GONE);
+                btnRefresh.setVisibility(View.VISIBLE);
+                shMessage.setVisibility(View.VISIBLE);
+                shMessage.setText("Can't connect to server, please check your internet connection");
+                Log.d("ScheduleFragment", "System error : " + t.getMessage());
+            }
+        });
+
+
+
     }
 
     private void hideView(View view) {

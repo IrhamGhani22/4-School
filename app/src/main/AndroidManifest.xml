@@ -21,8 +21,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".ui.attendance.FormClassRoomActivity"></activity>
-        <activity android:name=".ui.attendance.ClassRoomActivity" />
+        <activity android:name=".ui.classroom.FormClassRoomActivity"></activity>
+        <activity android:name=".ui.classroom.ClassRoomActivity" />
         <activity android:name=".Auth.Register" />
         <activity android:name=".ForgotPassword" />
         <activity

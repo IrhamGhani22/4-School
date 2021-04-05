@@ -9,6 +9,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -41,6 +42,8 @@ public class ClassListAdapter extends RecyclerView.Adapter<ClassListAdapter.List
     public void onBindViewHolder(@NonNull final ListViewHolder holder, final int position) {
         if(position == 0){
             holder.containerHeader.setVisibility(View.VISIBLE);
+            holder.row_main_card.setClickable(false);
+            holder.row_main_card.setForeground(null);
             holder.containerMain.setVisibility(View.GONE);
             holder.shlevel_header.setText(headerContent[1]);
             holder.shinfoclass_header.setText(headerContent[2]);
@@ -77,6 +80,7 @@ public class ClassListAdapter extends RecyclerView.Adapter<ClassListAdapter.List
         TextView shtgl, shtype, shtittle, shcompletedcount, btnCheck, shlevel_header, shinfoclass_header, shCountmember_header, shBtnAssignment;
         ImageButton btnInfo;
         ConstraintLayout containerHeader, containerMain;
+        CardView row_main_card;
         public ListViewHolder(@NonNull View itemView) {
             super(itemView);
             shtgl = itemView.findViewById(R.id.shtglclass);
@@ -91,6 +95,7 @@ public class ClassListAdapter extends RecyclerView.Adapter<ClassListAdapter.List
             shCountmember_header = itemView.findViewById(R.id.shclass_count_member);
             shBtnAssignment = itemView.findViewById(R.id.shclass_assignment_menu);
             btnInfo = itemView.findViewById(R.id.btn_info);
+            row_main_card = itemView.findViewById(R.id.row_class_card_main);
         }
     }
 }

@@ -1,4 +1,4 @@
-package com.application.a4_school.ui.attendance;
+package com.application.a4_school.ui.classroom;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -10,20 +10,17 @@ import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.application.a4_school.Models.ClassRoom;
 import com.application.a4_school.Models.ClassRoomData;
 import com.application.a4_school.R;
 import com.application.a4_school.RestAPI.APIClient;
 import com.application.a4_school.RestAPI.APIService;
-import com.application.a4_school.RestAPI.ResponseData;
 import com.application.a4_school.adapter.ClassListAdapter;
 import com.google.gson.JsonObject;
 
-import org.json.JSONObject;
-
 import java.util.ArrayList;
 
-import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -32,6 +29,7 @@ public class ClassRoomActivity extends AppCompatActivity {
     private RecyclerView rvClassroom;
     private ClassListAdapter adapter;
     private ArrayList<ClassRoom> list = new ArrayList<>();
+    private LottieAnimationView loading_classroom;
     private static String[] headerClassContent;
     TextView btnInput;
     @Override
@@ -54,6 +52,7 @@ public class ClassRoomActivity extends AppCompatActivity {
     public void initialize(){
         rvClassroom = findViewById(R.id.rv_class);
         btnInput = findViewById(R.id.addInputFormClass);
+        loading_classroom = findViewById(R.id.loading_classroom);
     }
 
     public void getListClass(String id_class){
@@ -72,6 +71,7 @@ public class ClassRoomActivity extends AppCompatActivity {
                     };
                     adapter = new ClassListAdapter(list, headerClassContent, ClassRoomActivity.this);
                     rvClassroom.setAdapter(adapter);
+                    loading_classroom.setVisibility(View.GONE);
                 }else{
                     Log.d("classinfo", ""+response.body().getAsJsonObject("class_info"));
                 }

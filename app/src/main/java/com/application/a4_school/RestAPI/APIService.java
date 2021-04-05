@@ -28,12 +28,13 @@ public interface APIService {
     })
     @POST("login")
     Call<ResponseBody> login(@Field("email") String email,
-                                @Field("password") String password);
-                                //@Field("fcm_token") String fcm_token);
+                             @Field("password") String password);
+    //@Field("fcm_token") String fcm_token);
 
     @GET("logout/{id}")
     Call<ResponseBody> logoutUser(@Path("id") String id_user,
                                   @Query("token") String logoutToken);
+
     @FormUrlEncoded
     @POST("register")
     Call<ResponseBody> register(@Field("email") String email,
@@ -45,8 +46,23 @@ public interface APIService {
     Call<ResponseBody> uploadBase64Pict(@Path("id") int id_user, @Field("photo") String encodedPhoto);
 
     @FormUrlEncoded
+    @POST("SiswaSchedule")
+    Call<ResponseStudent> getSiswaSchedule(@Field("id") int id_user, @Header("Authorization") String jwt_token);
+
+    @FormUrlEncoded
     @POST("GuruSchedule")
-    Call<ResponseData> getListSchedule(@Field("id") int id_user, @Header("Authorization") String token);
+    Call<ResponseData> getListSchedule(@Field("id") int id_user, @Header("Authorization") String jwt_token);
+
     @GET("classData")
     Call<JsonObject> getClassInformation (@Query("id_kelas") String id_class);
+
+    @FormUrlEncoded
+    @POST("GuruSchedule/upload-materi")
+    Call<ResponseBody> uploadTaskTheory (@Field("id_kelas") String id_class,
+                                         @Field("id_matpel") String id_matpel,
+                                         @Field("judul") String title,
+                                         @Field("deskripsi") String description,
+                                         @Field("tipe") String type,
+                                         @Field("tenggat") String deadline,
+                                         @Header("Authorization") String jwt_token);
 }

@@ -36,10 +36,15 @@ import retrofit2.Response;
 public class ScheduleFragment extends Fragment {
     RecyclerView rv_Schedule;
     private static ScheduleFragment instance;
+    private String role;
     Context context;
     GridScheduleAdapter gridHeroAdapter;
     private ArrayList<Schedule> list = new ArrayList<>();
     int listSize;
+
+    public ScheduleFragment(String role) {
+        this.role = role;
+    }
 
     public static ScheduleFragment getInstance() {
         return instance;
@@ -72,8 +77,7 @@ public class ScheduleFragment extends Fragment {
         gridHeroAdapter.setOnItemClickCallback(new GridScheduleAdapter.OnItemClickCallback() {
             @Override
             public void onItemClicked(Schedule dataSchedule) {
-                Toast.makeText(getActivity(), dataSchedule.getDays(), Toast.LENGTH_SHORT).show();
-                final JobsBottomSheet jobsBottomSheet = new JobsBottomSheet(dataSchedule.getDays());
+                final JobsBottomSheet jobsBottomSheet = new JobsBottomSheet(dataSchedule.getDays(), role);
                 jobsBottomSheet.show(getFragmentManager(), jobsBottomSheet.getTag());
             }
         });

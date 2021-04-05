@@ -3,8 +3,8 @@ package com.application.a4_school.Models;
 import java.util.ArrayList;
 
 public class ClassRoomData {
-    public static int[] id_attendance = new int[]{
-            0,1, 2, 3, 4, 5
+    public static String[] id_classRoom = new String[]{
+            "0","1", "2", "3", "4", "5"
     };
 
     public static String[] date = new String[]{
@@ -42,13 +42,13 @@ public class ClassRoomData {
         ArrayList<ClassRoom> list = new ArrayList<>();
 
         for (int i = 0; i<6; i++){
-            ClassRoom attendance = new ClassRoom();
-            attendance.setId_attendance(id_attendance[i]);
-            attendance.setDate(date[i]);
-            attendance.setType(type[i]);
-            attendance.setTitle(tittle[i]);
-            attendance.setCompletedcount(completedcount[i]);
-            list.add(attendance);
+            ClassRoom classRoom = new ClassRoom();
+            classRoom.setId_classRoom(id_classRoom[i]);
+            classRoom.setDate(date[i]);
+            classRoom.setType(type[i]);
+            classRoom.setTitle(tittle[i]);
+            classRoom.setCompletedcount(completedcount[i]);
+            list.add(classRoom);
         }
         return list;
     }

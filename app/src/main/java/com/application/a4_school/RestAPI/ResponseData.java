@@ -1,5 +1,6 @@
 package com.application.a4_school.RestAPI;
 
+import com.application.a4_school.Models.ClassRoom;
 import com.application.a4_school.Models.Schedule;
 import com.google.gson.annotations.SerializedName;
 
@@ -8,6 +9,7 @@ import java.util.List;
 public class ResponseData {
     private String image_url;
     private List<Schedule> jadwal_mengajar;
+    private List<ClassRoom> index_class_siswa;
     @SerializedName("message")
     private String messageJson;
 

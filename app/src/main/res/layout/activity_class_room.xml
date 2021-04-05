@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@color/whiteDefault"
-    tools:context=".ui.attendance.ClassRoomActivity">
+    tools:context=".ui.classroom.ClassRoomActivity">
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
@@ -40,6 +40,14 @@
         </androidx.appcompat.widget.Toolbar>
     </com.google.android.material.appbar.AppBarLayout>
 
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/loading_classroom"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        app:lottie_fileName="books_loading_class.json"
+        app:lottie_loop="true"
+        app:lottie_autoPlay="true"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_class"
