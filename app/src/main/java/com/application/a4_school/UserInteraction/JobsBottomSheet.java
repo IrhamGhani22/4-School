@@ -269,6 +269,15 @@ public class JobsBottomSheet extends BottomSheetDialogFragment {
                             progressBar.setVisibility(View.GONE);
                             rv_schedule.setLayoutManager(new LinearLayoutManager(getActivity()));
                             adapter = new ScheduleListAdapter(list, role,getActivity());
+                            adapter.setOnItemClickCallback(new GridScheduleAdapter.OnItemClickCallback() {
+                                @Override
+                                public void onItemClicked(Schedule dataSchedule) {
+                                    Intent toAttendance = new Intent(getActivity(), ClassRoomActivity.class);
+                                    toAttendance.putExtra("EXTRA_CLASS", dataSchedule.getId_kelas());
+                                    dismiss();
+                                    startActivity(toAttendance);
+                                }
+                            });
                             rv_schedule.setAdapter(adapter);
                             Log.d("sendparameter", "isSuccess : true");
                             Log.d("ScheduleFragment", "Success: " + response.body().getSchedule());
