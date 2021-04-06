@@ -83,7 +83,7 @@ public class HomeFragment extends Fragment {
     public void showList() {
         homeList.addAll(HomeData.getlisthome());
         rv.setLayoutManager(new LinearLayoutManager(getActivity()));
-        adapter = new HomeListAdapter(homeList, getActivity());
+        adapter = new HomeListAdapter(role, homeList, getActivity());
         adapter.notifyDataSetChanged();
         rv.setAdapter(adapter);
         adapter.setOnItemClickCallback(new HomeListAdapter.OnItemClickCallbackHome() {
