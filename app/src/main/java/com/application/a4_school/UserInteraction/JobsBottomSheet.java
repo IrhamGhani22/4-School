@@ -287,6 +287,39 @@ public class JobsBottomSheet extends BottomSheetDialogFragment {
                             shMessage.setText("Can't connect to server, please check your internet connection");
                         }
                     }
+                }else {
+                    switch (response.code()){
+                        case 401:
+                            progressBar.setVisibility(View.GONE);
+                            btnRefresh.setVisibility(View.VISIBLE);
+                            btnRefresh.setText("Relogin here");
+                            shMessage.setVisibility(View.VISIBLE);
+                            shMessage.setText("The session has ended, please login again");
+                            btnRefresh.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    userInfoStorage.clearUser();
+                                    sessionManager.preferenceLogout();
+                                    startActivity(new Intent(getActivity(), Login.class));
+                                    getActivity().finishAffinity();
+                                }
+                            });
+                            break;
+
+                        case 422:
+                            progressBar.setVisibility(View.GONE);
+                            btnRefresh.setVisibility(View.VISIBLE);
+                            shMessage.setVisibility(View.VISIBLE);
+                            shMessage.setText("An error occurs, please refresh first");
+                            break;
+
+                        default:
+                            progressBar.setVisibility(View.GONE);
+                            btnRefresh.setVisibility(View.VISIBLE);
+                            shMessage.setVisibility(View.VISIBLE);
+                            shMessage.setText("Unknown error");
+                            break;
+                    }
                 }
             }
 
