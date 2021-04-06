@@ -46,6 +46,10 @@ public interface APIService {
     Call<ResponseBody> uploadBase64Pict(@Path("id") int id_user, @Field("photo") String encodedPhoto);
 
     @FormUrlEncoded
+    @POST("SiswaSchedule")
+    Call<ResponseStudent> getSiswaSchedule(@Field("id") int id_user, @Header("Authorization") String jwt_token);
+
+    @FormUrlEncoded
     @POST("GuruSchedule")
     Call<ResponseData> getListSchedule(@Field("id") int id_user, @Header("Authorization") String jwt_token);
 
