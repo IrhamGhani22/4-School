@@ -245,13 +245,13 @@ public class JobsBottomSheet extends BottomSheetDialogFragment {
     }
 
     private void getListScheduleSiswa(){
-        SharedPreferences getId_user = getActivity().getSharedPreferences("userInfo", 0);
-        int id_user = getId_user.getInt("id", 0);
+        SharedPreferences getId_class = getActivity().getSharedPreferences("userInfo", 0);
+        String id_class = getId_class.getString("id_class", "");
         String token = getActivity().getSharedPreferences("session", 0).getString("token", "");
         Log.d("tokenvalue", "value: " + token);
-        Log.d("tokenvalue", "value: " + id_user);
+        Log.d("tokenvalue", "value: " + id_class);
         APIService api = APIClient.getClient().create(APIService.class);
-        Call<ResponseStudent> StudentSchedule = api.getSiswaSchedule(id_user, "Bearer " + token);
+        Call<ResponseStudent> StudentSchedule = api.getSiswaSchedule(id_class, "Bearer " + token);
         StudentSchedule.enqueue(new Callback<ResponseStudent>() {
             @Override
             public void onResponse(Call<ResponseStudent> call, Response<ResponseStudent> response) {

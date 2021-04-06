@@ -47,7 +47,7 @@ public interface APIService {
 
     @FormUrlEncoded
     @POST("SiswaSchedule")
-    Call<ResponseStudent> getSiswaSchedule(@Field("id") int id_user, @Header("Authorization") String jwt_token);
+    Call<ResponseStudent> getSiswaSchedule(@Field("id_kelas") String id_class, @Header("Authorization") String jwt_token);
 
     @FormUrlEncoded
     @POST("GuruSchedule")

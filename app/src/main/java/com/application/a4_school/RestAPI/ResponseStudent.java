@@ -12,6 +12,7 @@ public class ResponseStudent {
     private String image;
     @SerializedName("message")
     private String messageJson;
+    @SerializedName("jadwal_pelajaran")
     private ArrayList<Schedule> schedule;
 
     public String getMessageJson() {

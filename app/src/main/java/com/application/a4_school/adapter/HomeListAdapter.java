@@ -42,11 +42,13 @@ public class HomeListAdapter extends RecyclerView.Adapter<HomeListAdapter.HomeVi
     @Override
     public void onBindViewHolder(@NonNull final HomeViewHolder holder, int position) {
         if (role.equals("siswa")){
-            if (list.get(position).getJudul().equals("JOBS")){
+            if (list.get(position).getJudul().equals("JOBS") && position == 0){
                 holder.shtitle.setText("CLASS");
             }else {
                 holder.shtitle.setText(list.get(position).getJudul());
             }
+        }else{
+            holder.shtitle.setText(list.get(position).getJudul());
         }
         holder.shRoom.setText(list.get(position).getDetail());
         final int sdk = android.os.Build.VERSION.SDK_INT;
