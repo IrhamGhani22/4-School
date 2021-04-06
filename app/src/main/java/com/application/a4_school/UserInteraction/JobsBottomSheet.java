@@ -91,9 +91,9 @@ public class JobsBottomSheet extends BottomSheetDialogFragment {
 
         //Role
         if (role.equals("guru")){
-            getListScheduleGuruData();
+            getListScheduleGuruData(role);
         }else{
-            getListScheduleSiswa();
+            getListScheduleSiswa(role);
         }
         Log.d("titleBottomSheet", "title: " + title);
         shTitle.setText(title);
@@ -137,16 +137,16 @@ public class JobsBottomSheet extends BottomSheetDialogFragment {
             public void onClick(View v) {
                 progressBar.setVisibility(View.VISIBLE);
                 if (role.equals("guru")){
-                    getListScheduleGuruData();
+                    getListScheduleGuruData(role);
                 }else{
-                    getListScheduleSiswa();
+                    getListScheduleSiswa(role);
                 }
             }
         });
         return dialog;
     }
 
-    private void getListScheduleGuruData() {
+    private void getListScheduleGuruData(final String role) {
         SharedPreferences getId_user = getActivity().getSharedPreferences("userInfo", 0);
         int id_user = getId_user.getInt("id", 0);
         String token = getActivity().getSharedPreferences("session", 0).getString("token", "");
@@ -175,7 +175,7 @@ public class JobsBottomSheet extends BottomSheetDialogFragment {
                             btnRefresh.setVisibility(View.GONE);
                             progressBar.setVisibility(View.GONE);
                             rv_schedule.setLayoutManager(new LinearLayoutManager(getActivity()));
-                            adapter = new ScheduleListAdapter(list, getActivity());
+                            adapter = new ScheduleListAdapter(list, role,getActivity());
                             rv_schedule.setAdapter(adapter);
                             adapter.setOnItemClickCallback(new GridScheduleAdapter.OnItemClickCallback() {
                                 @Override
@@ -244,7 +244,7 @@ public class JobsBottomSheet extends BottomSheetDialogFragment {
         });
     }
 
-    private void getListScheduleSiswa(){
+    private void getListScheduleSiswa(final String role){
         SharedPreferences getId_class = getActivity().getSharedPreferences("userInfo", 0);
         String id_class = getId_class.getString("id_class", "");
         String token = getActivity().getSharedPreferences("session", 0).getString("token", "");
@@ -268,7 +268,16 @@ public class JobsBottomSheet extends BottomSheetDialogFragment {
                             btnRefresh.setVisibility(View.GONE);
                             progressBar.setVisibility(View.GONE);
                             rv_schedule.setLayoutManager(new LinearLayoutManager(getActivity()));
-                            adapter = new ScheduleListAdapter(list, getActivity());
+                            adapter = new ScheduleListAdapter(list, role,getActivity());
+                            adapter.setOnItemClickCallback(new GridScheduleAdapter.OnItemClickCallback() {
+                                @Override
+                                public void onItemClicked(Schedule dataSchedule) {
+                                    Intent toAttendance = new Intent(getActivity(), ClassRoomActivity.class);
+                                    toAttendance.putExtra("EXTRA_CLASS", dataSchedule.getId_kelas());
+                                    dismiss();
+                                    startActivity(toAttendance);
+                                }
+                            });
                             rv_schedule.setAdapter(adapter);
                             Log.d("sendparameter", "isSuccess : true");
                             Log.d("ScheduleFragment", "Success: " + response.body().getSchedule());
