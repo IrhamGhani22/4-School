@@ -40,7 +40,7 @@ public class ClassRoomActivity extends AppCompatActivity {
         initialize();
         rvClassroom.setLayoutManager(new LinearLayoutManager(this));
         String id_class = getIntent().getStringExtra("EXTRA_CLASS");
-        getListClass(id_class);
+        getInfoClass(id_class);
         btnInput.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -55,7 +55,7 @@ public class ClassRoomActivity extends AppCompatActivity {
         loading_classroom = findViewById(R.id.loading_classroom);
     }
 
-    public void getListClass(final String id_class){
+    public void getInfoClass(final String id_class){
         final String token = getSharedPreferences("session", 0).getString("token", "");
         final APIService api = APIClient.getClient().create(APIService.class);
         Call<JsonObject> loadClassInformation= api.getClassInformation(id_class);
@@ -84,7 +84,7 @@ public class ClassRoomActivity extends AppCompatActivity {
         });
     }
 
-    public void getItemClass(APIService api, String id_class, String token,final String[] headerClassContent){
+    public void getItemClass(APIService api, final String id_class, String token, final String[] headerClassContent){
         Call<ResponseData> loadClassRoomData = api.getListClassItem(id_class, "Bearer "+token);
         loadClassRoomData.enqueue(new Callback<ResponseData>() {
             @Override
@@ -92,7 +92,7 @@ public class ClassRoomActivity extends AppCompatActivity {
                 if (response.isSuccessful()){
                     list.addAll(ClassRoomData.getlistClassroom());
                     list.addAll(response.body().getIndex_class_guru());
-                    adapter = new ClassListAdapter(list, headerClassContent, ClassRoomActivity.this);
+                    adapter = new ClassListAdapter(list, headerClassContent, id_class,ClassRoomActivity.this);
                     rvClassroom.setAdapter(adapter);
                     loading_classroom.setVisibility(View.GONE);
                     Log.d("getClassData", "success : "+response.body().getIndex_class_guru());

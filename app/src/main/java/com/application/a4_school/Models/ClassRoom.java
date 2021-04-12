@@ -18,6 +18,7 @@ public class ClassRoom {
     private String date;
     @SerializedName("file")
     private String file_url;
+    @SerializedName("completed_count")
     private int completedcount;
 
     public String getDate() {

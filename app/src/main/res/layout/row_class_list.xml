@@ -70,6 +70,8 @@
                 android:padding="5dp"
                 android:textColor="@android:color/white"
                 android:textSize="12sp"
+                android:background="@drawable/button_transparent_clickable"
+                android:clickable="true"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/shinfoclass_nav"
                 tools:text="36 members" />

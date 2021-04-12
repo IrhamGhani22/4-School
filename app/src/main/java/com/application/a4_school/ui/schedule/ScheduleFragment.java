@@ -1,13 +1,11 @@
 package com.application.a4_school.ui.schedule;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -15,16 +13,14 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
-import com.application.a4_school.Auth.Login;
 import com.application.a4_school.Models.Schedule;
 import com.application.a4_school.Models.ScheduleData;
 import com.application.a4_school.R;
 import com.application.a4_school.RestAPI.APIClient;
 import com.application.a4_school.RestAPI.APIService;
 import com.application.a4_school.RestAPI.ResponseData;
-import com.application.a4_school.UserInteraction.JobsBottomSheet;
+import com.application.a4_school.UserInteraction.BottomSheet;
 import com.application.a4_school.adapter.GridScheduleAdapter;
 
 import java.util.ArrayList;
@@ -77,8 +73,8 @@ public class ScheduleFragment extends Fragment {
         gridHeroAdapter.setOnItemClickCallback(new GridScheduleAdapter.OnItemClickCallback() {
             @Override
             public void onItemClicked(Schedule dataSchedule) {
-                final JobsBottomSheet jobsBottomSheet = new JobsBottomSheet(dataSchedule.getDays(), role);
-                jobsBottomSheet.show(getFragmentManager(), jobsBottomSheet.getTag());
+                final BottomSheet bottomSheet = new BottomSheet(dataSchedule.getDays(), role, "jobsorclass");
+                bottomSheet.show(getFragmentManager(), bottomSheet.getTag());
             }
         });
     }

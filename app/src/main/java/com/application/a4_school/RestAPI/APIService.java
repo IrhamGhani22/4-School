@@ -67,8 +67,10 @@ public interface APIService {
                                          @Header("Authorization") String jwt_token);
 
 
-    @POST("GuruSchedule/index_classroom_guru/{id_kelas}")
+    @GET("GuruSchedule/index_classroom_guru/{id_kelas}")
     Call<ResponseData> getListClassItem (@Path("id_kelas") String id_class, @Header("Authorization") String jwt_token);
 
+    @GET("index_classroom/memberclass")
+    Call<ResponseData> getListMembersClass (@Query("id_kelas") String id_class, @Query("page") int page);
 
 }

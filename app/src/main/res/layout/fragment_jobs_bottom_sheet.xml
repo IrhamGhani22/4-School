@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@drawable/bottom_sheet_bg"
     android:orientation="vertical"
-    tools:context=".UserInteraction.JobsBottomSheet">
+    tools:context=".UserInteraction.BottomSheet">
 
     <View
         android:layout_width="80dp"
@@ -124,7 +124,7 @@
                 android:visibility="gone" />
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rv_schedule"
+                android:id="@+id/rv_bottomsheet"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginTop="8dp"
