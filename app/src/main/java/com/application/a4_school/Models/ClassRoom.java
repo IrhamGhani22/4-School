@@ -1,20 +1,25 @@
 package com.application.a4_school.Models;
 
+import com.google.gson.annotations.SerializedName;
+
 public class ClassRoom {
-    private int id_classRoom;
-    private String date;
-    private String type;
+    @SerializedName("id_kelas")
+    private String id_classRoom;
+    private String nama_matpel;
+    @SerializedName("judul")
     private String title;
+    @SerializedName("deskripsi")
     private String description;
+    @SerializedName("tipe")
+    private String type;
+    @SerializedName("tenggat")
+    private String deadline;
+    @SerializedName("created_at")
+    private String date;
+    @SerializedName("file")
+    private String file_url;
+    @SerializedName("completed_count")
     private int completedcount;
-
-    public int getId_attendance() {
-        return id_classRoom;
-    }
-
-    public void setId_attendance(int id_classRoom) {
-        this.id_classRoom = id_classRoom;
-    }
 
     public String getDate() {
         return date;
@@ -48,11 +53,43 @@ public class ClassRoom {
         this.description = description;
     }
 
+    public String getFile_url() {
+        return file_url;
+    }
+
+    public void setFile_url(String file_url) {
+        this.file_url = file_url;
+    }
+
     public int getCompletedcount() {
         return completedcount;
     }
 
     public void setCompletedcount(int completedcount) {
         this.completedcount = completedcount;
+    }
+
+    public String getId_classRoom() {
+        return id_classRoom;
+    }
+
+    public void setId_classRoom(String id_classRoom) {
+        this.id_classRoom = id_classRoom;
+    }
+
+    public String getNama_matpel() {
+        return nama_matpel;
+    }
+
+    public void setNama_matpel(String nama_matpel) {
+        this.nama_matpel = nama_matpel;
+    }
+
+    public String getDeadline() {
+        return deadline;
+    }
+
+    public void setDeadline(String deadline) {
+        this.deadline = deadline;
     }
 }

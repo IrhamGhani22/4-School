@@ -16,6 +16,7 @@ import com.application.a4_school.Models.ClassRoomData;
 import com.application.a4_school.R;
 import com.application.a4_school.RestAPI.APIClient;
 import com.application.a4_school.RestAPI.APIService;
+import com.application.a4_school.RestAPI.ResponseData;
 import com.application.a4_school.adapter.ClassListAdapter;
 import com.google.gson.JsonObject;
 
@@ -37,10 +38,9 @@ public class ClassRoomActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_class_room);
         initialize();
-        list.addAll(ClassRoomData.getlistClassroom());
         rvClassroom.setLayoutManager(new LinearLayoutManager(this));
         String id_class = getIntent().getStringExtra("EXTRA_CLASS");
-        getListClass(id_class);
+        getInfoClass(id_class);
         btnInput.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -55,8 +55,9 @@ public class ClassRoomActivity extends AppCompatActivity {
         loading_classroom = findViewById(R.id.loading_classroom);
     }
 
-    public void getListClass(String id_class){
-        APIService api = APIClient.getClient().create(APIService.class);
+    public void getInfoClass(final String id_class){
+        final String token = getSharedPreferences("session", 0).getString("token", "");
+        final APIService api = APIClient.getClient().create(APIService.class);
         Call<JsonObject> loadClassInformation= api.getClassInformation(id_class);
         loadClassInformation.enqueue(new Callback<JsonObject>() {
             @Override
@@ -69,9 +70,8 @@ public class ClassRoomActivity extends AppCompatActivity {
                             object.get("jurusan").toString().replaceAll("\"", ""),
                             object.get("class_member").toString().replaceAll("\"", "")
                     };
-                    adapter = new ClassListAdapter(list, headerClassContent, ClassRoomActivity.this);
-                    rvClassroom.setAdapter(adapter);
-                    loading_classroom.setVisibility(View.GONE);
+                    getItemClass(api, id_class, token, headerClassContent);
+
                 }else{
                     Log.d("classinfo", ""+response.body().getAsJsonObject("class_info"));
                 }
@@ -80,6 +80,30 @@ public class ClassRoomActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<JsonObject> call, Throwable t) {
                 Log.d("classinfo", ""+t.getMessage());
+            }
+        });
+    }
+
+    public void getItemClass(APIService api, final String id_class, String token, final String[] headerClassContent){
+        Call<ResponseData> loadClassRoomData = api.getListClassItem(id_class, "Bearer "+token);
+        loadClassRoomData.enqueue(new Callback<ResponseData>() {
+            @Override
+            public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
+                if (response.isSuccessful()){
+                    list.addAll(ClassRoomData.getlistClassroom());
+                    list.addAll(response.body().getIndex_class_guru());
+                    adapter = new ClassListAdapter(list, headerClassContent, id_class,ClassRoomActivity.this);
+                    rvClassroom.setAdapter(adapter);
+                    loading_classroom.setVisibility(View.GONE);
+                    Log.d("getClassData", "success : "+response.body().getIndex_class_guru());
+                }else{
+                    Log.d("getClassData", "response not success");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseData> call, Throwable t) {
+                Log.d("getClassData", "response not success"+t.getMessage());
             }
         });
     }

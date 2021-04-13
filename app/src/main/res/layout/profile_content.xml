@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout android:layout_marginTop="20dp"
+<LinearLayout xmlns:tools="http://schemas.android.com/tools"
+    android:layout_marginTop="20dp"
     app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -9,8 +10,6 @@
     android:layout_weight="1"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-
-
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -39,20 +38,20 @@
             android:text="Email"
             android:textSize="15sp"
             android:fontFamily="@font/poppins_regular"
-            app:layout_constraintBottom_toTopOf="@id/nama"
+            app:layout_constraintBottom_toTopOf="@id/email_profile"
             app:layout_constraintLeft_toRightOf="@+id/icon_email"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/nama"
-            android:layout_width="wrap_content"
+            android:id="@+id/email_profile"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/poppins_regular"
             android:text="181911724.siswa@smkn4bdg.sch.id"
             android:textColor="@android:color/black"
-            android:maxEms="10"
-            android:fontFamily="@font/poppins_regular"
             android:textSize="17sp"
             app:layout_constraintLeft_toRightOf="@id/icon_email"
+            app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/judul_email" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -90,14 +89,15 @@
 
         <TextView
             android:id="@+id/kelas"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="XIIRPL2"
             android:fontFamily="@font/poppins_regular"
             android:textColor="@android:color/black"
             android:textSize="17sp"
             app:layout_constraintLeft_toRightOf="@id/icon_class"
-            app:layout_constraintTop_toBottomOf="@+id/judul_kelas" />
+            app:layout_constraintTop_toBottomOf="@+id/judul_kelas"
+            app:layout_constraintRight_toRightOf="parent"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -134,14 +134,15 @@
 
         <TextView
             android:id="@+id/jurusan"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="Rekayasa Perangkat Lunak"
             android:textColor="@android:color/black"
             android:textSize="17sp"
             android:fontFamily="@font/poppins_regular"
             app:layout_constraintLeft_toRightOf="@id/icon_telp"
-            app:layout_constraintTop_toBottomOf="@+id/judul_telp" />
+            app:layout_constraintTop_toBottomOf="@+id/judul_telp"
+            app:layout_constraintRight_toRightOf="parent"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -178,14 +179,42 @@
 
         <TextView
             android:id="@+id/tanggal"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="16 Oktober 2021"
             android:textColor="@android:color/black"
             android:textSize="17sp"
             android:fontFamily="@font/poppins_regular"
             app:layout_constraintLeft_toRightOf="@id/icon_ttl"
-            app:layout_constraintTop_toBottomOf="@+id/judul_ttl" />
+            app:layout_constraintTop_toBottomOf="@+id/judul_ttl"
+            app:layout_constraintRight_toRightOf="parent"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_card_profile"
+        android:paddingTop="20dp"
+        android:paddingBottom="30dp"
+        android:paddingRight="30dp"
+        android:paddingLeft="20dp"
+        android:layout_marginTop="-20dp">
+
+        <Button
+            android:id="@+id/edtprofile"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:backgroundTint="@color/BluePurple"
+            android:fontFamily="@font/poppins_regular"
+            android:text="Edit Profile"
+            android:textAllCaps="false"
+            android:textColor="#fff"
+            android:layout_marginBottom="10dp"
+            android:textSize="20sp"
+            tools:ignore="MissingConstraints" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
 </LinearLayout>

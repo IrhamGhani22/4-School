@@ -21,7 +21,8 @@
             android:layout_height="wrap_content"
             android:padding="30dp">
             <Button
-                android:layout_width="50dp"
+                android:id="@+id/backprofile"
+                android:layout_width="48dp"
                 android:layout_height="wrap_content"
                 android:background="@drawable/btn_back_blue" />
         </LinearLayout>
@@ -86,8 +87,9 @@
             android:layout_height="wrap_content"
             app:layout_constraintLeft_toRightOf="@id/icon_nama"
             app:layout_constraintTop_toTopOf="parent"
-            app:boxStrokeColor="@color/BlueishPurple"
-            android:textColorHint="@color/BlueishPurple"
+            app:boxStrokeColor="@color/SkyBlue"
+            android:textColorHint="@color/SkyBlue"
+            app:boxStrokeWidth="5dp"
             app:layout_constraintRight_toRightOf="parent"
             android:hint="Nama">
 
@@ -130,8 +132,8 @@
             android:layout_height="wrap_content"
             app:layout_constraintLeft_toRightOf="@id/icon_nis"
             app:layout_constraintTop_toTopOf="parent"
-            app:boxStrokeColor="@color/BlueishPurple"
-            android:textColorHint="@color/BlueishPurple"
+            app:boxStrokeColor="@color/SkyBlue"
+            android:textColorHint="@color/SkyBlue"
             app:layout_constraintRight_toRightOf="parent"
             android:hint="NIS">
 
@@ -173,8 +175,8 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:hint="Email"
-                android:textColorHint="@color/BlueishPurple"
-                app:boxStrokeColor="@color/BlueishPurple"
+                app:boxStrokeColor="@color/SkyBlue"
+                android:textColorHint="@color/SkyBlue"
                 app:layout_constraintLeft_toRightOf="@id/icon_email"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
@@ -217,8 +219,8 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:hint="Kelas"
-                android:textColorHint="@color/BlueishPurple"
-                app:boxStrokeColor="@color/BlueishPurple"
+                app:boxStrokeColor="@color/SkyBlue"
+                android:textColorHint="@color/SkyBlue"
                 app:layout_constraintLeft_toRightOf="@id/icon_class"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
@@ -250,7 +252,7 @@
                 android:layout_height="wrap_content"
                 android:paddingStart="10dp"
                 android:paddingEnd="10dp"
-                android:src="@drawable/ico_cake"
+                android:src="@drawable/ico_rocket"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -262,8 +264,8 @@
                 android:layout_height="wrap_content"
                 app:layout_constraintLeft_toRightOf="@id/icon_jurusan"
                 app:layout_constraintTop_toTopOf="parent"
-                app:boxStrokeColor="@color/BlueishPurple"
-                android:textColorHint="@color/BlueishPurple"
+                app:boxStrokeColor="@color/SkyBlue"
+                android:textColorHint="@color/SkyBlue"
                 app:layout_constraintRight_toRightOf="parent"
                 android:hint="Jurusan">
 
@@ -306,8 +308,8 @@
                 android:layout_height="wrap_content"
                 app:layout_constraintLeft_toRightOf="@id/icon_ttl"
                 app:layout_constraintTop_toTopOf="parent"
-                app:boxStrokeColor="@color/BlueishPurple"
-                android:textColorHint="@color/BlueishPurple"
+                app:boxStrokeColor="@color/SkyBlue"
+                android:textColorHint="@color/SkyBlue"
                 app:layout_constraintRight_toRightOf="parent"
                 android:hint="Tanggal Lahir">
 
@@ -321,6 +323,33 @@
             </com.google.android.material.textfield.TextInputLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_card_profile"
+            android:paddingTop="20dp"
+            android:paddingBottom="30dp"
+            android:paddingRight="30dp"
+            android:paddingLeft="20dp"
+            android:layout_marginTop="-20dp">
+
+            <Button
+                android:id="@+id/btnsave"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:backgroundTint="@color/SkyBlue"
+                android:fontFamily="@font/poppins_regular"
+                android:text="SAVE"
+                android:textAllCaps="false"
+                android:textColor="#fff"
+                android:layout_marginBottom="10dp"
+                android:textSize="20sp"
+                tools:ignore="MissingConstraints" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
 
 
     </LinearLayout>

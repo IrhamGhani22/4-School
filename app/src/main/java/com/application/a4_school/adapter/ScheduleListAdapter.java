@@ -18,11 +18,13 @@ import java.util.List;
 public class ScheduleListAdapter extends RecyclerView.Adapter<ScheduleListAdapter.ListViewHolder>{
     private List<Schedule> list;
     private Context context;
+    String role;
     private GridScheduleAdapter.OnItemClickCallback onItemClickCallback;
 
-    public ScheduleListAdapter(List<Schedule> list, Context context) {
+    public ScheduleListAdapter(List<Schedule> list, String role,Context context) {
         this.list = list;
         this.context = context;
+        this.role = role;
     }
 
     public void setOnItemClickCallback(GridScheduleAdapter.OnItemClickCallback onItemClickCallback) {
@@ -38,10 +40,15 @@ public class ScheduleListAdapter extends RecyclerView.Adapter<ScheduleListAdapte
 
     @Override
     public void onBindViewHolder(@NonNull final ListViewHolder holder, int position) {
-        if (list.get(position).getJam_mulai() != null){
+        if (list.get(position) != null){
+            if (role.equals("guru")){
+                holder.shClass.setText(list.get(position).getTingkatan()+ " " +list.get(position).getJurusan());
+            }else{
+                holder.shClass.setText(list.get(position).getNama_mapel());
+            }
             holder.shTime.setText(list.get(position).getJam_mulai()+" - "+list.get(position).getJam_selesai());
             holder.shRoom.setText(list.get(position).getRuangan());
-            holder.shClass.setText(list.get(position).getTingkatan()+ " " +list.get(position).getJurusan());
+
         }
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override

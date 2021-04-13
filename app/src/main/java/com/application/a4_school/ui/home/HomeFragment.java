@@ -43,10 +43,15 @@ import static com.application.a4_school.R.id.time;
 
 public class HomeFragment extends Fragment {
     private HomeViewModel HomeViewModel;
+    private String role;
     RecyclerView rv;
     HomeListAdapter adapter;
     TextView shName, shGreeting;
     private ArrayList<Home> homeList = new ArrayList<>();
+
+    public HomeFragment(String role) {
+        this.role = role;
+    }
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -78,7 +83,7 @@ public class HomeFragment extends Fragment {
     public void showList() {
         homeList.addAll(HomeData.getlisthome());
         rv.setLayoutManager(new LinearLayoutManager(getActivity()));
-        adapter = new HomeListAdapter(homeList, getActivity());
+        adapter = new HomeListAdapter(role, homeList, getActivity());
         adapter.notifyDataSetChanged();
         rv.setAdapter(adapter);
         adapter.setOnItemClickCallback(new HomeListAdapter.OnItemClickCallbackHome() {
@@ -88,7 +93,7 @@ public class HomeFragment extends Fragment {
                 Fragment fragment = null;
                 switch (homeList.getJudul()) {
                     case "JOBS":
-                        fragment = new ScheduleFragment();
+                        fragment = new ScheduleFragment(role);
                         navigationView.setItemSelected(R.id.nav_jobs, true);
                         getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, fragment).commit();
                         break;

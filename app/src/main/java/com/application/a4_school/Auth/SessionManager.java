@@ -17,9 +17,9 @@ public class SessionManager {
         sharedPreferences = context.getSharedPreferences(REFNAME, mode);
         editor = sharedPreferences.edit();
     }
-    public void createSession(String jwtToken, String role){
+    public void createSession(String jwtToken, String Role){
         editor.putString(token, jwtToken);
-        editor.putString(role, role);
+        editor.putString(role, Role);
         editor.commit();
     }
     public void preferenceLogout(){

@@ -1,6 +1,7 @@
 package com.application.a4_school.adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,10 +12,12 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.application.a4_school.Models.ClassRoom;
 import com.application.a4_school.R;
+import com.application.a4_school.UserInteraction.BottomSheet;
 
 import java.util.List;
 
@@ -22,11 +25,13 @@ public class ClassListAdapter extends RecyclerView.Adapter<ClassListAdapter.List
     private List<ClassRoom> listClassMain;
     private Context context;
     private String[] headerContent;
+    private String id_class;
 
-    public ClassListAdapter(List<ClassRoom> listClassMain, String[] headerContent,Context context) {
+    public ClassListAdapter(List<ClassRoom> listClassMain, String[] headerContent, String id_class, Context context) {
         this.listClassMain = listClassMain;
         this.context = context;
         this.headerContent = headerContent;
+        this.id_class = id_class;
     }
 
     private OnItemClickCallbackHome onItemClickCallbackHome;
@@ -65,6 +70,15 @@ public class ClassListAdapter extends RecyclerView.Adapter<ClassListAdapter.List
                 Toast.makeText(context, ""+ listClassMain.get(position).getTitle(), Toast.LENGTH_SHORT).show();
             }
         });
+        holder.shCountmember_header.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d("openbottommembers", "clicked");
+                BottomSheet bottomSheet = new BottomSheet(id_class ,"memberlist");
+                bottomSheet.show(((FragmentActivity) context).getSupportFragmentManager(), bottomSheet.getTag());
+            }
+        });
+
     }
 
     @Override

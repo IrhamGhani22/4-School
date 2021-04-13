@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.MenuItem;
 
 import com.application.a4_school.ui.help.HelpFragment;
@@ -34,10 +35,10 @@ public class MainActivity extends AppCompatActivity {
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        final String role = getSharedPreferences("session", 0).getString("role", "");
 
         //nampilin awal fragment pertama kali
-        getFragmentPage(new HomeFragment());
-
+        getFragmentPage(new HomeFragment(role));
         ChipNavigationBar navigationView = findViewById(R.id.nav_view);
         navigationView.setItemSelected(R.id.nav_home, true);
         navigationView.setOnItemSelectedListener(new ChipNavigationBar.OnItemSelectedListener() {
@@ -46,19 +47,19 @@ public class MainActivity extends AppCompatActivity {
                 Fragment fragment = null;
                 switch (i){
                     case R.id.nav_home:
-                        fragment = new HomeFragment();
+                        fragment = new HomeFragment(role);
                         break;
                     case R.id.nav_maps:
                         fragment = new MapsFragment();
                         break;
                     case R.id.nav_jobs:
-                        fragment = new ScheduleFragment();
+                        fragment = new ScheduleFragment(role);
                         break;
                     case R.id.nav_help:
                         fragment = new HelpFragment();
                         break;
                     case R.id.nav_profile:
-                        fragment = new ProfileFragment();
+                        fragment = new ProfileFragment(role);
                         break;
                 }
 

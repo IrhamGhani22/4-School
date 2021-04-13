@@ -12,7 +12,6 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.application.a4_school.Models.Home;
-import com.application.a4_school.Models.Schedule;
 import com.application.a4_school.R;
 
 import java.util.List;
@@ -20,18 +19,18 @@ import java.util.List;
 public class HomeListAdapter extends RecyclerView.Adapter<HomeListAdapter.HomeViewHolder> {
     private List<Home> list;
     private Context context;
+    private String role;
     private OnItemClickCallbackHome onItemClickCallback;
 
-    public HomeListAdapter(List<Home> list, Context context){
+    public HomeListAdapter(String role, List<Home> list, Context context){
         this.list = list;
         this.context = context;
+        this.role = role;
     }
 
     public void setOnItemClickCallback(OnItemClickCallbackHome onItemClickCallback) {
         this.onItemClickCallback = onItemClickCallback;
     }
-
-
 
     @NonNull
     @Override
@@ -42,7 +41,15 @@ public class HomeListAdapter extends RecyclerView.Adapter<HomeListAdapter.HomeVi
 
     @Override
     public void onBindViewHolder(@NonNull final HomeViewHolder holder, int position) {
-        holder.shtitle.setText(list.get(position).getJudul());
+        if (role.equals("siswa")){
+            if (list.get(position).getJudul().equals("JOBS") && position == 0){
+                holder.shtitle.setText("CLASS");
+            }else {
+                holder.shtitle.setText(list.get(position).getJudul());
+            }
+        }else{
+            holder.shtitle.setText(list.get(position).getJudul());
+        }
         holder.shRoom.setText(list.get(position).getDetail());
         final int sdk = android.os.Build.VERSION.SDK_INT;
         if(sdk < android.os.Build.VERSION_CODES.JELLY_BEAN) {
@@ -73,7 +80,7 @@ public class HomeListAdapter extends RecyclerView.Adapter<HomeListAdapter.HomeVi
 
         public HomeViewHolder(@NonNull View itemView) {
             super(itemView);
-            shtitle = itemView.findViewById(R.id.nama_mapel);
+            shtitle = itemView.findViewById(R.id.jobs_matpel);
             shRoom = itemView.findViewById(R.id.ruang_jam);
             img = itemView.findViewById(R.id.img_home);
             
