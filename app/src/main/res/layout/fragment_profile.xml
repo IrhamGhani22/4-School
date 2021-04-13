@@ -84,6 +84,7 @@
                             android:layout_height="wrap_content"
                             android:textAlignment="center"
                             android:textAllCaps="false"
+                            android:textColor="@color/blackCharcoal"
                             android:fontFamily="@font/poppins_bold"
                             android:textSize="22sp"
                             android:textStyle="bold" />
@@ -106,6 +107,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 app:title="Muhammad Irham AG"
+                app:titleTextColor="@color/blackCharcoal"
                 app:subtitle="1819117625"
                 app:layout_collapseMode="pin">
 

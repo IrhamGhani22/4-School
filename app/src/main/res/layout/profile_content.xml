@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout android:layout_marginTop="20dp"
+<LinearLayout xmlns:tools="http://schemas.android.com/tools"
+    android:layout_marginTop="20dp"
     app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -15,6 +16,8 @@
         android:layout_height="wrap_content"
         android:background="@drawable/bg_card_profile"
         android:paddingLeft="30dp"
+        android:paddingTop="20dp"
+        android:paddingBottom="30dp"
         android:layout_marginTop="10dp">
 
         <ImageView
@@ -44,7 +47,6 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:fontFamily="@font/poppins_regular"
-            android:lines="2"
             android:text="181911724.siswa@smkn4bdg.sch.id"
             android:textColor="@android:color/black"
             android:textSize="17sp"
@@ -188,4 +190,31 @@
             app:layout_constraintRight_toRightOf="parent"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_card_profile"
+        android:paddingTop="20dp"
+        android:paddingBottom="30dp"
+        android:paddingRight="30dp"
+        android:paddingLeft="20dp"
+        android:layout_marginTop="-20dp">
+
+        <Button
+            android:id="@+id/edtprofile"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:backgroundTint="@color/BluePurple"
+            android:fontFamily="@font/poppins_regular"
+            android:text="Edit Profile"
+            android:textAllCaps="false"
+            android:textColor="#fff"
+            android:layout_marginBottom="10dp"
+            android:textSize="20sp"
+            tools:ignore="MissingConstraints" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
 </LinearLayout>

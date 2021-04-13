@@ -36,6 +36,8 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.application.a4_school.Auth.Login;
 import com.application.a4_school.Auth.SessionManager;
+import com.application.a4_school.EditProfile;
+import com.application.a4_school.ForgotPassword;
 import com.application.a4_school.LocalStorage.UserInfoStorage;
 import com.application.a4_school.R;
 import com.application.a4_school.RestAPI.APIClient;
@@ -73,6 +75,7 @@ public class ProfileFragment extends Fragment {
     private CircleImageView userImage;
     String part_image = "";
     Context context;
+    Button editProfile;
 
     public CircleImageView getUserImage() {
         return userImage;
@@ -91,6 +94,16 @@ public class ProfileFragment extends Fragment {
         View root = inflater.inflate(R.layout.fragment_profile, container, false);
         initialize(root);
         instance = this;
+
+        Button editProfile = root.findViewById(R.id.edtprofile);
+        editProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent toEditProfile = new Intent(getActivity(), EditProfile.class);
+                startActivity(toEditProfile);
+            }
+        });
+
 
         userInfoStorage = new UserInfoStorage(getActivity().getApplicationContext());
         sessionManager = new SessionManager(getActivity().getApplicationContext());
