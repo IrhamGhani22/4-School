@@ -40,6 +40,7 @@ public class ClassRoomActivity extends AppCompatActivity {
         initialize();
         rvClassroom.setLayoutManager(new LinearLayoutManager(this));
         String id_class = getIntent().getStringExtra("EXTRA_CLASS");
+        Log.d("infoClass", ""+id_class);
         getInfoClass(id_class);
         btnInput.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -73,7 +74,12 @@ public class ClassRoomActivity extends AppCompatActivity {
                     getItemClass(api, id_class, token, headerClassContent);
 
                 }else{
-                    Log.d("classinfo", ""+response.body().getAsJsonObject("class_info"));
+                    if (response.body().getAsJsonObject("class_info") != null){
+                        Log.d("classinfo", ""+response.body().getAsJsonObject("class_info"));
+                    }else{
+                        Log.d("classinfo", "Object null");
+                    }
+
                 }
             }
 
@@ -85,27 +91,45 @@ public class ClassRoomActivity extends AppCompatActivity {
     }
 
     public void getItemClass(APIService api, final String id_class, String token, final String[] headerClassContent){
-        Call<ResponseData> loadClassRoomData = api.getListClassItem(id_class, "Bearer "+token);
-        loadClassRoomData.enqueue(new Callback<ResponseData>() {
-            @Override
-            public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
-                if (response.isSuccessful()){
-                    list.addAll(ClassRoomData.getlistClassroom());
-                    list.addAll(response.body().getIndex_class_guru());
-                    adapter = new ClassListAdapter(list, headerClassContent, id_class,ClassRoomActivity.this);
-                    rvClassroom.setAdapter(adapter);
-                    loading_classroom.setVisibility(View.GONE);
-                    Log.d("getClassData", "success : "+response.body().getIndex_class_guru());
-                }else{
-                    Log.d("getClassData", "response not success");
+        String role = getSharedPreferences("session", 0).getString("role", "");
+        Call<ResponseData> loadClassRoomGuru = api.getListClassItemGuru(id_class, "Bearer "+token);
+        Call<ResponseData> loadClassRoomSiswa = api.getListClassItemSiswa(id_class, "Bearer "+token);
+        if(role.equals("guru")){
+            loadClassRoomGuru.enqueue(new Callback<ResponseData>() {
+                @Override
+                public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
+                    if (response.isSuccessful()){
+                        list.addAll(ClassRoomData.getlistClassroom());
+                        list.addAll(response.body().getIndex_class_guru());
+                        adapter = new ClassListAdapter(list, headerClassContent, id_class,ClassRoomActivity.this);
+                        rvClassroom.setAdapter(adapter);
+                        loading_classroom.setVisibility(View.GONE);
+                        Log.d("getClassData", "success : "+response.body().getIndex_class_guru());
+                    }else{
+                        Log.d("getClassData", "response not success");
+                    }
                 }
-            }
 
-            @Override
-            public void onFailure(Call<ResponseData> call, Throwable t) {
-                Log.d("getClassData", "response not success"+t.getMessage());
-            }
-        });
+                @Override
+                public void onFailure(Call<ResponseData> call, Throwable t) {
+                    Log.d("getClassData", "response not success"+t.getMessage());
+                }
+            });
+        }else{
+            loadClassRoomSiswa.enqueue(new Callback<ResponseData>() {
+                @Override
+                public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
+                    list.addAll(ClassRoomData.getlistClassroom());
+                    list.addAll(response.body().getIndex_class_siswa());
+                }
+
+                @Override
+                public void onFailure(Call<ResponseData> call, Throwable t) {
+
+                }
+            });
+        }
+
     }
 
 }

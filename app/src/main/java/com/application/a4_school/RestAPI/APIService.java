@@ -45,9 +45,8 @@ public interface APIService {
     @PATCH("upload/{id}")
     Call<ResponseBody> uploadBase64Pict(@Path("id") int id_user, @Field("photo") String encodedPhoto);
 
-    @FormUrlEncoded
-    @POST("SiswaSchedule")
-    Call<ResponseStudent> getSiswaSchedule(@Field("id_kelas") String id_class, @Header("Authorization") String jwt_token);
+    @GET("SiswaSchedule")
+    Call<ResponseStudent> getSiswaSchedule(@Query("id_kelas") String id_class, @Header("Authorization") String jwt_token);
 
     @FormUrlEncoded
     @POST("GuruSchedule")
@@ -68,7 +67,10 @@ public interface APIService {
 
 
     @GET("GuruSchedule/index_classroom_guru/{id_kelas}")
-    Call<ResponseData> getListClassItem (@Path("id_kelas") String id_class, @Header("Authorization") String jwt_token);
+    Call<ResponseData> getListClassItemGuru (@Path("id_kelas") String id_class, @Header("Authorization") String jwt_token);
+
+    @GET("SiswaSchedule/index_classroom_guru/{id_kelas}")
+    Call<ResponseData> getListClassItemSiswa (@Path("id_kelas") String id_class, @Header("Authorization") String jwt_token);
 
     @GET("index_classroom/memberclass")
     Call<ResponseData> getListMembersClass (@Query("id_kelas") String id_class, @Query("page") int page);
