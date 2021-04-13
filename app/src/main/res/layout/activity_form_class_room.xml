@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.classroom.FormClassRoomActivity">
@@ -18,39 +18,44 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginBottom="20dp"
             android:text="Task"
-            android:textSize="20dp" />
+            android:textSize="20sp" />
+
         <Spinner
             android:id="@+id/list_task"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            />
-<!--        <TextView-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="match_parent"-->
-<!--            android:text="Description"-->
-<!--            android:textSize="20dp" />-->
+            android:layout_marginBottom="10dp" />
 
-<!--        <com.google.android.material.textfield.TextInputEditText-->
-<!--            android:id="@+id/inp_desc"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_marginBottom="10dp"-->
-<!--            android:inputType="text"-->
-<!--            android:textSize="16sp" />-->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="10dp"
+            android:text="Description"
+            android:textSize="20sp" />
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/inp_desc"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="20dp"
+            android:inputType="text"
+            android:textSize="16sp" />
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:text="Upload File"
-            android:textSize="20dp" />
+            android:textSize="20sp" />
 
         <androidx.cardview.widget.CardView
             android:id="@+id/addfile"
             android:layout_width="match_parent"
             android:layout_height="70dp"
+            android:layout_marginTop="20dp"
             app:cardElevation="4dp"
-            android:layout_centerHorizontal="true"
             tools:ignore="UnusedAttribute">
 
             <RelativeLayout
@@ -63,55 +68,44 @@
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_gravity="center"
-                    android:layout_marginStart="25dp"
+                    android:layout_marginStart="20dp"
                     android:fontFamily="@font/poppins_bold"
                     android:text="Add File"
                     android:textSize="15sp" />
 
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:layout_width="52.5dp"
-                    android:layout_height="52.5dp"
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
-                    android:layout_marginStart="158dp"
-                    android:layout_marginEnd="22.5dp"
-                    android:src="@drawable/ic_baseline_add_box_24" />
+                    android:layout_marginEnd="20dp"
+                    android:src="@drawable/ic_baseline_add_box_24"
+                    app:tint="@color/BluePurple" />
             </RelativeLayout>
         </androidx.cardview.widget.CardView>
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="24dp">
+            android:layout_marginTop="20dp">
+
             <Button
                 android:id="@+id/btn_back"
                 android:layout_width="wrap_content"
                 android:layout_height="60dp"
-                app:icon="@drawable/ic_baseline_arrow_back_24"
-                app:cornerRadius="6dp"
-                app:iconTint="@color/SkyBlue"
-                app:backgroundTint="#ffffff"
-                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
                 android:text="Back"
-                style="@style/TextLabel"/>
+                app:backgroundTint="#ffffff" />
 
             <Button
                 android:id="@+id/btn_submit"
                 android:layout_width="wrap_content"
                 android:layout_height="60dp"
-                app:cornerRadius="6dp"
-                android:layout_alignParentRight="true"
-                android:background="@color/BluePurple"
-                android:text="Submit"/>
+                android:layout_alignParentEnd="true"
+                android:text="Submit"
+                android:textColor="@color/whiteDefault"
+                app:backgroundTint="@color/BluePurple"/>
         </RelativeLayout>
-<!--        <Button-->
-<!--            android:id="@+id/btnsubmit"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:background="@color/BluePurple"-->
-<!--            android:text="Submit"-->
-<!--            android:textColor="#fff"-->
-<!--            android:textSize="20sp" />-->
-
     </LinearLayout>
 
 
