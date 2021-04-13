@@ -48,9 +48,8 @@ public interface APIService {
     @GET("SiswaSchedule")
     Call<ResponseStudent> getSiswaSchedule(@Query("id_kelas") String id_class, @Header("Authorization") String jwt_token);
 
-    @FormUrlEncoded
-    @POST("GuruSchedule")
-    Call<ResponseData> getListSchedule(@Field("id") int id_user, @Header("Authorization") String jwt_token);
+    @GET("GuruSchedule")
+    Call<ResponseData> getListSchedule(@Query("id") int id_user, @Header("Authorization") String jwt_token);
 
     @GET("classInfo")
     Call<JsonObject> getClassInformation (@Query("id_kelas") String id_class);
@@ -69,7 +68,7 @@ public interface APIService {
     @GET("GuruSchedule/index_classroom_guru/{id_kelas}")
     Call<ResponseData> getListClassItemGuru (@Path("id_kelas") String id_class, @Header("Authorization") String jwt_token);
 
-    @GET("SiswaSchedule/index_classroom_guru/{id_kelas}")
+    @GET("SiswaSchedule/index_classroom_siswa/{id_kelas}")
     Call<ResponseData> getListClassItemSiswa (@Path("id_kelas") String id_class, @Header("Authorization") String jwt_token);
 
     @GET("index_classroom/memberclass")

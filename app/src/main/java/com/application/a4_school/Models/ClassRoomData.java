@@ -28,7 +28,7 @@ public class ClassRoomData {
 
         for (int i = 0; i<tittle.length; i++){
             ClassRoom classRoom = new ClassRoom();
-            classRoom.setId_classRoom(id_classRoom[i]);
+            classRoom.setId_taskclass(id_classRoom[i]);
             classRoom.setDate(date[i]);
             classRoom.setType(type[i]);
             classRoom.setTitle(tittle[i]);

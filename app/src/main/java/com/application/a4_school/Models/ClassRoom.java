@@ -3,8 +3,8 @@ package com.application.a4_school.Models;
 import com.google.gson.annotations.SerializedName;
 
 public class ClassRoom {
-    @SerializedName("id_kelas")
-    private String id_classRoom;
+    @SerializedName("id")
+    private String id_taskclass;
     private String nama_matpel;
     @SerializedName("judul")
     private String title;
@@ -35,6 +35,14 @@ public class ClassRoom {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public String getId_taskclass() {
+        return id_taskclass;
+    }
+
+    public void setId_taskclass(String id_taskclass) {
+        this.id_taskclass = id_taskclass;
     }
 
     public String getTitle() {
@@ -69,13 +77,6 @@ public class ClassRoom {
         this.completedcount = completedcount;
     }
 
-    public String getId_classRoom() {
-        return id_classRoom;
-    }
-
-    public void setId_classRoom(String id_classRoom) {
-        this.id_classRoom = id_classRoom;
-    }
 
     public String getNama_matpel() {
         return nama_matpel;

@@ -204,6 +204,7 @@ public class BottomSheet extends BottomSheetDialogFragment {
                                 public void onItemClicked(Schedule dataSchedule) {
                                     Intent toAttendance = new Intent(getActivity(), ClassRoomActivity.class);
                                     toAttendance.putExtra("EXTRA_CLASS", dataSchedule.getId_kelas());
+                                    toAttendance.putExtra("EXTRA_MATPEL", dataSchedule.getNama_mapel());
                                     dismiss();
                                     startActivity(toAttendance);
                                 }
@@ -295,6 +296,7 @@ public class BottomSheet extends BottomSheetDialogFragment {
                                 public void onItemClicked(Schedule dataSchedule) {
                                     Intent toAttendance = new Intent(getActivity(), ClassRoomActivity.class);
                                     toAttendance.putExtra("EXTRA_CLASS", dataSchedule.getId_kelas());
+                                    toAttendance.putExtra("EXTRA_MATPEL", dataSchedule.getNama_mapel());
                                     dismiss();
                                     startActivity(toAttendance);
                                 }

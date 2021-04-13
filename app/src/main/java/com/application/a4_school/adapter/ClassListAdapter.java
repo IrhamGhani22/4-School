@@ -27,7 +27,7 @@ public class ClassListAdapter extends RecyclerView.Adapter<ClassListAdapter.List
     private String[] headerContent;
     private String id_class;
 
-    public ClassListAdapter(List<ClassRoom> listClassMain, String[] headerContent, String id_class, Context context) {
+    public ClassListAdapter(List<ClassRoom> listClassMain, String[] headerContent, String id_class,Context context) {
         this.listClassMain = listClassMain;
         this.context = context;
         this.headerContent = headerContent;
@@ -57,27 +57,29 @@ public class ClassListAdapter extends RecyclerView.Adapter<ClassListAdapter.List
             holder.containerHeader.setVisibility(View.GONE);
             holder.containerMain.setVisibility(View.VISIBLE);
         }
-        holder.shtgl.setText(listClassMain.get(position).getDate());
-        holder.shtype.setText(listClassMain.get(position).getType());
-        if (listClassMain.get(position).getType().equals("Theory")) {
-            holder.shcompletedcount.setVisibility(View.INVISIBLE);
+        if (!listClassMain.isEmpty()){
+            holder.shtgl.setText(listClassMain.get(position).getDate());
+            holder.shtype.setText(listClassMain.get(position).getType());
+            if (listClassMain.get(position).getType().equals("Theory")) {
+                holder.shcompletedcount.setVisibility(View.INVISIBLE);
+            }
+            holder.shtittle.setText(listClassMain.get(position).getTitle());
+            holder.shcompletedcount.setText(String.valueOf(listClassMain.get(position).getCompletedcount())+" Completed this task");
+            holder.btnCheck.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(context, ""+ listClassMain.get(position).getId_taskclass(), Toast.LENGTH_SHORT).show();
+                }
+            });
+            holder.shCountmember_header.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Log.d("openbottommembers", "clicked");
+                    BottomSheet bottomSheet = new BottomSheet(id_class ,"memberlist");
+                    bottomSheet.show(((FragmentActivity) context).getSupportFragmentManager(), bottomSheet.getTag());
+                }
+            });
         }
-        holder.shtittle.setText(listClassMain.get(position).getTitle());
-        holder.shcompletedcount.setText(String.valueOf(listClassMain.get(position).getCompletedcount())+" Completed this task");
-        holder.btnCheck.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(context, ""+ listClassMain.get(position).getTitle(), Toast.LENGTH_SHORT).show();
-            }
-        });
-        holder.shCountmember_header.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.d("openbottommembers", "clicked");
-                BottomSheet bottomSheet = new BottomSheet(id_class ,"memberlist");
-                bottomSheet.show(((FragmentActivity) context).getSupportFragmentManager(), bottomSheet.getTag());
-            }
-        });
 
     }
 

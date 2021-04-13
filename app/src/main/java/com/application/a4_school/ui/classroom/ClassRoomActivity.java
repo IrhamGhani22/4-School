@@ -32,6 +32,7 @@ public class ClassRoomActivity extends AppCompatActivity {
     private ArrayList<ClassRoom> list = new ArrayList<>();
     private LottieAnimationView loading_classroom;
     private static String[] headerClassContent;
+    private TextView titleClass;
     TextView btnInput;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +41,8 @@ public class ClassRoomActivity extends AppCompatActivity {
         initialize();
         rvClassroom.setLayoutManager(new LinearLayoutManager(this));
         String id_class = getIntent().getStringExtra("EXTRA_CLASS");
+        String matpel = getIntent().getStringExtra("EXTRA_MATPEL");
+        titleClass.setText(matpel);
         Log.d("infoClass", ""+id_class);
         getInfoClass(id_class);
         btnInput.setOnClickListener(new View.OnClickListener() {
@@ -54,6 +57,7 @@ public class ClassRoomActivity extends AppCompatActivity {
         rvClassroom = findViewById(R.id.rv_class);
         btnInput = findViewById(R.id.addInputFormClass);
         loading_classroom = findViewById(R.id.loading_classroom);
+        titleClass = findViewById(R.id.titleClass);
     }
 
     public void getInfoClass(final String id_class){
@@ -100,7 +104,9 @@ public class ClassRoomActivity extends AppCompatActivity {
                 public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
                     if (response.isSuccessful()){
                         list.addAll(ClassRoomData.getlistClassroom());
-                        list.addAll(response.body().getIndex_class_guru());
+                        if (!response.body().getIndex_class_guru().isEmpty()){
+                            list.addAll(response.body().getIndex_class_guru());
+                        }
                         adapter = new ClassListAdapter(list, headerClassContent, id_class,ClassRoomActivity.this);
                         rvClassroom.setAdapter(adapter);
                         loading_classroom.setVisibility(View.GONE);
@@ -119,8 +125,18 @@ public class ClassRoomActivity extends AppCompatActivity {
             loadClassRoomSiswa.enqueue(new Callback<ResponseData>() {
                 @Override
                 public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
-                    list.addAll(ClassRoomData.getlistClassroom());
-                    list.addAll(response.body().getIndex_class_siswa());
+                    if (response.isSuccessful()){
+                        list.addAll(ClassRoomData.getlistClassroom());
+                        if (!response.body().getIndex_class_siswa().isEmpty()){
+                            list.addAll(response.body().getIndex_class_siswa());
+                        }
+                        adapter = new ClassListAdapter(list, headerClassContent, id_class,ClassRoomActivity.this);
+                        rvClassroom.setAdapter(adapter);
+                        loading_classroom.setVisibility(View.GONE);
+                    }else{
+
+                    }
+
                 }
 
                 @Override
