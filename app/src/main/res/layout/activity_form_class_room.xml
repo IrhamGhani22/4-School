@@ -92,7 +92,7 @@
                 app:backgroundTint="#ffffff"
                 android:layout_alignParentLeft="true"
                 android:text="Back"
-                style="?attr/materialButtonOutlinedStyle"/>
+                style="@style/TextLabel"/>
 
             <Button
                 android:id="@+id/btn_submit"

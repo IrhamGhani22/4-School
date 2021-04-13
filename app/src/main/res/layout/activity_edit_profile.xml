@@ -1,0 +1,327 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:tools="http://schemas.android.com/tools"
+    app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@drawable/ic_bg_profile">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="30dp">
+            <Button
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/btn_back_blue" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center">
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/userImage"
+                    android:layout_width="130dp"
+                    android:layout_height="130dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/empty_profile" />
+
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/chooseUserImage"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignEnd="@+id/userImage"
+                    android:layout_alignBottom="@id/userImage"
+                    android:backgroundTint="@color/BluePurple"
+                    android:clickable="true"
+                    android:elevation="1dp"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/ic_upload_photo"
+                    android:tint="@android:color/white"
+                    app:borderWidth="0dp"
+                    app:fabSize="mini"
+                    app:rippleColor="@android:color/holo_blue_light" />
+            </RelativeLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_card_profile"
+        android:paddingLeft="20dp"
+        android:paddingTop="20dp"
+        android:paddingBottom="30dp"
+        android:paddingRight="30dp">
+
+        <ImageView
+            android:id="@+id/icon_nama"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
+            android:src="@drawable/ico_at"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/outlinedTextFieldNama"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintLeft_toRightOf="@id/icon_nama"
+            app:layout_constraintTop_toTopOf="parent"
+            app:boxStrokeColor="@color/BlueishPurple"
+            android:textColorHint="@color/BlueishPurple"
+            app:layout_constraintRight_toRightOf="parent"
+            android:hint="Nama">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edtnama"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/BluePurple"
+                android:fontFamily="@font/poppins_regular"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_card_profile"
+        android:paddingTop="20dp"
+        android:paddingBottom="30dp"
+        android:paddingRight="30dp"
+        android:paddingLeft="20dp"
+        android:layout_marginTop="-20dp">
+
+        <ImageView
+            android:id="@+id/icon_nis"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
+            android:src="@drawable/ico_banner"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/outlinedTextFieldNis"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintLeft_toRightOf="@id/icon_nis"
+            app:layout_constraintTop_toTopOf="parent"
+            app:boxStrokeColor="@color/BlueishPurple"
+            android:textColorHint="@color/BlueishPurple"
+            app:layout_constraintRight_toRightOf="parent"
+            android:hint="NIS">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edtnis"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/BluePurple"
+                android:fontFamily="@font/poppins_regular"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="-20dp"
+            android:background="@drawable/bg_card_profile"
+            android:paddingLeft="20dp"
+            android:paddingTop="20dp"
+            android:paddingRight="30dp"
+            android:paddingBottom="30dp">
+
+            <ImageView
+                android:id="@+id/icon_email"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:src="@drawable/ico_at"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/outlinedTextFieldEmail"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:hint="Email"
+                android:textColorHint="@color/BlueishPurple"
+                app:boxStrokeColor="@color/BlueishPurple"
+                app:layout_constraintLeft_toRightOf="@id/icon_email"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/edtemail"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/poppins_regular"
+                    android:textColor="@color/BluePurple" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="-20dp"
+            android:background="@drawable/bg_card_profile"
+            android:paddingLeft="20dp"
+            android:paddingTop="20dp"
+            android:paddingRight="30dp"
+            android:paddingBottom="30dp">
+
+            <ImageView
+                android:id="@+id/icon_class"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:src="@drawable/ico_banner"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/outlinedTextFieldTtl"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:hint="Kelas"
+                android:textColorHint="@color/BlueishPurple"
+                app:boxStrokeColor="@color/BlueishPurple"
+                app:layout_constraintLeft_toRightOf="@id/icon_class"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/edtclass"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/poppins_regular"
+                    android:textColor="@color/BluePurple" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_card_profile"
+            android:paddingTop="20dp"
+            android:paddingBottom="30dp"
+            android:paddingRight="30dp"
+            android:paddingLeft="20dp"
+            android:layout_marginTop="-20dp">
+
+            <ImageView
+                android:id="@+id/icon_jurusan"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:src="@drawable/ico_cake"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/outlinedTextFieldKelas"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintLeft_toRightOf="@id/icon_jurusan"
+                app:layout_constraintTop_toTopOf="parent"
+                app:boxStrokeColor="@color/BlueishPurple"
+                android:textColorHint="@color/BlueishPurple"
+                app:layout_constraintRight_toRightOf="parent"
+                android:hint="Jurusan">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/edtjurusan"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/BluePurple"
+                    android:fontFamily="@font/poppins_regular"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_card_profile"
+            android:paddingTop="20dp"
+            android:paddingBottom="30dp"
+            android:paddingRight="30dp"
+            android:paddingLeft="20dp"
+            android:layout_marginTop="-20dp">
+
+            <ImageView
+                android:id="@+id/icon_ttl"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:src="@drawable/ico_cake"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/outlinedTextFieldClass"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintLeft_toRightOf="@id/icon_ttl"
+                app:layout_constraintTop_toTopOf="parent"
+                app:boxStrokeColor="@color/BlueishPurple"
+                android:textColorHint="@color/BlueishPurple"
+                app:layout_constraintRight_toRightOf="parent"
+                android:hint="Tanggal Lahir">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/edtttl"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/BluePurple"
+                    android:fontFamily="@font/poppins_regular"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </LinearLayout>
+</ScrollView>

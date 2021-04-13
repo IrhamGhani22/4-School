@@ -49,8 +49,8 @@
             android:layout_height="wrap_content"
             android:text="181911724.siswa@smkn4bdg.sch.id"
             android:textColor="@android:color/black"
+            android:maxEms="10"
             android:fontFamily="@font/poppins_regular"
-            android:lines="2"
             android:textSize="17sp"
             app:layout_constraintLeft_toRightOf="@id/icon_email"
             app:layout_constraintTop_toBottomOf="@+id/judul_email" />
