@@ -16,9 +16,11 @@ import android.provider.MediaStore;
 import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -75,7 +77,7 @@ public class ProfileFragment extends Fragment {
     private CircleImageView userImage;
     String part_image = "";
     Context context;
-    Button editProfile;
+    FloatingActionButton editProfile;
 
     public CircleImageView getUserImage() {
         return userImage;
@@ -95,7 +97,7 @@ public class ProfileFragment extends Fragment {
         initialize(root);
         instance = this;
 
-        Button editProfile = root.findViewById(R.id.edtprofile);
+        ImageButton editProfile = root.findViewById(R.id.edtprofile);
         editProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -143,6 +145,7 @@ public class ProfileFragment extends Fragment {
 
         return root;
     }
+
 
     private void initialize(View root) {
         chooseImage = root.findViewById(R.id.chooseUserImage);

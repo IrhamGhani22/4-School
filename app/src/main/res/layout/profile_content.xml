@@ -36,7 +36,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Email"
-            android:textSize="15sp"
+            android:textSize="14sp"
             android:fontFamily="@font/poppins_regular"
             app:layout_constraintBottom_toTopOf="@id/email_profile"
             app:layout_constraintLeft_toRightOf="@+id/icon_email"
@@ -49,7 +49,7 @@
             android:fontFamily="@font/poppins_regular"
             android:text="181911724.siswa@smkn4bdg.sch.id"
             android:textColor="@android:color/black"
-            android:textSize="17sp"
+            android:textSize="14.5sp"
             app:layout_constraintLeft_toRightOf="@id/icon_email"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/judul_email" />
@@ -82,7 +82,7 @@
             android:layout_height="wrap_content"
             android:text="Kelas"
             android:fontFamily="@font/poppins_regular"
-            android:textSize="15sp"
+            android:textSize="14sp"
             app:layout_constraintBottom_toTopOf="@id/kelas"
             app:layout_constraintLeft_toRightOf="@id/icon_class"
             app:layout_constraintTop_toTopOf="parent" />
@@ -91,10 +91,10 @@
             android:id="@+id/kelas"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="XIIRPL2"
+            android:text="XII-RPL 2"
             android:fontFamily="@font/poppins_regular"
             android:textColor="@android:color/black"
-            android:textSize="17sp"
+            android:textSize="14.5sp"
             app:layout_constraintLeft_toRightOf="@id/icon_class"
             app:layout_constraintTop_toBottomOf="@+id/judul_kelas"
             app:layout_constraintRight_toRightOf="parent"/>
@@ -126,7 +126,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Jurusan"
-            android:textSize="15sp"
+            android:textSize="14sp"
             android:fontFamily="@font/poppins_regular"
             app:layout_constraintBottom_toTopOf="@id/jurusan"
             app:layout_constraintLeft_toRightOf="@id/icon_telp"
@@ -138,7 +138,7 @@
             android:layout_height="wrap_content"
             android:text="Rekayasa Perangkat Lunak"
             android:textColor="@android:color/black"
-            android:textSize="17sp"
+            android:textSize="14.5sp"
             android:fontFamily="@font/poppins_regular"
             app:layout_constraintLeft_toRightOf="@id/icon_telp"
             app:layout_constraintTop_toBottomOf="@+id/judul_telp"
@@ -171,7 +171,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Tanggal Lahir"
-            android:textSize="15sp"
+            android:textSize="14sp"
             android:fontFamily="@font/poppins_regular"
             app:layout_constraintBottom_toTopOf="@id/tanggal"
             app:layout_constraintLeft_toRightOf="@id/icon_ttl"
@@ -183,37 +183,11 @@
             android:layout_height="wrap_content"
             android:text="16 Oktober 2021"
             android:textColor="@android:color/black"
-            android:textSize="17sp"
+            android:textSize="14.5sp"
             android:fontFamily="@font/poppins_regular"
             app:layout_constraintLeft_toRightOf="@id/icon_ttl"
             app:layout_constraintTop_toBottomOf="@+id/judul_ttl"
             app:layout_constraintRight_toRightOf="parent"/>
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/bg_card_profile"
-        android:paddingTop="20dp"
-        android:paddingBottom="30dp"
-        android:paddingRight="30dp"
-        android:paddingLeft="20dp"
-        android:layout_marginTop="-20dp">
-
-        <Button
-            android:id="@+id/edtprofile"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:backgroundTint="@color/BluePurple"
-            android:fontFamily="@font/poppins_regular"
-            android:text="Edit Profile"
-            android:textAllCaps="false"
-            android:textColor="#fff"
-            android:layout_marginBottom="10dp"
-            android:textSize="20sp"
-            tools:ignore="MissingConstraints" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

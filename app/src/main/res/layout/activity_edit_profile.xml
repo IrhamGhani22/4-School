@@ -301,26 +301,53 @@
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/outlinedTextFieldClass"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:layout_width="0dp"
+
+            <LinearLayout
+                android:id="@+id/container_deadline"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintLeft_toRightOf="@id/icon_ttl"
-                app:layout_constraintTop_toTopOf="parent"
-                app:boxStrokeColor="@color/SkyBlue"
-                android:textColorHint="@color/SkyBlue"
-                app:layout_constraintRight_toRightOf="parent"
-                android:hint="Tanggal Lahir">
+                android:animateLayoutChanges="true"
+                android:layout_marginLeft="60dp"
+                android:layout_marginBottom="16dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                tools:ignore="MissingConstraints">
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/edtttl"
-                    android:layout_width="match_parent"
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/BluePurple"
-                    android:fontFamily="@font/poppins_regular"/>
+                    android:layout_marginRight="8dp"
+                    android:layout_weight="1"
+                    android:hint="Date"
+                    android:textColorHint="@color/SkyBlue"
+                    app:boxStrokeColor="@color/SkyBlue"
+                    app:boxStrokeWidth="5dp">
 
-            </com.google.android.material.textfield.TextInputLayout>
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/edt_ttl"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/poppins_regular"
+                        android:maxLines="10"
+                        android:textColor="@color/BluePurple"/>
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <ImageButton
+                    android:id="@+id/btn_calendar_deadline"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="1dp"
+                    android:layout_weight="0.1"
+                    android:layout_marginTop="2dp"
+                    android:background="@drawable/btn_mini_purple"
+                    android:paddingHorizontal="10dp"
+                    android:paddingVertical="17dp"
+                    android:src="@drawable/ic_round_calendar"
+                    android:tint="@android:color/white" />
+
+            </LinearLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -339,7 +366,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:backgroundTint="@color/SkyBlue"
+                android:background="@drawable/btn_mini_purple"
                 android:fontFamily="@font/poppins_regular"
                 android:text="SAVE"
                 android:textAllCaps="false"
