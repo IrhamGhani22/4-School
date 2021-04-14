@@ -40,7 +40,7 @@ public class ClassRoomActivity extends AppCompatActivity {
         list.addAll(ClassRoomData.getlistClassroom());
         rvClassroom.setLayoutManager(new LinearLayoutManager(this));
         String id_class = getIntent().getStringExtra("EXTRA_CLASS");
-        getListClass(id_class);
+        getClassInfo(id_class);
         btnInput.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -55,7 +55,8 @@ public class ClassRoomActivity extends AppCompatActivity {
         loading_classroom = findViewById(R.id.loading_classroom);
     }
 
-    public void getListClass(String id_class){
+    public void getClassInfo(String id_class){
+        String jwt_token = getSharedPreferences("session", 0).getString("token", "");
         APIService api = APIClient.getClient().create(APIService.class);
         Call<JsonObject> loadClassInformation= api.getClassInformation(id_class);
         loadClassInformation.enqueue(new Callback<JsonObject>() {
@@ -80,6 +81,22 @@ public class ClassRoomActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<JsonObject> call, Throwable t) {
                 Log.d("classinfo", ""+t.getMessage());
+            }
+        });
+        Call<ClassRoom> loadClassData = api.getClassData(id_class, jwt_token);
+        loadClassData.enqueue(new Callback<ClassRoom>() {
+            @Override
+            public void onResponse(Call<ClassRoom> call, Response<ClassRoom> response) {
+                if (response.isSuccessful()){
+
+                }else{
+                    
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ClassRoom> call, Throwable t) {
+
             }
         });
     }

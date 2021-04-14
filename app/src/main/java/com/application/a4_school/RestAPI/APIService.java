@@ -1,5 +1,6 @@
 package com.application.a4_school.RestAPI;
 
+import com.application.a4_school.Models.ClassRoom;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
@@ -53,8 +54,11 @@ public interface APIService {
     @POST("GuruSchedule")
     Call<ResponseData> getListSchedule(@Field("id") int id_user, @Header("Authorization") String jwt_token);
 
-    @GET("classData")
+    @GET("classInfo")
     Call<JsonObject> getClassInformation (@Query("id_kelas") String id_class);
+
+    @GET("SiswaSchedule/classRoomData")
+    Call<ClassRoom> getClassData(@Query("id_kelas") String id_kelas, @Header("Authorization") String jwt_token);
 
     @FormUrlEncoded
     @POST("GuruSchedule/upload-materi")
