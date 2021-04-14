@@ -50,4 +50,10 @@
         <item name="boxStrokeWidth">2dp</item>
     </style>
 
+    <style name="spinnerItemStyle" parent="@android:style/Widget.Holo.DropDownItem.Spinner">
+        <item name="android:textSize">14sp</item>
+        <item name="fontFamily">@font/poppins_light</item>
+        <item name="android:textColor">@color/blackCharcoal</item>
+    </style>
+
 </resources>

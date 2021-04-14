@@ -40,18 +40,29 @@ public class ClassRoomActivity extends AppCompatActivity {
         setContentView(R.layout.activity_class_room);
         initialize();
         rvClassroom.setLayoutManager(new LinearLayoutManager(this));
-        String id_class = getIntent().getStringExtra("EXTRA_CLASS");
+        final String id_class = getIntent().getStringExtra("EXTRA_CLASS");
         String id_matpel = getIntent().getStringExtra("EXTRA_ID_MATPEL");
         String matpel = getIntent().getStringExtra("EXTRA_MATPEL");
+        String role = getSharedPreferences("session", 0).getString("role", "");
         titleClass.setText(matpel);
         Log.d("infoClass", ""+id_class);
         getInfoClass(id_class, id_matpel);
-        btnInput.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(ClassRoomActivity.this, FormClassRoomActivity.class));
-            }
-        });
+        switch (role){
+            case "siswa":
+                btnInput.setVisibility(View.GONE);
+                break;
+
+            case "guru":
+                btnInput.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent toForm = new Intent(ClassRoomActivity.this, FormClassRoomActivity.class);
+                        toForm.putExtra("EXTRA_ID_CLASS", id_class);
+                        startActivity(toForm);
+                    }
+                });
+        }
+
     }
 
     public void initialize(){

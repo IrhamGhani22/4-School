@@ -117,7 +117,7 @@ public class Login extends Activity implements View.OnClickListener {
                                         String role = objResp.getUserInfo().getRole();
                                         Log.d("login", "role : " + role);
                                         sessionManager.createSession(objResp.getToken(), role);
-                                        userInfoStorage.createInfo(objResp.getUserInfo().getName(), objResp.getUserInfo().getEmail(), objResp.getUserInfo().getId(), objResp.getUserInfo().getPhoto(), objResp.getUserInfo().getId_class());
+                                        userInfoStorage.createInfo(objResp.getUserInfo().getName(), objResp.getUserInfo().getEmail(), objResp.getUserInfo().getId(), objResp.getUserInfo().getPhoto(), objResp.getUserInfo().getId_class(), objResp.getUserInfo().getProfession());
                                         if (role.equals("guru")) {
                                             Intent toDasboard = new Intent(Login.this, MainActivity.class);
                                             toDasboard.putExtra("EXTRA_ROLE", role);
