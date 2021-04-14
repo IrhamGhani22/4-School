@@ -1,6 +1,7 @@
 package com.application.a4_school.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.application.a4_school.Models.ClassRoom;
 import com.application.a4_school.R;
 import com.application.a4_school.UserInteraction.BottomSheet;
+import com.application.a4_school.ui.classroom.DetailClassActivity;
 
 import java.util.List;
 
@@ -65,9 +67,10 @@ public class ClassListAdapter extends RecyclerView.Adapter<ClassListAdapter.List
             }
             holder.shtittle.setText(listClassMain.get(position).getTitle());
             holder.shcompletedcount.setText(String.valueOf(listClassMain.get(position).getCompletedcount())+" Completed this task");
-            holder.btnCheck.setOnClickListener(new View.OnClickListener() {
+            holder.containerMain.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    Intent intent = new Intent(context, DetailClassActivity.class);
                     Toast.makeText(context, ""+ listClassMain.get(position).getId_taskclass(), Toast.LENGTH_SHORT).show();
                 }
             });

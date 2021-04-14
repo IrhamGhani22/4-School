@@ -40,6 +40,10 @@ public class UserInfoStorage {
         editor.putString(Name, value);
         editor.commit();
     }
+    public void saveEmail(String value){
+        editor.putString(Email, value);
+        editor.commit();
+    }
     public void clearUser(){
         editor.clear();
         editor.commit();

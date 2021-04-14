@@ -64,6 +64,13 @@ public interface APIService {
                                          @Field("tenggat") String deadline,
                                          @Header("Authorization") String jwt_token);
 
+    @FormUrlEncoded
+    @POST("forgot")
+    Call<JsonObject> sendMailToken (@Field("email") String email);
+
+    @FormUrlEncoded
+    @POST("resetpassword")
+    Call<JsonObject> resetPassword(@Field("email") String email, @Field("password") String password, @Field("token") String accessToken);
 
     @GET("GuruSchedule/index_classroom_guru/{id_kelas}")
     Call<ResponseData> getListClassItemGuru (@Path("id_kelas") String id_class, @Header("Authorization") String jwt_token);
