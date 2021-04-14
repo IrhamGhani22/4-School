@@ -41,10 +41,11 @@ public class ClassRoomActivity extends AppCompatActivity {
         initialize();
         rvClassroom.setLayoutManager(new LinearLayoutManager(this));
         String id_class = getIntent().getStringExtra("EXTRA_CLASS");
+        String id_matpel = getIntent().getStringExtra("EXTRA_ID_MATPEL");
         String matpel = getIntent().getStringExtra("EXTRA_MATPEL");
         titleClass.setText(matpel);
         Log.d("infoClass", ""+id_class);
-        getInfoClass(id_class);
+        getInfoClass(id_class, id_matpel);
         btnInput.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -60,7 +61,7 @@ public class ClassRoomActivity extends AppCompatActivity {
         titleClass = findViewById(R.id.titleClass);
     }
 
-    public void getInfoClass(final String id_class){
+    public void getInfoClass(final String id_class, final String id_matpel){
         final String token = getSharedPreferences("session", 0).getString("token", "");
         final APIService api = APIClient.getClient().create(APIService.class);
         Call<JsonObject> loadClassInformation= api.getClassInformation(id_class);
@@ -75,7 +76,7 @@ public class ClassRoomActivity extends AppCompatActivity {
                             object.get("jurusan").toString().replaceAll("\"", ""),
                             object.get("class_member").toString().replaceAll("\"", "")
                     };
-                    getItemClass(api, id_class, token, headerClassContent);
+                    getItemClass(api, id_class, id_matpel,token, headerClassContent);
 
                 }else{
                     if (response.body().getAsJsonObject("class_info") != null){
@@ -94,10 +95,10 @@ public class ClassRoomActivity extends AppCompatActivity {
         });
     }
 
-    public void getItemClass(APIService api, final String id_class, String token, final String[] headerClassContent){
+    public void getItemClass(APIService api, final String id_class, final String id_matpel,String token, final String[] headerClassContent){
         String role = getSharedPreferences("session", 0).getString("role", "");
         Call<ResponseData> loadClassRoomGuru = api.getListClassItemGuru(id_class, "Bearer "+token);
-        Call<ResponseData> loadClassRoomSiswa = api.getListClassItemSiswa(id_class, "Bearer "+token);
+        Call<ResponseData> loadClassRoomSiswa = api.getListClassItemSiswa(id_class, id_matpel,"Bearer "+token);
         if(role.equals("guru")){
             loadClassRoomGuru.enqueue(new Callback<ResponseData>() {
                 @Override

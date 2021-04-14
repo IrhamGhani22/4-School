@@ -7,6 +7,7 @@ public class Schedule {
     @SerializedName("hari")
     private String days;
     private String jam_mulai;
+    private String id_matpel;
     private String jam_selesai;
     private String ruangan;
     @SerializedName("mapel")
@@ -65,6 +66,10 @@ public class Schedule {
 
     public String getId_kelas() {
         return id_kelas;
+    }
+
+    public String getId_matpel() {
+        return id_matpel;
     }
 
     public void setTingkatan(String tingkatan) {
