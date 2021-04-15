@@ -16,8 +16,8 @@ public class HomeData {
   };
 
   public static int[] bghome = new int[]{
-    R.drawable.card_matpel_illustration,
-    R.drawable.card_maps_illustration
+    R.drawable.undraw_teaching_f1cm,
+    R.drawable.undraw_professor_8lrt
   };
 
   public static ArrayList<Home> getlisthome(){
