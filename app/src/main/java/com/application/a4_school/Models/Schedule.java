@@ -3,6 +3,8 @@ package com.application.a4_school.Models;
 import com.google.gson.annotations.SerializedName;
 
 public class Schedule {
+    @SerializedName("id_jadwal")
+    private int id_schedule;
     private int background;
     @SerializedName("hari")
     private String days;
@@ -15,6 +17,14 @@ public class Schedule {
     private String id_kelas;
     private String tingkatan;
     private String jurusan;
+
+    public int getId_schedule() {
+        return id_schedule;
+    }
+
+    public void setId_schedule(int id_schedule) {
+        this.id_schedule = id_schedule;
+    }
 
     public int getBackground() {
         return background;

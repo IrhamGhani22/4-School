@@ -40,13 +40,13 @@ public class ClassRoomActivity extends AppCompatActivity {
         setContentView(R.layout.activity_class_room);
         initialize();
         rvClassroom.setLayoutManager(new LinearLayoutManager(this));
-        final String id_class = getIntent().getStringExtra("EXTRA_CLASS");
-        String id_matpel = getIntent().getStringExtra("EXTRA_ID_MATPEL");
-        String matpel = getIntent().getStringExtra("EXTRA_MATPEL");
+        final String id_class = getIntent().getExtras().getString("EXTRA_CLASS");
+        String matpel = getIntent().getExtras().getString("EXTRA_MATPEL");
+        final int id_schedule = getIntent().getExtras().getInt("EXTRA_SCHEDULE", 0);
         String role = getSharedPreferences("session", 0).getString("role", "");
         titleClass.setText(matpel);
-        Log.d("infoClass", ""+id_class);
-        getInfoClass(id_class, id_matpel);
+        Log.d("infoClass", ""+id_schedule);
+        getInfoClass(id_class, id_schedule);
         switch (role){
             case "siswa":
                 btnInput.setVisibility(View.GONE);
@@ -72,7 +72,7 @@ public class ClassRoomActivity extends AppCompatActivity {
         titleClass = findViewById(R.id.titleClass);
     }
 
-    public void getInfoClass(final String id_class, final String id_matpel){
+    public void getInfoClass(final String id_class, final int id_schedule){
         final String token = getSharedPreferences("session", 0).getString("token", "");
         final APIService api = APIClient.getClient().create(APIService.class);
         Call<JsonObject> loadClassInformation= api.getClassInformation(id_class);
@@ -87,7 +87,7 @@ public class ClassRoomActivity extends AppCompatActivity {
                             object.get("jurusan").toString().replaceAll("\"", ""),
                             object.get("class_member").toString().replaceAll("\"", "")
                     };
-                    getItemClass(api, id_class, id_matpel,token, headerClassContent);
+                    getItemClass(api, id_class, id_schedule,token, headerClassContent);
 
                 }else{
                     if (response.body().getAsJsonObject("class_info") != null){
@@ -106,10 +106,10 @@ public class ClassRoomActivity extends AppCompatActivity {
         });
     }
 
-    public void getItemClass(APIService api, final String id_class, final String id_matpel,String token, final String[] headerClassContent){
+    public void getItemClass(APIService api, final String id_class,final int id_schedule, String token, final String[] headerClassContent){
         String role = getSharedPreferences("session", 0).getString("role", "");
-        Call<ResponseData> loadClassRoomGuru = api.getListClassItemGuru(id_class, "Bearer "+token);
-        Call<ResponseData> loadClassRoomSiswa = api.getListClassItemSiswa(id_class, id_matpel,"Bearer "+token);
+        Call<ResponseData> loadClassRoomGuru = api.getListClassItemGuru(id_schedule, "Bearer "+token);
+        Call<ResponseData> loadClassRoomSiswa = api.getListClassItemSiswa(id_schedule, "Bearer "+token);
         if(role.equals("guru")){
             loadClassRoomGuru.enqueue(new Callback<ResponseData>() {
                 @Override

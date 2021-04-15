@@ -1,5 +1,6 @@
 package com.application.a4_school.RestAPI;
 
+import com.application.a4_school.Models.ClassRoom;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
@@ -54,29 +55,32 @@ public interface APIService {
     @GET("classInfo")
     Call<JsonObject> getClassInformation (@Query("id_kelas") String id_class);
 
-    @FormUrlEncoded
-    @POST("GuruSchedule/upload-materi")
-    Call<ResponseBody> uploadTaskTheory (@Field("id_kelas") String id_class,
-                                         @Field("id_matpel") String id_matpel,
-                                         @Field("judul") String title,
-                                         @Field("deskripsi") String description,
-                                         @Field("tipe") String type,
-                                         @Field("tenggat") String deadline,
-                                         @Header("Authorization") String jwt_token);
+    @GET("SiswaSchedule/classRoomData")
+    Call<ClassRoom> getClassData(@Query("id_kelas") String id_kelas, @Header("Authorization") String jwt_token);
 
     @FormUrlEncoded
     @POST("forgot")
     Call<JsonObject> sendMailToken (@Field("email") String email);
 
     @FormUrlEncoded
+    @POST("GuruSchedule/create_tugas/{id_jadwal}")
+    Call<JsonObject> uploadTaskTheory (@Header("Authorization") String jwt_token,
+                                       @Field("id_jadwal") int id_schedule,
+                                       @Field("judul") String title,
+                                       @Field("deskripsi") String description,
+                                       @Field("tipe") String type,
+                                       @Field("tenggat") String deadline);
+
+    @FormUrlEncoded
     @POST("resetpassword")
     Call<JsonObject> resetPassword(@Field("email") String email, @Field("password") String password, @Field("token") String accessToken);
 
-    @GET("GuruSchedule/index_classroom_guru/{id_kelas}")
-    Call<ResponseData> getListClassItemGuru (@Path("id_kelas") String id_class, @Header("Authorization") String jwt_token);
+    @GET("GuruSchedule/index_classroom_guru/{id_jadwal}")
+    //inidirubah id_jadwal
+    Call<ResponseData> getListClassItemGuru (@Path("id_jadwal") int id_schedule, @Header("Authorization") String jwt_token);
 
-    @GET("SiswaSchedule/index_classroom_siswa/{id_kelas}")
-    Call<ResponseData> getListClassItemSiswa (@Path("id_kelas") String id_class, @Query("id_matpel") String id_matpel,@Header("Authorization") String jwt_token);
+    @GET("SiswaSchedule/index_classroom_siswa/{id_jadwal}")
+    Call<ResponseData> getListClassItemSiswa (@Path("id_jadwal") int id_schedule, @Header("Authorization") String jwt_token);
 
     @GET("index_classroom/memberclass")
     Call<ResponseData> getListMembersClass (@Query("id_kelas") String id_class, @Query("page") int page);
