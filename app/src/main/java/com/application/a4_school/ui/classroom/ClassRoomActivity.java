@@ -109,7 +109,7 @@ public class ClassRoomActivity extends AppCompatActivity {
     public void getItemClass(APIService api, final String id_class,final int id_schedule, String token, final String[] headerClassContent){
         String role = getSharedPreferences("session", 0).getString("role", "");
         Call<ResponseData> loadClassRoomGuru = api.getListClassItemGuru(id_schedule, "Bearer "+token);
-        //Call<ResponseData> loadClassRoomSiswa = api.getListClassItemSiswa(id_class, id_matpel,"Bearer "+token);
+        Call<ResponseData> loadClassRoomSiswa = api.getListClassItemSiswa(id_schedule, "Bearer "+token);
         if(role.equals("guru")){
             loadClassRoomGuru.enqueue(new Callback<ResponseData>() {
                 @Override
@@ -134,28 +134,28 @@ public class ClassRoomActivity extends AppCompatActivity {
                 }
             });
         }else{
-//            loadClassRoomSiswa.enqueue(new Callback<ResponseData>() {
-//                @Override
-//                public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
-//                    if (response.isSuccessful()){
-//                        list.addAll(ClassRoomData.getlistClassroom());
-//                        if (!response.body().getIndex_class_siswa().isEmpty()){
-//                            list.addAll(response.body().getIndex_class_siswa());
-//                        }
-//                        adapter = new ClassListAdapter(list, headerClassContent, id_class,ClassRoomActivity.this);
-//                        rvClassroom.setAdapter(adapter);
-//                        loading_classroom.setVisibility(View.GONE);
-//                    }else{
-//
-//                    }
-//
-//                }
-//
-//                @Override
-//                public void onFailure(Call<ResponseData> call, Throwable t) {
-//
-//                }
-//            });
+            loadClassRoomSiswa.enqueue(new Callback<ResponseData>() {
+                @Override
+                public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
+                    if (response.isSuccessful()){
+                        list.addAll(ClassRoomData.getlistClassroom());
+                        if (!response.body().getIndex_class_siswa().isEmpty()){
+                            list.addAll(response.body().getIndex_class_siswa());
+                        }
+                        adapter = new ClassListAdapter(list, headerClassContent, id_class,ClassRoomActivity.this);
+                        rvClassroom.setAdapter(adapter);
+                        loading_classroom.setVisibility(View.GONE);
+                    }else{
+
+                    }
+
+                }
+
+                @Override
+                public void onFailure(Call<ResponseData> call, Throwable t) {
+
+                }
+            });
         }
 
     }

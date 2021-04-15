@@ -24,6 +24,7 @@ import com.application.a4_school.RestAPI.APIClient;
 import com.application.a4_school.RestAPI.APIService;
 import com.application.a4_school.adapter.SpinnerAdapter;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.gson.JsonObject;
 
 import java.io.File;
 import java.util.Calendar;
@@ -145,13 +146,13 @@ public class FormClassRoomActivity extends AppCompatActivity {
 
     }
 
-    private void uploadTaskTheory(String id_class, String id_matpel, String title, String description, String type, String deadline){
+    private void uploadTaskTheory(int id_schedule, String id_matpel, String title, String description, String type, String deadline){
         String token = getSharedPreferences("session", 0).getString("token", "");
         APIService api = APIClient.getClient().create(APIService.class);
-        Call<ResponseBody> upload = api.uploadTaskTheory(id_class, id_matpel, title, description, type, deadline, "Bearer "+token);
-        upload.enqueue(new Callback<ResponseBody>() {
+        Call<JsonObject> upload = api.uploadTaskTheory("Bearer "+token, id_schedule, title, description, type, deadline);
+        upload.enqueue(new Callback<JsonObject>() {
             @Override
-            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
                 if (response.isSuccessful()){
 
                 }else{
@@ -160,7 +161,7 @@ public class FormClassRoomActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
+            public void onFailure(Call<JsonObject> call, Throwable t) {
 
             }
         });
