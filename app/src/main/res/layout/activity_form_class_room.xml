@@ -1,118 +1,245 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:animateLayoutChanges="true"
     tools:context=".ui.classroom.FormClassRoomActivity">
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="20dp"
-        android:orientation="vertical"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:layout_height="match_parent"
+        android:animateLayoutChanges="true"
+        tools:context=".ui.classroom.FormClassRoomActivity">
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="Task"
-            android:textSize="20dp" />
-        <Spinner
-            android:id="@+id/list_task"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            />
-<!--        <TextView-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="match_parent"-->
-<!--            android:text="Description"-->
-<!--            android:textSize="20dp" />-->
+            android:layout_margin="20dp"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
-<!--        <com.google.android.material.textfield.TextInputEditText-->
-<!--            android:id="@+id/inp_desc"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_marginBottom="10dp"-->
-<!--            android:inputType="text"-->
-<!--            android:textSize="16sp" />-->
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="Upload File"
-            android:textSize="20dp" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="16dp"
+                android:fontFamily="@font/poppins_light"
+                android:text="Type"
+                android:textSize="14sp" />
 
-        <androidx.cardview.widget.CardView
-            android:id="@+id/addfile"
-            android:layout_width="match_parent"
-            android:layout_height="70dp"
-            app:cardElevation="4dp"
-            android:layout_centerHorizontal="true"
-            tools:ignore="UnusedAttribute">
+            <Spinner
+                android:id="@+id/list_task"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp" />
 
-            <RelativeLayout
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent">
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/outlinedTextFieldTitleClass"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:hint="Title"
+                android:textColorHint="@color/SkyBlue"
+                app:boxStrokeColor="@color/SkyBlue"
+                app:boxStrokeWidth="5dp">
 
-                <TextView
-                    android:id="@+id/addf"
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/edt_title_formclass"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/poppins_regular"
+                    android:maxLength="120"
+                    android:maxLines="2"
+                    android:textColor="@color/blackCharcoal"
+                    android:textSize="14sp" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/outlinedTextFieldDescClass"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:hint="Description"
+                android:textColorHint="@color/SkyBlue"
+                app:boxStrokeColor="@color/SkyBlue"
+                app:boxStrokeWidth="5dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/edt_descrip_formclass"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/poppins_regular"
+                    android:maxLines="10"
+                    android:textColor="@color/blackCharcoal"
+                    android:textSize="14sp" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+            <TextView
+                android:id="@+id/deadlineText"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:fontFamily="@font/poppins_light"
+                android:animateLayoutChanges="true"
+                android:text="Deadline"
+                android:textSize="14sp" />
+
+            <LinearLayout
+                android:id="@+id/container_deadline"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:animateLayoutChanges="true"
+                android:layout_marginBottom="16dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="8dp"
+                    android:layout_weight="1"
+                    android:hint="Days"
+                    android:textColorHint="@color/SkyBlue"
+                    app:boxStrokeColor="@color/SkyBlue"
+                    app:boxStrokeWidth="5dp">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/edt_days_deadline"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/poppins_regular"
+                        android:maxLines="10"
+                        android:textColor="@color/blackCharcoal"
+                        android:textSize="14sp" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:hint="Month"
+                    android:textColorHint="@color/SkyBlue"
+                    app:boxStrokeColor="@color/SkyBlue"
+                    app:boxStrokeWidth="5dp">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/edt_month_deadline"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/poppins_regular"
+                        android:maxLines="10"
+                        android:textColor="@color/blackCharcoal"
+                        android:textSize="14sp" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="8dp"
+                    android:layout_weight="1.5"
+                    android:hint="Year"
+                    android:textColorHint="@color/SkyBlue"
+                    app:boxStrokeColor="@color/SkyBlue"
+                    app:boxStrokeWidth="5dp">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/edt_year_deadline"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/poppins_regular"
+                        android:maxLines="10"
+                        android:textColor="@color/blackCharcoal"
+                        android:textSize="14sp" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <ImageButton
+                    android:id="@+id/btn_calendar_deadline"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_gravity="center"
-                    android:layout_marginStart="25dp"
-                    android:fontFamily="@font/poppins_bold"
-                    android:text="Add File"
-                    android:textSize="15sp" />
+                    android:layout_marginLeft="8dp"
+                    android:layout_weight="0.3"
+                    android:background="@drawable/btn_mini_purple"
+                    android:paddingVertical="8dp"
+                    android:src="@drawable/ic_round_calendar"
+                    android:tint="@android:color/white" />
 
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:layout_width="52.5dp"
-                    android:layout_height="52.5dp"
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/uploadText"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:fontFamily="@font/poppins_light"
+                android:text="Upload File"
+                android:textSize="16sp" />
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/container_addfile"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:clickable="true"
+                android:foreground="?android:attr/selectableItemBackground"
+                android:padding="16dp"
+                app:cardCornerRadius="8dp">
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginVertical="16dp">
+
+                    <TextView
+                        android:id="@+id/addf"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_gravity="center"
+                        android:layout_marginStart="20dp"
+                        android:fontFamily="@font/poppins_bold"
+                        android:text="Add File"
+                        android:textSize="15sp" />
+
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginEnd="20dp"
+                        android:src="@drawable/ic_baseline_add_box_24"
+                        app:tint="@color/BluePurple" />
+                </RelativeLayout>
+            </androidx.cardview.widget.CardView>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp">
+
+                <Button
+                    android:id="@+id/btn_upload_tasktheory"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginStart="158dp"
-                    android:layout_marginEnd="22.5dp"
-                    android:src="@drawable/ic_baseline_add_box_24" />
+                    android:layout_marginVertical="32dp"
+                    android:background="@drawable/btn_purple"
+                    android:fontFamily="@font/poppins_light"
+                    android:text="Upload"
+                    android:textColor="@color/whiteDefault" />
             </RelativeLayout>
-        </androidx.cardview.widget.CardView>
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="24dp">
-            <Button
-                android:id="@+id/btn_back"
-                android:layout_width="wrap_content"
-                android:layout_height="60dp"
-                app:icon="@drawable/ic_baseline_arrow_back_24"
-                app:cornerRadius="6dp"
-                app:iconTint="@color/SkyBlue"
-                app:backgroundTint="#ffffff"
-                android:layout_alignParentLeft="true"
-                android:text="Back"
-                style="?attr/materialButtonOutlinedStyle"/>
+        </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <Button
-                android:id="@+id/btn_submit"
-                android:layout_width="wrap_content"
-                android:layout_height="60dp"
-                app:cornerRadius="6dp"
-                android:layout_alignParentRight="true"
-                android:background="@color/BluePurple"
-                android:text="Submit"/>
-        </RelativeLayout>
-<!--        <Button-->
-<!--            android:id="@+id/btnsubmit"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:background="@color/BluePurple"-->
-<!--            android:text="Submit"-->
-<!--            android:textColor="#fff"-->
-<!--            android:textSize="20sp" />-->
-
-    </LinearLayout>
-
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.core.widget.NestedScrollView>

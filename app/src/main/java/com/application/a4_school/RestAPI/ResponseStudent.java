@@ -13,7 +13,7 @@ public class ResponseStudent {
     @SerializedName("message")
     private String messageJson;
     @SerializedName("jadwal_pelajaran")
-    private ArrayList<Schedule> schedule;
+    private ArrayList<Schedule> index_class_siswa;
 
     public String getMessageJson() {
         return messageJson;
@@ -24,6 +24,7 @@ public class ResponseStudent {
     }
 
     public List<Schedule> getSchedule() {
-        return schedule;
+        return index_class_siswa;
     }
+
 }

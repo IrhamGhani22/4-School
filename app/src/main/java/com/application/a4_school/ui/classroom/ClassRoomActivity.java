@@ -16,6 +16,7 @@ import com.application.a4_school.Models.ClassRoomData;
 import com.application.a4_school.R;
 import com.application.a4_school.RestAPI.APIClient;
 import com.application.a4_school.RestAPI.APIService;
+import com.application.a4_school.RestAPI.ResponseData;
 import com.application.a4_school.adapter.ClassListAdapter;
 import com.google.gson.JsonObject;
 
@@ -31,33 +32,49 @@ public class ClassRoomActivity extends AppCompatActivity {
     private ArrayList<ClassRoom> list = new ArrayList<>();
     private LottieAnimationView loading_classroom;
     private static String[] headerClassContent;
+    private TextView titleClass;
     TextView btnInput;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_class_room);
         initialize();
-        list.addAll(ClassRoomData.getlistClassroom());
         rvClassroom.setLayoutManager(new LinearLayoutManager(this));
-        String id_class = getIntent().getStringExtra("EXTRA_CLASS");
-        getClassInfo(id_class);
-        btnInput.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(ClassRoomActivity.this, FormClassRoomActivity.class));
-            }
-        });
+        final String id_class = getIntent().getExtras().getString("EXTRA_CLASS");
+        String matpel = getIntent().getExtras().getString("EXTRA_MATPEL");
+        final int id_schedule = getIntent().getExtras().getInt("EXTRA_SCHEDULE", 0);
+        String role = getSharedPreferences("session", 0).getString("role", "");
+        titleClass.setText(matpel);
+        Log.d("infoClass", ""+id_schedule);
+        getInfoClass(id_class, id_schedule);
+        switch (role){
+            case "siswa":
+                btnInput.setVisibility(View.GONE);
+                break;
+
+            case "guru":
+                btnInput.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent toForm = new Intent(ClassRoomActivity.this, FormClassRoomActivity.class);
+                        toForm.putExtra("EXTRA_ID_CLASS", id_class);
+                        startActivity(toForm);
+                    }
+                });
+        }
+
     }
 
     public void initialize(){
         rvClassroom = findViewById(R.id.rv_class);
         btnInput = findViewById(R.id.addInputFormClass);
         loading_classroom = findViewById(R.id.loading_classroom);
+        titleClass = findViewById(R.id.titleClass);
     }
 
-    public void getClassInfo(String id_class){
-        String jwt_token = getSharedPreferences("session", 0).getString("token", "");
-        APIService api = APIClient.getClient().create(APIService.class);
+    public void getInfoClass(final String id_class, final int id_schedule){
+        final String token = getSharedPreferences("session", 0).getString("token", "");
+        final APIService api = APIClient.getClient().create(APIService.class);
         Call<JsonObject> loadClassInformation= api.getClassInformation(id_class);
         loadClassInformation.enqueue(new Callback<JsonObject>() {
             @Override
@@ -70,11 +87,15 @@ public class ClassRoomActivity extends AppCompatActivity {
                             object.get("jurusan").toString().replaceAll("\"", ""),
                             object.get("class_member").toString().replaceAll("\"", "")
                     };
-                    adapter = new ClassListAdapter(list, headerClassContent, ClassRoomActivity.this);
-                    rvClassroom.setAdapter(adapter);
-                    loading_classroom.setVisibility(View.GONE);
+                    getItemClass(api, id_class, id_schedule,token, headerClassContent);
+
                 }else{
-                    Log.d("classinfo", ""+response.body().getAsJsonObject("class_info"));
+                    if (response.body().getAsJsonObject("class_info") != null){
+                        Log.d("classinfo", ""+response.body().getAsJsonObject("class_info"));
+                    }else{
+                        Log.d("classinfo", "Object null");
+                    }
+
                 }
             }
 
@@ -83,22 +104,60 @@ public class ClassRoomActivity extends AppCompatActivity {
                 Log.d("classinfo", ""+t.getMessage());
             }
         });
-        Call<ClassRoom> loadClassData = api.getClassData(id_class, jwt_token);
-        loadClassData.enqueue(new Callback<ClassRoom>() {
-            @Override
-            public void onResponse(Call<ClassRoom> call, Response<ClassRoom> response) {
-                if (response.isSuccessful()){
+    }
 
-                }else{
-                    
+    public void getItemClass(APIService api, final String id_class,final int id_schedule, String token, final String[] headerClassContent){
+        String role = getSharedPreferences("session", 0).getString("role", "");
+        Call<ResponseData> loadClassRoomGuru = api.getListClassItemGuru(id_schedule, "Bearer "+token);
+        //Call<ResponseData> loadClassRoomSiswa = api.getListClassItemSiswa(id_class, id_matpel,"Bearer "+token);
+        if(role.equals("guru")){
+            loadClassRoomGuru.enqueue(new Callback<ResponseData>() {
+                @Override
+                public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
+                    if (response.isSuccessful()){
+                        list.addAll(ClassRoomData.getlistClassroom());
+                        if (!response.body().getIndex_class_guru().isEmpty()){
+                            list.addAll(response.body().getIndex_class_guru());
+                        }
+                        adapter = new ClassListAdapter(list, headerClassContent, id_class,ClassRoomActivity.this);
+                        rvClassroom.setAdapter(adapter);
+                        loading_classroom.setVisibility(View.GONE);
+                        Log.d("getClassData", "success : "+response.body().getIndex_class_guru());
+                    }else{
+                        Log.d("getClassData", "response not success");
+                    }
                 }
-            }
 
-            @Override
-            public void onFailure(Call<ClassRoom> call, Throwable t) {
+                @Override
+                public void onFailure(Call<ResponseData> call, Throwable t) {
+                    Log.d("getClassData", "response not success"+t.getMessage());
+                }
+            });
+        }else{
+//            loadClassRoomSiswa.enqueue(new Callback<ResponseData>() {
+//                @Override
+//                public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
+//                    if (response.isSuccessful()){
+//                        list.addAll(ClassRoomData.getlistClassroom());
+//                        if (!response.body().getIndex_class_siswa().isEmpty()){
+//                            list.addAll(response.body().getIndex_class_siswa());
+//                        }
+//                        adapter = new ClassListAdapter(list, headerClassContent, id_class,ClassRoomActivity.this);
+//                        rvClassroom.setAdapter(adapter);
+//                        loading_classroom.setVisibility(View.GONE);
+//                    }else{
+//
+//                    }
+//
+//                }
+//
+//                @Override
+//                public void onFailure(Call<ResponseData> call, Throwable t) {
+//
+//                }
+//            });
+        }
 
-            }
-        });
     }
 
 }

@@ -14,7 +14,8 @@ public class UserInfoStorage {
     private static final String Name = "name";
     private static final String Email = "email";
     private static final String Image = "image";
-    private static final String id_class = "id_class";
+    private static final String Id_class = "id_class";
+    private static final String Profession = "profession";
     private Context context;
 
     public UserInfoStorage(Context context){
@@ -22,12 +23,13 @@ public class UserInfoStorage {
         sharedPreferences = context.getSharedPreferences(REFNAME, mode);
         editor = sharedPreferences.edit();
     }
-    public void createInfo(String name, String email, int id, String image, String id_classs) {
+    public void createInfo(String name, String email, int id, String image, String id_classs, String profession) {
         editor.putString(Name, name);
         editor.putString(Email, email);
         editor.putInt(Id, id);
         editor.putString(Image, image);
-        editor.putString(id_class, id_classs);
+        editor.putString(Id_class, id_classs);
+        editor.putString(Profession, profession);
         editor.commit();
     }
     public void addPict(String url){
@@ -36,6 +38,10 @@ public class UserInfoStorage {
     }
     public void savename(String value){
         editor.putString(Name, value);
+        editor.commit();
+    }
+    public void saveEmail(String value){
+        editor.putString(Email, value);
         editor.commit();
     }
     public void clearUser(){

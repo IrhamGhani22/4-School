@@ -13,6 +13,8 @@ public class UserInfo {
     private String role;
     private String photo;
     private String fcm_token;
+    @SerializedName("profesi")
+    private String profession;
 
     public UserInfo() {
     }
@@ -23,6 +25,14 @@ public class UserInfo {
 
     public void setId_class(String id_class) {
         this.id_class = id_class;
+    }
+
+    public String getProfession() {
+        return profession;
+    }
+
+    public void setProfession(String profession) {
+        this.profession = profession;
     }
 
     public int getId() {

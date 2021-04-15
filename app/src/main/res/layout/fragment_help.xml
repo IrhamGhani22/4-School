@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="200dp"
         android:background="@color/BluePurple"
-        tools:ignore="MissingConstraints"></FrameLayout>
+        tools:ignore="MissingConstraints"/>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="360dp"
@@ -46,7 +46,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="400dp"
+            android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:background="@android:color/white"
             android:orientation="vertical"
@@ -61,35 +61,33 @@
                 android:textSize="18sp"
                 android:padding="10dp"/>
 
-            <Button
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/listhelp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/button_transparent_clickable"
-                android:padding="10dp"
-                android:textAllCaps="false"
-                android:textSize="16dp"
-                android:textAlignment="textStart"
-                android:text="How to add profile image"/>
+                tools:listitem="@layout/help_item"
 
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/button_transparent_clickable"
-                android:padding="10dp"
-                android:textAllCaps="false"
-                android:textSize="16dp"
-                android:textAlignment="textStart"
-                android:text="How to forgot password"/>
+                />
 
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/button_transparent_clickable"
-                android:padding="10dp"
-                android:textAllCaps="false"
-                android:textSize="16dp"
-                android:textAlignment="textStart"
-                android:text="How to see map"/>
+<!--            <Button-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:background="@drawable/button_transparent_clickable"-->
+<!--                android:padding="10dp"-->
+<!--                android:textAllCaps="false"-->
+<!--                android:textSize="16dp"-->
+<!--                android:textAlignment="textStart"-->
+<!--                android:text="How to forgot password"/>-->
+
+<!--            <Button-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:background="@drawable/button_transparent_clickable"-->
+<!--                android:padding="10dp"-->
+<!--                android:textAllCaps="false"-->
+<!--                android:textSize="16dp"-->
+<!--                android:textAlignment="textStart"-->
+<!--                android:text="How to see map"/>-->
 
         </LinearLayout>
 

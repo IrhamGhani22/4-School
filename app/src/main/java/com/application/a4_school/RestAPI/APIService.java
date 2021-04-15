@@ -46,13 +46,11 @@ public interface APIService {
     @PATCH("upload/{id}")
     Call<ResponseBody> uploadBase64Pict(@Path("id") int id_user, @Field("photo") String encodedPhoto);
 
-    @FormUrlEncoded
-    @POST("SiswaSchedule")
-    Call<ResponseStudent> getSiswaSchedule(@Field("id_kelas") String id_class, @Header("Authorization") String jwt_token);
+    @GET("SiswaSchedule")
+    Call<ResponseStudent> getSiswaSchedule(@Query("id_kelas") String id_class, @Header("Authorization") String jwt_token);
 
-    @FormUrlEncoded
-    @POST("GuruSchedule")
-    Call<ResponseData> getListSchedule(@Field("id") int id_user, @Header("Authorization") String jwt_token);
+    @GET("GuruSchedule")
+    Call<ResponseData> getListSchedule(@Query("id") int id_user, @Header("Authorization") String jwt_token);
 
     @GET("classInfo")
     Call<JsonObject> getClassInformation (@Query("id_kelas") String id_class);
@@ -69,4 +67,23 @@ public interface APIService {
                                          @Field("tipe") String type,
                                          @Field("tenggat") String deadline,
                                          @Header("Authorization") String jwt_token);
+
+    @FormUrlEncoded
+    @POST("forgot")
+    Call<JsonObject> sendMailToken (@Field("email") String email);
+
+    @FormUrlEncoded
+    @POST("resetpassword")
+    Call<JsonObject> resetPassword(@Field("email") String email, @Field("password") String password, @Field("token") String accessToken);
+
+    @GET("GuruSchedule/index_classroom_guru/{id_jadwal}")
+    //inidirubah id_jadwal
+    Call<ResponseData> getListClassItemGuru (@Path("id_jadwal") int id_jadwal, @Header("Authorization") String jwt_token);
+
+    @GET("SiswaSchedule/index_classroom_siswa/{id_kelas}")
+    Call<ResponseData> getListClassItemSiswa (@Path("id_kelas") String id_class, @Query("id_matpel") String id_matpel,@Header("Authorization") String jwt_token);
+
+    @GET("index_classroom/memberclass")
+    Call<ResponseData> getListMembersClass (@Query("id_kelas") String id_class, @Query("page") int page);
+
 }
