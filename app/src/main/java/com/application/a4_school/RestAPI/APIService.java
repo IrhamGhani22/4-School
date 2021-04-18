@@ -7,6 +7,8 @@ import com.google.gson.JsonObject;
 
 import org.json.JSONObject;
 
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Retrofit;
@@ -15,8 +17,10 @@ import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.Headers;
+import retrofit2.http.Multipart;
 import retrofit2.http.PATCH;
 import retrofit2.http.POST;
+import retrofit2.http.Part;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 
@@ -62,14 +66,15 @@ public interface APIService {
     @POST("forgot")
     Call<JsonObject> sendMailToken (@Field("email") String email);
 
-    @FormUrlEncoded
+    @Multipart
     @POST("GuruSchedule/create_tugas/{id_jadwal}")
-    Call<JsonObject> uploadTaskTheory (@Header("Authorization") String jwt_token,
-                                       @Field("id_jadwal") int id_schedule,
-                                       @Field("judul") String title,
-                                       @Field("deskripsi") String description,
-                                       @Field("tipe") String type,
-                                       @Field("tenggat") String deadline);
+    Call<ResponseBody> uploadTaskTheory (@Header("Authorization") String jwt_token,
+                                       @Path("id_jadwal") int id_schedule,
+                                       @Part("judul") RequestBody title,
+                                       @Part("deskripsi") RequestBody description,
+                                       @Part("tipe") RequestBody type,
+                                       @Part("tenggat") RequestBody deadline,
+                                       @Part MultipartBody.Part[] file);
 
     @FormUrlEncoded
     @POST("resetpassword")

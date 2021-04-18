@@ -183,8 +183,9 @@
                 android:textAllCaps="false"
                 android:textColor="@color/blackCharcoal"
                 android:textSize="12sp"
+                android:layout_marginRight="32dp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintRight_toLeftOf="@+id/shtglclass" />
+                app:layout_constraintRight_toRightOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </LinearLayout>
