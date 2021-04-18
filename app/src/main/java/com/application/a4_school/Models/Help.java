@@ -1,7 +1,18 @@
 package com.application.a4_school.Models;
 
 public class Help {
+    String id;
     String title;
+    String answer;
+    String kategori;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public String getTitle() {
         return title;
@@ -11,13 +22,19 @@ public class Help {
         this.title = title;
     }
 
-    public String getDetail() {
-        return detail;
+    public String getAnswer() {
+        return answer;
     }
 
-    public void setDetail(String detail) {
-        this.detail = detail;
+    public void setAnswer(String answer) {
+        this.answer = answer;
     }
 
-    String detail;
+    public String getKategori() {
+        return kategori;
+    }
+
+    public void setKategori(String kategori) {
+        this.kategori = kategori;
+    }
 }

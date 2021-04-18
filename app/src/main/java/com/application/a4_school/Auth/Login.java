@@ -179,7 +179,7 @@ public class Login extends Activity implements View.OnClickListener {
                 break;
 
             case R.id.register:
-                showDialog();
+                startActivity(new Intent(Login.this, Register.class));
                 break;
         }
 
