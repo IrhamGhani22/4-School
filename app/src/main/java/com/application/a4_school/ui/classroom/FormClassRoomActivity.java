@@ -4,6 +4,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
+import androidx.core.content.FileProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.DatePickerDialog;
@@ -248,16 +249,18 @@ public class FormClassRoomActivity extends AppCompatActivity {
         RequestBody partTilte = createPartFromString(title);
         RequestBody partDesc = createPartFromString(description);
         RequestBody partType = createPartFromString(type);
-        RequestBody partDeadline = null;
-        if (deadline!=null) {
+        RequestBody partDeadline = createPartFromString(deadline);
+        if (!deadline.equals("-- ")) {
             partDeadline = createPartFromString(deadline);
+        }else{
+            partDeadline = null;
         }
         Call<ResponseBody> upload = api.uploadTaskTheory("Bearer "+token, id_schedule, partTilte, partDesc, partType, partDeadline, document);
         upload.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                progressDialog.dismiss();
                 if (response.isSuccessful()){
-                    progressDialog.dismiss();
                     try {
                         String jsonObject = response.body().string();
                         Log.d("UploadTask", "success: " + jsonObject);
@@ -278,7 +281,6 @@ public class FormClassRoomActivity extends AppCompatActivity {
                     dialog.setCancelable(false);
                     dialog.show();
                 }else{
-                    progressDialog.dismiss();
                     try {
                         String jObjError = response.errorBody().string();
                         Log.d("UploadTask", "not success: "+jObjError);
@@ -286,7 +288,6 @@ public class FormClassRoomActivity extends AppCompatActivity {
                     } catch (Exception e) {
                         Toast.makeText(FormClassRoomActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
                     }
-                    Log.d("UploadTask", "not success: "+response.body());
                     dialog.setTitle(type+" Failed uploaded");
                     dialog.setMessage("We can't upload now, please try again later");
                     dialog.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
@@ -295,7 +296,6 @@ public class FormClassRoomActivity extends AppCompatActivity {
                             dialog.dismiss();
                         }
                     });
-                    dialog.setCancelable(false);
                     dialog.show();
                 }
             }
@@ -312,7 +312,6 @@ public class FormClassRoomActivity extends AppCompatActivity {
                         dialog.dismiss();
                     }
                 });
-                dialog.setCancelable(false);
                 dialog.show();
             }
         });
@@ -338,19 +337,35 @@ public class FormClassRoomActivity extends AppCompatActivity {
         switch (requestCode){
             case REQUEST_FILE:
                 if (resultCode == RESULT_OK){
-                    Uri path = data.getData();
+                    final Uri path = data.getData();
                     Log.d("activityResultValue", "value path: "+path);
                     Log.d("activityResultValue", "value name: "+getFileName(path));
                     Log.d("activityResultValue", "value realpath: "+getRealPathFromURI(this,path));
                     Log.d("activityResultValue", "value realpath: "+getMimeType(this,path));
+                    ContentResolver cR = this.getContentResolver();
+                    String type = cR.getType(path);
                     FilesUpload filesUpload = new FilesUpload();
+                    filesUpload.setUri(Uri.parse(getRealPathFromURI(this, path)));
+                    filesUpload.setFile(new File(getRealPathFromURI(this, path)));
                     filesUpload.setNamefile(getFileName(path));
                     filesUpload.setTypefile(getMimeType(this, path));
                     filesUpload.setPath(getRealPathFromURI(this, path));
+                    filesUpload.setRealMime(type);
                     listFileSelected.add(filesUpload);
                     filesAdapter = new ClassFilesAdapter(listFileSelected, this);
                     rvFiles.setAdapter(filesAdapter);
                     filesAdapter.notifyDataSetChanged();
+                    filesAdapter.setOnItemClickCallback(new ClassFilesAdapter.OnItemClickCallback() {
+                        @Override
+                        public void onItemClicked(FilesUpload filesUpload) {
+                            Intent openFile = new Intent(Intent.ACTION_VIEW);
+                            Uri openPath = FileProvider.getUriForFile(FormClassRoomActivity.this, getApplicationContext().getPackageName()+".provider", filesUpload.getFile());
+                            openFile.setDataAndType(openPath,  filesUpload.getRealMime());
+                            openFile.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                            Log.d("realmime", ""+filesUpload.getRealMime());
+                            startActivity(openFile);
+                        }
+                    });
 
                     try {
                         InputStream inputStream = FormClassRoomActivity.this.getContentResolver().openInputStream(path);

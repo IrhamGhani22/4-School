@@ -11,6 +11,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.application.a4_school.Models.ClassRoom;
 import com.application.a4_school.Models.FilesUpload;
 import com.application.a4_school.R;
 import com.bumptech.glide.Glide;
@@ -21,10 +22,15 @@ import java.util.List;
 public class ClassFilesAdapter extends RecyclerView.Adapter<ClassFilesAdapter.ListViewHolder> {
     private List<FilesUpload> listFiles;
     private Context context;
+    private OnItemClickCallback onItemClickCallback;
 
     public ClassFilesAdapter(List<FilesUpload> listFiles, Context context) {
         this.listFiles = listFiles;
         this.context = context;
+    }
+
+    public void setOnItemClickCallback(OnItemClickCallback onItemClickCallback) {
+        this.onItemClickCallback = onItemClickCallback;
     }
 
     @NonNull
@@ -50,6 +56,7 @@ public class ClassFilesAdapter extends RecyclerView.Adapter<ClassFilesAdapter.Li
             case "css":
                 setholderIcon(holder, R.drawable.ext_css);
                 break;
+            case "doc":
             case "docx":
                 setholderIcon(holder, R.drawable.ext_doc);
                 break;
@@ -63,6 +70,7 @@ public class ClassFilesAdapter extends RecyclerView.Adapter<ClassFilesAdapter.Li
                 setholderIcon(holder, R.drawable.ext_html);
                 break;
             case "jpg":
+            case "jpeg":
                 setholderIcon(holder, R.drawable.ext_jpg);
                 break;
             case "js":
@@ -86,6 +94,7 @@ public class ClassFilesAdapter extends RecyclerView.Adapter<ClassFilesAdapter.Li
             case "png":
                 setholderIcon(holder, R.drawable.ext_png);
                 break;
+            case "ppt":
             case "pptx":
                 setholderIcon(holder, R.drawable.ext_ppt);
                 break;
@@ -105,6 +114,7 @@ public class ClassFilesAdapter extends RecyclerView.Adapter<ClassFilesAdapter.Li
                 setholderIcon(holder, R.drawable.ext_txt);
                 break;
             case "xlsx":
+            case "xls":
                 setholderIcon(holder, R.drawable.ext_xlsx);
                 break;
             case "zip":
@@ -122,11 +132,21 @@ public class ClassFilesAdapter extends RecyclerView.Adapter<ClassFilesAdapter.Li
                 notifyItemRangeChanged(holder.getAdapterPosition(), listFiles.size());
             }
         });
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onItemClickCallback.onItemClicked(listFiles.get(holder.getAdapterPosition()));
+            }
+        });
     }
 
     @Override
     public int getItemCount() {
         return listFiles.size();
+    }
+
+    public interface OnItemClickCallback {
+        void onItemClicked(FilesUpload filesUpload);
     }
 
     public RequestManager setholderIcon(ListViewHolder holder, int drawable){

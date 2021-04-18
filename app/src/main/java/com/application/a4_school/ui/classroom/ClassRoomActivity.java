@@ -92,7 +92,7 @@ public class ClassRoomActivity extends AppCompatActivity {
                             object.get("jurusan").toString().replaceAll("\"", ""),
                             object.get("class_member").toString().replaceAll("\"", "")
                     };
-                    getItemClass(null);
+                    getItemClass();
 
                 }else{
                     if (response.body().getAsJsonObject("class_info") != null){
@@ -109,7 +109,7 @@ public class ClassRoomActivity extends AppCompatActivity {
         });
     }
 
-    public void getItemClass(final String conditionParams){
+    public void getItemClass(){
         final APIService api = APIClient.getClient().create(APIService.class);
         Call<ResponseData> loadClassRoomGuru = api.getListClassItemGuru(id_schedule, "Bearer "+token);
         Call<ResponseData> loadClassRoomSiswa = api.getListClassItemSiswa(id_schedule, "Bearer "+token);
@@ -118,9 +118,8 @@ public class ClassRoomActivity extends AppCompatActivity {
                 @Override
                 public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
                     if (response.isSuccessful()){
-                        if (conditionParams == null) {
-                            list.addAll(ClassRoomData.getlistClassroom());
-                        }
+                        list.clear();
+                        list.addAll(ClassRoomData.getlistClassroom());
                         if (response.body().getIndex_class_guru() != null){
                             list.addAll(response.body().getIndex_class_guru());
                         }
@@ -153,6 +152,7 @@ public class ClassRoomActivity extends AppCompatActivity {
                 @Override
                 public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
                     if (response.isSuccessful()){
+                        list.clear();
                         list.addAll(ClassRoomData.getlistClassroom());
                         if (!response.body().getIndex_class_siswa().isEmpty()){
                             list.addAll(response.body().getIndex_class_siswa());
@@ -179,7 +179,7 @@ public class ClassRoomActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 14){
-            this.getItemClass("newItem");
+            this.getItemClass();
         }
     }
 }
