@@ -82,6 +82,7 @@ public class FormClassRoomActivity extends AppCompatActivity {
     private RecyclerView rvFiles;
     private List<FilesUpload> listFileSelected = new ArrayList<>();
     ClassFilesAdapter filesAdapter;
+    String deadline;
     String filepath[];
     String extension[];
     //data dummy dropdown, hapus aja nanti
@@ -154,7 +155,12 @@ public class FormClassRoomActivity extends AppCompatActivity {
                 String id_matpel = getSharedPreferences("userInfo", 0).getString("profession", "");
                 String title = inputTitlte.getText().toString().trim();
                 String desc = inputDescription.getText().toString().trim();
-                String deadline = inputYear.getText().toString().trim() + "-" + inputMonth.getText().toString().trim() + "-" + inputDays.getText().toString().trim()+" "+inputTime.getText().toString().trim();
+                if (inputDays.getText().toString().trim() != null){
+                    deadline = inputYear.getText().toString().trim() + "-" + inputMonth.getText().toString().trim() + "-" + inputDays.getText().toString().trim()+" "+inputTime.getText().toString().trim();
+                }else{
+                    deadline = null;
+                }
+
                 if (title.equals("")){
                     inputTitlte.setError("Please input this field");
                 }
@@ -243,14 +249,14 @@ public class FormClassRoomActivity extends AppCompatActivity {
         if (listFileSelected.isEmpty()){
             document = null;
         }else{
-            document = prepareDocument(listFileSelected, "file");
+            document = prepareDocument(listFileSelected, "file[]");
         }
         APIService api = APIClient.getClient().create(APIService.class);
         RequestBody partTilte = createPartFromString(title);
         RequestBody partDesc = createPartFromString(description);
         RequestBody partType = createPartFromString(type);
-        RequestBody partDeadline = createPartFromString(deadline);
-        if (!deadline.equals("-- ")) {
+        RequestBody partDeadline;
+        if (deadline != null) {
             partDeadline = createPartFromString(deadline);
         }else{
             partDeadline = null;

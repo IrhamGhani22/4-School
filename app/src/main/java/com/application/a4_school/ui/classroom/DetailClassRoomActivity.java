@@ -3,12 +3,14 @@ package com.application.a4_school.ui.classroom;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
 import com.application.a4_school.Models.ClassRoom;
 import com.application.a4_school.R;
+import com.application.a4_school.RestAPI.DownloadFromUrl;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -18,6 +20,9 @@ public class DetailClassRoomActivity extends AppCompatActivity {
     private TextView shDeadline, shTitle, shDetail, shPoint, shAttachment;
     private RecyclerView rv_files;
     private String type;
+    private static String file_url;
+    private ProgressDialog pDialog;
+    public static final int progress_bar_type = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,6 +31,7 @@ public class DetailClassRoomActivity extends AppCompatActivity {
         initialize();
         ClassRoom classdata = getIntent().getParcelableExtra("EXTRA_PARCEL_CLASS");
         type = classdata.getType();
+        file_url = classdata.getFile_url();
         String role = getSharedPreferences("session", 0).getString("role", "");
         switch (role){
             case "siswa":
@@ -54,6 +60,8 @@ public class DetailClassRoomActivity extends AppCompatActivity {
         }
         if (classdata.getFile_url() == null){
             shAttachment.setVisibility(View.GONE);
+        }else{
+            getFileFromUrl();
         }
         shTitle.setText(classdata.getTitle());
         shDetail.setText(classdata.getDescription());
@@ -66,6 +74,10 @@ public class DetailClassRoomActivity extends AppCompatActivity {
         shDetail    = findViewById(R.id.tv_detail_detail_class);
         shAttachment= findViewById(R.id.txt_attach);
         rv_files    = findViewById(R.id.rv_files_detail);
+    }
+
+    private void getFileFromUrl(){
+        //new DownloadFromUrl().execute(file_url);
     }
 
     private String reformatdate(String time){
@@ -84,4 +96,5 @@ public class DetailClassRoomActivity extends AppCompatActivity {
         }
         return str;
     }
+
 }

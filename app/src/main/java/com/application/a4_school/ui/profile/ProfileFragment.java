@@ -30,6 +30,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
@@ -72,6 +73,8 @@ public class ProfileFragment extends Fragment {
     private static ProfileFragment instance;
     private UserInfoStorage userInfoStorage;
     private SessionManager sessionManager;
+    private ConstraintLayout containerProf, containerClass, containerMajor;
+    private TextView shProf;
     private Bitmap bitmap;
     private Toolbar shUsername;
     private CircleImageView userImage;
@@ -109,8 +112,17 @@ public class ProfileFragment extends Fragment {
 
         userInfoStorage = new UserInfoStorage(getActivity().getApplicationContext());
         sessionManager = new SessionManager(getActivity().getApplicationContext());
+        String prof = null;
         String name = getActivity().getSharedPreferences("userInfo", 0).getString("name", "Hmm something wen't wrong i cant see your name):");
         shUsername.setTitle(name);
+
+        if (role.equals("guru")){
+            containerClass.setVisibility(View.GONE);
+            containerMajor.setVisibility(View.GONE);
+            shProf.setText(prof);
+        }else{
+            containerProf.setVisibility(View.GONE);
+        }
 
 //        final Toolbar toolbar = (Toolbar)root.findViewById(R.id.toolbarpf);
 //        toolbar.setBackgroundColor(R.color.BlueishPurple);
@@ -151,6 +163,10 @@ public class ProfileFragment extends Fragment {
         chooseImage = root.findViewById(R.id.chooseUserImage);
         userImage = root.findViewById(R.id.userImage);
         shUsername = root.findViewById(R.id.toolbarpf);
+        containerProf = root.findViewById(R.id.container_profession_profile);
+        containerClass = root.findViewById(R.id.container_class_profile);
+        containerMajor = root.findViewById(R.id.container_major_profile);
+        shProf = root.findViewById(R.id.profession);
     }
 
     private void chooseMenu() {
