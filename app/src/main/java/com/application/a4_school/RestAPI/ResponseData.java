@@ -1,5 +1,6 @@
 package com.application.a4_school.RestAPI;
 
+import com.application.a4_school.Auth.sessionResp.UserInfo;
 import com.application.a4_school.Models.ClassRoom;
 import com.application.a4_school.Models.Members;
 import com.application.a4_school.Models.Schedule;
@@ -14,6 +15,21 @@ public class ResponseData {
     private List<ClassRoom> index_class_siswa;
     private List<ClassRoom> index_class_guru;
     private List<Members> members;
+    @SerializedName("kelas")
+    private List<UserInfo> listMajors;
+    private UserInfo information;
+
+    public UserInfo getInformation() {
+        return information;
+    }
+
+    public List<UserInfo> getListMajors() {
+        return listMajors;
+    }
+
+    public void setListMajors(List<UserInfo> listMajors) {
+        this.listMajors = listMajors;
+    }
 
     @SerializedName("message")
     private String messageJson;

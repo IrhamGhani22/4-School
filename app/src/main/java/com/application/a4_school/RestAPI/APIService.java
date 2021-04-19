@@ -1,5 +1,7 @@
 package com.application.a4_school.RestAPI;
 
+import android.util.Log;
+
 import com.application.a4_school.Models.ClassRoom;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -72,6 +74,16 @@ public interface APIService {
                                        @Field("tenggat") String deadline);
 
     @FormUrlEncoded
+    @PATCH("update_Profile/{id_user}")
+    Call<ResponseBody> updateProfile (@Path("id_user") int id_user,
+                                      @Field("name") String name,
+                                      @Field("nip") String nip,
+                                      @Field("nis") String nis,
+                                      @Field("kelas") String kelas,
+                                      @Field("profesi") String profesi,
+                                      @Field("tanggal_tanggal") String tanggal_lahir);
+
+    @FormUrlEncoded
     @POST("resetpassword")
     Call<JsonObject> resetPassword(@Field("email") String email, @Field("password") String password, @Field("token") String accessToken);
 
@@ -84,5 +96,11 @@ public interface APIService {
 
     @GET("index_classroom/memberclass")
     Call<ResponseData> getListMembersClass (@Query("id_kelas") String id_class, @Query("page") int page);
+
+    @GET("userinformation")
+    Call<ResponseData> getUserInfo (@Query("id") int id_user);
+
+    @GET("ShowKelas")
+    Call<ResponseData> getMajors(@Query("tingkatan") String classlevel);
 
 }

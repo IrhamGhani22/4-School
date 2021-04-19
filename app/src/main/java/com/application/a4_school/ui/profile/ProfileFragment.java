@@ -75,9 +75,16 @@ public class ProfileFragment extends Fragment {
     private Bitmap bitmap;
     private Toolbar shUsername;
     private CircleImageView userImage;
+    private String nipOrNis;
+    private String email;
+    private String birthday;
+    private String majors;
+    private String classLevel;
     String part_image = "";
+    String id_class;
     Context context;
     FloatingActionButton editProfile;
+    private TextView shNipOrNis, shEmail, shClass, shMajors, shBirthday;
 
     public CircleImageView getUserImage() {
         return userImage;
@@ -97,20 +104,38 @@ public class ProfileFragment extends Fragment {
         initialize(root);
         instance = this;
 
+        nipOrNis = getActivity().getSharedPreferences("userInfo", 0).getString("nip_or_nis", "Loading...");
+        email = getActivity().getSharedPreferences("userInfo", 0).getString("email", "loading...");
+        birthday = getActivity().getSharedPreferences("userInfo", 0).getString("birthday", "loading...");
+
+        shNipOrNis.setText(nipOrNis);
+        shEmail.setText(email);
+        shBirthday.setText(birthday);
+
+        getUserInfo();
         ImageButton editProfile = root.findViewById(R.id.edtprofile);
+
+        userInfoStorage = new UserInfoStorage(getActivity().getApplicationContext());
+        sessionManager = new SessionManager(getActivity().getApplicationContext());
+        final String name = getActivity().getSharedPreferences("userInfo", 0).getString("name", "Hmm something wen't wrong i cant see your name):");
+        shUsername.setTitle(name);
+
         editProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent toEditProfile = new Intent(getActivity(), EditProfile.class);
+                toEditProfile.putExtra("EXTRA_NAME", name);
+                toEditProfile.putExtra("EXTRA_NIS", nipOrNis);
+                toEditProfile.putExtra("EXTRA_EMAIL", email);
+                toEditProfile.putExtra("EXTRA_CLASS", classLevel);
+                toEditProfile.putExtra("EXTRA_MAJORS", majors);
+                toEditProfile.putExtra("EXTRA_DATE", birthday);
+                toEditProfile.putExtra("EXTRA_ID_CLASS", id_class);
+
+
                 startActivity(toEditProfile);
             }
         });
-
-
-        userInfoStorage = new UserInfoStorage(getActivity().getApplicationContext());
-        sessionManager = new SessionManager(getActivity().getApplicationContext());
-        String name = getActivity().getSharedPreferences("userInfo", 0).getString("name", "Hmm something wen't wrong i cant see your name):");
-        shUsername.setTitle(name);
 
 //        final Toolbar toolbar = (Toolbar)root.findViewById(R.id.toolbarpf);
 //        toolbar.setBackgroundColor(R.color.BlueishPurple);
@@ -151,6 +176,45 @@ public class ProfileFragment extends Fragment {
         chooseImage = root.findViewById(R.id.chooseUserImage);
         userImage = root.findViewById(R.id.userImage);
         shUsername = root.findViewById(R.id.toolbarpf);
+        shNipOrNis = root.findViewById(R.id.nip_or_nis);
+        shEmail = root.findViewById(R.id.email_profile);
+        shClass = root.findViewById(R.id.class_profile);
+        shMajors = root.findViewById(R.id.majors_profile);
+        shBirthday = root.findViewById(R.id.birthday);
+    }
+
+    private void getUserInfo() {
+        int id_user = getActivity().getSharedPreferences("userInfo", 0).getInt("id", 0);
+        final String role = getActivity().getSharedPreferences("session", 0).getString("role", "");
+        APIService api = APIClient.getClient().create(APIService.class);
+        Call<ResponseData> loadInfo = api.getUserInfo(id_user);
+        loadInfo.enqueue(new Callback<ResponseData>() {
+            @Override
+            public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
+                if (response.isSuccessful()) {
+                    id_class = response.body().getInformation().getId_class();
+                    switch (role) {
+                        case "siswa":
+                            shClass.setText(response.body().getInformation().getClassLevel());
+                            shMajors.setText(response.body().getInformation().getMajors());
+                            classLevel = response.body().getInformation().getClassLevel();
+                            majors = response.body().getInformation().getMajors();
+                            break;
+                        case "guru":
+
+                            break;
+                    }
+
+                } else {
+                    Toast.makeText(getActivity(), "failed load", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseData> call, Throwable t) {
+                Toast.makeText(getActivity(), "failure", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private void chooseMenu() {
