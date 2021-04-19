@@ -23,6 +23,8 @@ import retrofit2.http.POST;
 import retrofit2.http.Part;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
+import retrofit2.http.Streaming;
+import retrofit2.http.Url;
 
 public interface APIService {
 
@@ -89,5 +91,12 @@ public interface APIService {
 
     @GET("index_classroom/memberclass")
     Call<ResponseData> getListMembersClass (@Query("id_kelas") String id_class, @Query("page") int page);
+
+    @GET("index_classroom/file/{id_tugas}")
+    Call<ResponseData> getListFiles (@Path("id_tugas") String id_taskclass, @Query("condition") String condition);
+
+    @Streaming
+    @GET()
+    Call<ResponseBody> downloadFile(@Url String url);
 
 }

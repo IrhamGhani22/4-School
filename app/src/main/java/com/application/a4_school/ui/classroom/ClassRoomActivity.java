@@ -162,15 +162,22 @@ public class ClassRoomActivity extends AppCompatActivity {
                         adapter = new ClassListAdapter(list, headerClassContent, id_class, ClassRoomActivity.this);
                         rvClassroom.setAdapter(adapter);
                         loading_classroom.setVisibility(View.GONE);
+                        adapter.setOnItemClickCallback(new ClassListAdapter.OnItemClickCallback() {
+                            @Override
+                            public void onItemClicked(ClassRoom classRoomList) {
+                                Intent toDetail = new Intent(ClassRoomActivity.this, DetailClassRoomActivity.class);
+                                toDetail.putExtra("EXTRA_PARCEL_CLASS", classRoomList);
+                                startActivity(toDetail);
+                            }
+                        });
                     } else {
-
+                        Log.d("getClassData", "response not success");
                     }
-
                 }
 
                 @Override
                 public void onFailure(Call<ResponseData> call, Throwable t) {
-
+                    Log.d("getClassData", "response not success" + t.getMessage());
                 }
             });
         }

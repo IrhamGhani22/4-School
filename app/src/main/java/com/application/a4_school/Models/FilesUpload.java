@@ -2,22 +2,36 @@ package com.application.a4_school.Models;
 
 import android.net.Uri;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.io.File;
 
 public class FilesUpload {
+    @SerializedName("extensi")
     private String typefile;
+    @SerializedName("name_file")
     private String namefile;
+    @SerializedName("file")
+    private String file_url;
     private String path;
     private Uri uri;
     private String realMime;
-    private File file;
+    private File files;
 
     public File getFile() {
-        return file;
+        return files;
     }
 
     public void setFile(File file) {
-        this.file = file;
+        this.files = file;
+    }
+
+    public String getFile_url() {
+        return file_url;
+    }
+
+    public void setFile_url(String file_url) {
+        this.file_url = file_url;
     }
 
     public String getRealMime() {

@@ -11,7 +11,6 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.application.a4_school.Models.ClassRoom;
 import com.application.a4_school.Models.FilesUpload;
 import com.application.a4_school.R;
 import com.bumptech.glide.Glide;
@@ -23,10 +22,12 @@ public class ClassFilesAdapter extends RecyclerView.Adapter<ClassFilesAdapter.Li
     private List<FilesUpload> listFiles;
     private Context context;
     private OnItemClickCallback onItemClickCallback;
+    private String condition;
 
-    public ClassFilesAdapter(List<FilesUpload> listFiles, Context context) {
+    public ClassFilesAdapter(List<FilesUpload> listFiles, Context context, String condition) {
         this.listFiles = listFiles;
         this.context = context;
+        this.condition = condition;
     }
 
     public void setOnItemClickCallback(OnItemClickCallback onItemClickCallback) {
@@ -42,8 +43,7 @@ public class ClassFilesAdapter extends RecyclerView.Adapter<ClassFilesAdapter.Li
 
     @Override
     public void onBindViewHolder(@NonNull final ListViewHolder holder, final int position) {
-        holder.txtFilename.setText(listFiles.get(position).getNamefile());
-        switch (listFiles.get(position).getTypefile()){
+        switch (listFiles.get(position).getTypefile()) {
             case "ai":
                 setholderIcon(holder, R.drawable.ext_ai);
                 break;
@@ -124,18 +124,23 @@ public class ClassFilesAdapter extends RecyclerView.Adapter<ClassFilesAdapter.Li
                 setholderIcon(holder, R.drawable.ext_undefined);
                 break;
         }
-        holder.btnDeleteFiles.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                listFiles.remove(holder.getAdapterPosition());
-                notifyItemRemoved(holder.getAdapterPosition());
-                notifyItemRangeChanged(holder.getAdapterPosition(), listFiles.size());
-            }
-        });
+        holder.txtFilename.setText(listFiles.get(position).getNamefile());
+        if (condition.equals("form")) {
+            holder.btnDeleteFiles.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    listFiles.remove(holder.getAdapterPosition());
+                    notifyItemRemoved(holder.getAdapterPosition());
+                    notifyItemRangeChanged(holder.getAdapterPosition(), listFiles.size());
+                }
+            });
+        }else{
+            holder.btnDeleteFiles.setVisibility(View.GONE);
+        }
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onItemClickCallback.onItemClicked(listFiles.get(holder.getAdapterPosition()));
+                onItemClickCallback.onItemClicked(listFiles.get(holder.getAdapterPosition()), holder.getAdapterPosition());
             }
         });
     }
@@ -146,10 +151,10 @@ public class ClassFilesAdapter extends RecyclerView.Adapter<ClassFilesAdapter.Li
     }
 
     public interface OnItemClickCallback {
-        void onItemClicked(FilesUpload filesUpload);
+        void onItemClicked(FilesUpload filesUpload, int index);
     }
 
-    public RequestManager setholderIcon(ListViewHolder holder, int drawable){
+    public RequestManager setholderIcon(ListViewHolder holder, int drawable) {
         RequestManager thumbnailpreview = Glide.with(context);
         thumbnailpreview.load(drawable).into(holder.imgThumbnail);
         return thumbnailpreview;
@@ -159,11 +164,13 @@ public class ClassFilesAdapter extends RecyclerView.Adapter<ClassFilesAdapter.Li
         TextView txtFilename;
         ImageView imgThumbnail;
         ImageButton btnDeleteFiles;
+
         public ListViewHolder(@NonNull View itemView) {
             super(itemView);
             btnDeleteFiles = itemView.findViewById(R.id.btn_delete_files_upload);
-            txtFilename     = itemView.findViewById(R.id.txt_thumb_filename);
-            imgThumbnail    = itemView.findViewById(R.id.img_thumb_files);
+            txtFilename = itemView.findViewById(R.id.txt_thumb_filename);
+            imgThumbnail = itemView.findViewById(R.id.img_thumb_files);
         }
     }
+
 }

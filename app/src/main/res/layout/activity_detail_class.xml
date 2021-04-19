@@ -69,6 +69,5 @@
             android:orientation="horizontal"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             tools:listitem="@layout/row_files_selected" />
-
     </LinearLayout>
 </ScrollView>

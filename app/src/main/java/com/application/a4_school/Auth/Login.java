@@ -168,7 +168,7 @@ public class Login extends Activity implements View.OnClickListener {
                         AlertDialog alertDialog = alertDialogBuilder.create();
                         alertDialog.show();
                         Toast.makeText(Login.this, "Please check your internet connection", Toast.LENGTH_SHORT).show();
-                        Log.d("login", "Message : " + t.getMessage());
+                        Log.d("loginvalue", "Message : " + t.getMessage());
                     }
                 });
                 break;

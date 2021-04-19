@@ -1,6 +1,7 @@
 package com.application.a4_school.RestAPI;
 
 import com.application.a4_school.Models.ClassRoom;
+import com.application.a4_school.Models.FilesUpload;
 import com.application.a4_school.Models.Members;
 import com.application.a4_school.Models.Schedule;
 import com.google.gson.annotations.SerializedName;
@@ -14,9 +15,14 @@ public class ResponseData {
     private List<ClassRoom> index_class_siswa;
     private List<ClassRoom> index_class_guru;
     private List<Members> members;
+    private List<FilesUpload> filesDetail;
 
     @SerializedName("message")
     private String messageJson;
+
+    public List<FilesUpload> getFilesDetail() {
+        return filesDetail;
+    }
 
     public String getMessageJson() {
         return messageJson;

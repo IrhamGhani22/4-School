@@ -4,9 +4,12 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.Manifest;
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.app.TimePickerDialog;
@@ -14,6 +17,7 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -358,12 +362,12 @@ public class FormClassRoomActivity extends AppCompatActivity {
                     filesUpload.setPath(getRealPathFromURI(this, path));
                     filesUpload.setRealMime(type);
                     listFileSelected.add(filesUpload);
-                    filesAdapter = new ClassFilesAdapter(listFileSelected, this);
+                    filesAdapter = new ClassFilesAdapter(listFileSelected, this, "form");
                     rvFiles.setAdapter(filesAdapter);
                     filesAdapter.notifyDataSetChanged();
                     filesAdapter.setOnItemClickCallback(new ClassFilesAdapter.OnItemClickCallback() {
                         @Override
-                        public void onItemClicked(FilesUpload filesUpload) {
+                        public void onItemClicked(FilesUpload filesUpload, int index) {
                             Intent openFile = new Intent(Intent.ACTION_VIEW);
                             Uri openPath = FileProvider.getUriForFile(FormClassRoomActivity.this, getApplicationContext().getPackageName()+".provider", filesUpload.getFile());
                             openFile.setDataAndType(openPath,  filesUpload.getRealMime());
@@ -433,4 +437,5 @@ public class FormClassRoomActivity extends AppCompatActivity {
         }
         return result;
     }
+
 }
