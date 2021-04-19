@@ -96,7 +96,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:animateLayoutChanges="true"
-                android:layout_marginBottom="16dp"
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
 
@@ -115,7 +114,10 @@
                         android:id="@+id/edt_days_deadline"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:inputType="date"
+                        android:maxLength="2"
                         android:fontFamily="@font/poppins_regular"
+                        android:enabled="false"
                         android:maxLines="10"
                         android:textColor="@color/blackCharcoal"
                         android:textSize="14sp" />
@@ -137,6 +139,9 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/poppins_regular"
+                        android:inputType="date"
+                        android:maxLength="2"
+                        android:enabled="false"
                         android:maxLines="10"
                         android:textColor="@color/blackCharcoal"
                         android:textSize="14sp" />
@@ -159,6 +164,9 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/poppins_regular"
+                        android:maxLength="4"
+                        android:enabled="false"
+                        android:inputType="date"
                         android:maxLines="10"
                         android:textColor="@color/blackCharcoal"
                         android:textSize="14sp" />
@@ -178,6 +186,46 @@
 
             </LinearLayout>
 
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/container_time_deadline"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minWidth="170dp"
+                android:hint="Time"
+                android:textColorHint="@color/SkyBlue"
+                app:boxStrokeColor="@color/SkyBlue"
+                app:boxStrokeWidth="5dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/edt_time_deadline"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/poppins_regular"
+                    android:inputType="numberDecimal"
+                    android:layout_marginBottom="16dp"
+                    android:enabled="false"
+                    android:maxLength="5"
+                    android:maxLines="1"
+                    android:textColor="@color/blackCharcoal"
+                    android:textSize="14sp" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_files"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    tools:listitem="@layout/row_files_selected"/>
+            </LinearLayout>
+
             <TextView
                 android:id="@+id/uploadText"
                 android:layout_width="match_parent"
@@ -190,7 +238,7 @@
                 android:id="@+id/container_addfile"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="5dp"
                 android:clickable="true"
                 android:foreground="?android:attr/selectableItemBackground"
                 android:padding="16dp"

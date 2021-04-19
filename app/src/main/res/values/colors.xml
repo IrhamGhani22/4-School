@@ -9,6 +9,7 @@
     <color name="BluePurple">#7B7FF6</color>
     <color name="BlueishPurple">#B07BF6</color>
     <color name="blackCharcoal">#4e4e4e</color>
+    <color name="blacktransparent">#9E4E4E4E</color>
     <color name="transparent">#00000000</color>
     <color name="whiteDefault">#FAFAFA</color>
     <color name="grey">#F5F5F5</color>

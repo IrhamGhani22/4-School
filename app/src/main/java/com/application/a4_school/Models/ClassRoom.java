@@ -1,8 +1,11 @@
 package com.application.a4_school.Models;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.SerializedName;
 
-public class ClassRoom {
+public class ClassRoom implements Parcelable {
     @SerializedName("id")
     private String id_taskclass;
     private String nama_matpel;
@@ -20,6 +23,34 @@ public class ClassRoom {
     private String file_url;
     @SerializedName("completed_count")
     private int completedcount;
+
+    protected ClassRoom(Parcel in) {
+        id_taskclass = in.readString();
+        nama_matpel = in.readString();
+        title = in.readString();
+        description = in.readString();
+        type = in.readString();
+        deadline = in.readString();
+        date = in.readString();
+        file_url = in.readString();
+        completedcount = in.readInt();
+    }
+
+    public static final Creator<ClassRoom> CREATOR = new Creator<ClassRoom>() {
+        @Override
+        public ClassRoom createFromParcel(Parcel in) {
+            return new ClassRoom(in);
+        }
+
+        @Override
+        public ClassRoom[] newArray(int size) {
+            return new ClassRoom[size];
+        }
+    };
+
+    public ClassRoom() {
+
+    }
 
     public String getDate() {
         return date;
@@ -92,5 +123,23 @@ public class ClassRoom {
 
     public void setDeadline(String deadline) {
         this.deadline = deadline;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(id_taskclass);
+        dest.writeString(nama_matpel);
+        dest.writeString(title);
+        dest.writeString(description);
+        dest.writeString(type);
+        dest.writeString(deadline);
+        dest.writeString(date);
+        dest.writeString(file_url);
+        dest.writeInt(completedcount);
     }
 }

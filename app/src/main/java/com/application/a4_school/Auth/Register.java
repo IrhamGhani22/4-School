@@ -68,15 +68,8 @@ public class Register extends AppCompatActivity {
                         e.printStackTrace();
                     }
                 }else{
-                    try {
-                        String responseJSON = response.body().string();
-                        Log.d("register", "response : " + responseJSON);
-                        Toast.makeText(Register.this, "System Error", Toast.LENGTH_SHORT).show();
-                        Intent toLogin = new Intent(Register.this, Login.class);
-                        startActivity(toLogin);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+                    //system error
+                    Toast.makeText(Register.this, "System Error", Toast.LENGTH_SHORT).show();
                 }
             }
 

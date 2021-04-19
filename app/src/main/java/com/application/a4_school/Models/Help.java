@@ -1,7 +1,30 @@
 package com.application.a4_school.Models;
 
+import com.google.gson.annotations.SerializedName;
+
 public class Help {
+    String id;
+    @SerializedName("pertanyaan")
     String title;
+    @SerializedName("jawaban")
+    String answer;
+    @SerializedName("kategori")
+    String kategori;
+
+    public Help(String id, String title, String answer, String kategori){
+        this.title  = title;
+        this.id = id;
+        this.kategori = kategori;
+        this.answer = answer;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public String getTitle() {
         return title;
@@ -11,13 +34,19 @@ public class Help {
         this.title = title;
     }
 
-    public String getDetail() {
-        return detail;
+    public String getAnswer() {
+        return answer;
     }
 
-    public void setDetail(String detail) {
-        this.detail = detail;
+    public void setAnswer(String answer) {
+        this.answer = answer;
     }
 
-    String detail;
+    public String getKategori() {
+        return kategori;
+    }
+
+    public void setKategori(String kategori) {
+        this.kategori = kategori;
+    }
 }

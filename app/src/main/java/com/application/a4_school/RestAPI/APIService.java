@@ -9,6 +9,8 @@ import com.google.gson.JsonObject;
 
 import org.json.JSONObject;
 
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Retrofit;
@@ -17,10 +19,14 @@ import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.Headers;
+import retrofit2.http.Multipart;
 import retrofit2.http.PATCH;
 import retrofit2.http.POST;
+import retrofit2.http.Part;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
+import retrofit2.http.Streaming;
+import retrofit2.http.Url;
 
 public interface APIService {
 
@@ -31,11 +37,12 @@ public interface APIService {
     })
     @POST("login")
     Call<ResponseBody> login(@Field("email") String email,
-                             @Field("password") String password);
+                             @Field("password") String password,
+                             @Field("fcm_token") String fcm_token);
     //@Field("fcm_token") String fcm_token);
 
-    @GET("logout/{id}")
-    Call<ResponseBody> logoutUser(@Path("id") String id_user,
+    @POST("logout")
+    Call<ResponseBody> logoutUser(@Query("id") int id_user,
                                   @Query("token") String logoutToken);
 
     @FormUrlEncoded
@@ -64,14 +71,15 @@ public interface APIService {
     @POST("forgot")
     Call<JsonObject> sendMailToken (@Field("email") String email);
 
-    @FormUrlEncoded
+    @Multipart
     @POST("GuruSchedule/create_tugas/{id_jadwal}")
-    Call<JsonObject> uploadTaskTheory (@Header("Authorization") String jwt_token,
-                                       @Field("id_jadwal") int id_schedule,
-                                       @Field("judul") String title,
-                                       @Field("deskripsi") String description,
-                                       @Field("tipe") String type,
-                                       @Field("tenggat") String deadline);
+    Call<ResponseBody> uploadTaskTheory (@Header("Authorization") String jwt_token,
+                                       @Path("id_jadwal") int id_schedule,
+                                       @Part("judul") RequestBody title,
+                                       @Part("deskripsi") RequestBody description,
+                                       @Part("tipe") RequestBody type,
+                                       @Part("tenggat") RequestBody deadline,
+                                       @Part MultipartBody.Part[] file);
 
     @FormUrlEncoded
     @PATCH("update_Profile/{id_user}")
@@ -96,11 +104,20 @@ public interface APIService {
 
     @GET("index_classroom/memberclass")
     Call<ResponseData> getListMembersClass (@Query("id_kelas") String id_class, @Query("page") int page);
-
     @GET("userinformation")
     Call<ResponseData> getUserInfo (@Query("id") int id_user);
 
     @GET("ShowKelas")
     Call<ResponseData> getMajors(@Query("tingkatan") String classlevel);
+
+    @GET("index_classroom/file/{id_tugas}")
+    Call<ResponseData> getListFiles (@Path("id_tugas") String id_taskclass, @Query("condition") String condition);
+
+    @GET("faq-content")
+    Call<ResponseData> gethelp();
+
+    @Streaming
+    @GET()
+    Call<ResponseBody> downloadFile(@Url String url);
 
 }
