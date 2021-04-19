@@ -95,6 +95,9 @@ public interface APIService {
     @GET("index_classroom/file/{id_tugas}")
     Call<ResponseData> getListFiles (@Path("id_tugas") String id_taskclass, @Query("condition") String condition);
 
+    @GET("faq-content")
+    Call<ResponseData> gethelp();
+
     @Streaming
     @GET()
     Call<ResponseBody> downloadFile(@Url String url);
