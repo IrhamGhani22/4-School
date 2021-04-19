@@ -35,11 +35,12 @@ public interface APIService {
     })
     @POST("login")
     Call<ResponseBody> login(@Field("email") String email,
-                             @Field("password") String password);
+                             @Field("password") String password,
+                             @Field("fcm_token") String fcm_token);
     //@Field("fcm_token") String fcm_token);
 
-    @GET("logout/{id}")
-    Call<ResponseBody> logoutUser(@Path("id") String id_user,
+    @POST("logout")
+    Call<ResponseBody> logoutUser(@Query("id") int id_user,
                                   @Query("token") String logoutToken);
 
     @FormUrlEncoded
