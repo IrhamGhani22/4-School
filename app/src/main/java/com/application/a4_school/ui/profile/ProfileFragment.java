@@ -3,6 +3,7 @@ package com.application.a4_school.ui.profile;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -77,6 +78,7 @@ public class ProfileFragment extends Fragment {
     private TextView shProf;
     private Bitmap bitmap;
     private Toolbar shUsername;
+    private Button btnLogout;
     private CircleImageView userImage;
     String part_image = "";
     Context context;
@@ -155,6 +157,17 @@ public class ProfileFragment extends Fragment {
             }
         });
 
+        btnLogout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ProgressDialog loading = new ProgressDialog(getContext());
+                loading.setMessage("Please wait...");
+                loading.setCancelable(false);
+                loading.show();
+                logout(loading);
+            }
+        });
+
         return root;
     }
 
@@ -167,6 +180,7 @@ public class ProfileFragment extends Fragment {
         containerClass = root.findViewById(R.id.container_class_profile);
         containerMajor = root.findViewById(R.id.container_major_profile);
         shProf = root.findViewById(R.id.profession);
+        btnLogout = root.findViewById(R.id.btn_logout);
     }
 
     private void chooseMenu() {
@@ -196,6 +210,59 @@ public class ProfileFragment extends Fragment {
             popUpdialog.show();
         }
 
+    }
+
+    private void logout(final ProgressDialog loading){
+        int id_user = getActivity().getSharedPreferences("userInfo", 0).getInt("id", 0);
+        String token = getActivity().getSharedPreferences("session", 0).getString("token", "");
+        APIService api = APIClient.getClient().create(APIService.class);
+        Call<ResponseBody> logoutAccount = api.logoutUser(id_user, token);
+        logoutAccount.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                loading.dismiss();
+                if (response.isSuccessful()){
+                    try {
+                        Log.d("logoutvalue", "response: "+response.body().string());
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    getActivity().getSharedPreferences("session", 0).edit().clear().commit();
+                    getActivity().getSharedPreferences("userInfo", 0).edit().clear().commit();
+                    startActivity(new Intent(getActivity(), Login.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK));
+                    getActivity().finish();
+                }else{
+                    try {
+                        Log.d("logoutvalue", "response: "+response.body().string());
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    new AlertDialog.Builder(getActivity())
+                            .setTitle("Unknown error")
+                            .setMessage("Something wrong with server, please try again later")
+                            .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                }
+                            }).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                loading.dismiss();
+                new AlertDialog.Builder(getActivity())
+                        .setTitle("Oppsss....")
+                        .setMessage("Cant connect to server please check your internet connection")
+                        .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        }).show();
+            }
+        });
     }
 
     @Override

@@ -1,5 +1,6 @@
 package com.application.a4_school.Auth;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -25,6 +26,9 @@ import com.application.a4_school.MainActivity;
 import com.application.a4_school.R;
 import com.application.a4_school.RestAPI.APIClient;
 import com.application.a4_school.RestAPI.APIService;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.gson.Gson;
 
 import java.io.IOException;
@@ -41,6 +45,7 @@ public class Login extends Activity implements View.OnClickListener {
     TextView txtRegister;
     SessionManager sessionManager;
     UserInfoStorage userInfoStorage;
+    String token;
     private boolean exit = false;
 
     @Override
@@ -59,6 +64,18 @@ public class Login extends Activity implements View.OnClickListener {
         resetPw.setOnClickListener(this);
         txtRegister.setOnClickListener(this);
         btnlogin.setOnClickListener(this);
+
+        FirebaseMessaging.getInstance().getToken().addOnCompleteListener(new OnCompleteListener<String>() {
+            @Override
+            public void onComplete(@NonNull Task<String> task) {
+                if (!task.isSuccessful()) {
+                    Log.w("FCMRegis", "Fetching FCM registration token failed", task.getException());
+                    return;
+                }
+                token = task.getResult();
+                Log.d("FCMRegis", token);
+            }
+        });
 
     }
 
@@ -101,7 +118,7 @@ public class Login extends Activity implements View.OnClickListener {
                 final String username = etUsername.getText().toString();
                 final String pw = etPw.getText().toString();
                 APIService api = APIClient.getClient().create(APIService.class);
-                Call<ResponseBody> login = api.login(username, pw);
+                Call<ResponseBody> login = api.login(username, pw, token);
                 login.enqueue(new Callback<ResponseBody>() {
                     @Override
                     public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {

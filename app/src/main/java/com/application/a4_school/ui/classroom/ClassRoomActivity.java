@@ -160,6 +160,8 @@ public class ClassRoomActivity extends AppCompatActivity {
                             list.addAll(response.body().getIndex_class_siswa());
                         }
                         adapter = new ClassListAdapter(list, headerClassContent, id_class, ClassRoomActivity.this);
+                        adapter.notifyDataSetChanged();
+                        rvClassroom.setLayoutManager(new LinearLayoutManager(ClassRoomActivity.this));
                         rvClassroom.setAdapter(adapter);
                         loading_classroom.setVisibility(View.GONE);
                         adapter.setOnItemClickCallback(new ClassListAdapter.OnItemClickCallback() {
