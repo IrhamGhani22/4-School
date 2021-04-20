@@ -144,7 +144,7 @@ public class ForgotPassword extends AppCompatActivity {
                         }
                     },1000);
                 }else{
-                    Log.d(TAG, "not success: "+response.body().getAsJsonObject());
+                    Log.d(TAG, "not success: "+response.body());
                     dialog.setTitle("Failed!");
                     dialog.setMessage("Something error on server, please try again later");
                     dialog.setPositiveButton("Try again", new DialogInterface.OnClickListener() {

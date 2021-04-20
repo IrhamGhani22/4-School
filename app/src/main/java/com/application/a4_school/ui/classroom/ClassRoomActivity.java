@@ -125,7 +125,7 @@ public class ClassRoomActivity extends AppCompatActivity {
                         if (response.body().getIndex_class_guru() != null) {
                             list.addAll(response.body().getIndex_class_guru());
                         }
-                        adapter = new ClassListAdapter(list, headerClassContent, id_class, ClassRoomActivity.this);
+                        adapter = new ClassListAdapter(list, headerClassContent, id_class, role,ClassRoomActivity.this);
                         adapter.notifyDataSetChanged();
                         rvClassroom.setLayoutManager(new LinearLayoutManager(ClassRoomActivity.this));
                         rvClassroom.setAdapter(adapter);
@@ -159,7 +159,7 @@ public class ClassRoomActivity extends AppCompatActivity {
                         if (!response.body().getIndex_class_siswa().isEmpty()) {
                             list.addAll(response.body().getIndex_class_siswa());
                         }
-                        adapter = new ClassListAdapter(list, headerClassContent, id_class, ClassRoomActivity.this);
+                        adapter = new ClassListAdapter(list, headerClassContent, id_class, role,ClassRoomActivity.this);
                         adapter.notifyDataSetChanged();
                         rvClassroom.setLayoutManager(new LinearLayoutManager(ClassRoomActivity.this));
                         rvClassroom.setAdapter(adapter);

@@ -132,6 +132,4 @@
                 tools:listitem="@layout/row_schedule_bottom_sheet" />
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
-
-
 </LinearLayout>

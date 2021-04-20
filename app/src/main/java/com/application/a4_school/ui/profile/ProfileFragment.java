@@ -232,11 +232,7 @@ public class ProfileFragment extends Fragment {
                     startActivity(new Intent(getActivity(), Login.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK));
                     getActivity().finish();
                 }else{
-                    try {
-                        Log.d("logoutvalue", "response: "+response.body().string());
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+                    Log.d("logoutvalue", "response: "+response.body());
                     new AlertDialog.Builder(getActivity())
                             .setTitle("Unknown error")
                             .setMessage("Something wrong with server, please try again later")

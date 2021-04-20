@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/btm_assignment"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bottom_sheet_bg"
+    android:orientation="vertical"
+    app:behavior_peekHeight="100dp"
+    app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"
+    tools:context=".UserInteraction.BottomSheet">
+
+    <View
+        android:layout_width="80dp"
+        android:layout_height="3dp"
+        android:background="#AFAFAF"
+        android:layout_margin="8dp"
+        android:layout_gravity="center_horizontal" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            style="@style/TextAppearance.AppCompat.Title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:fontFamily="@font/poppins_bold"
+            android:gravity="center_vertical"
+            android:layout_weight="1"
+            android:paddingHorizontal="16dp"
+            android:text="Assignment"
+            android:textColor="@color/blackCharcoal"
+            android:textSize="24dp" />
+
+        <TextView
+            android:id="@+id/status_assign"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/poppins_light"
+            android:text="Not assigned"
+            android:layout_margin="16dp"/>
+    </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_files_assignment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="12dp"
+        android:layout_marginTop="16dp"
+        android:orientation="horizontal"
+        android:layout_marginBottom="24dp"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        tools:listitem="@layout/row_files_selected" />
+
+    <Button
+        android:id="@+id/btn_attach"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:layout_marginHorizontal="12dp"
+        android:layout_marginBottom="8dp"
+        android:background="@drawable/btn_purple"
+        android:text="Add attachment"
+        android:textAllCaps="false"
+        android:fontFamily="@font/poppins_light"
+        android:textColor="@color/whiteDefault"/>
+
+    <Button
+        android:id="@+id/btn_assign"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="12dp"
+        android:layout_marginHorizontal="12dp"
+        android:background="@drawable/btn_purple"
+        android:textAllCaps="false"
+        android:text="Assign"
+        android:fontFamily="@font/poppins_light"
+        android:textColor="@color/whiteDefault"/>
+</LinearLayout>

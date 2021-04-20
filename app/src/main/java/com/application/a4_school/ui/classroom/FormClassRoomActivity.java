@@ -250,7 +250,7 @@ public class FormClassRoomActivity extends AppCompatActivity {
     private void uploadTaskTheory(final String title, String description, final String type, String deadline, final ProgressDialog progressDialog){
         String token = getSharedPreferences("session", 0).getString("token", "");
         MultipartBody.Part[] document;
-        if (listFileSelected.isEmpty()){
+        if (listFileSelected == null){
             document = null;
         }else{
             document = prepareDocument(listFileSelected, "file[]");
