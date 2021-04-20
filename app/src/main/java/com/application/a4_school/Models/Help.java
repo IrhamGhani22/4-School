@@ -1,10 +1,22 @@
 package com.application.a4_school.Models;
 
+import com.google.gson.annotations.SerializedName;
+
 public class Help {
     String id;
+    @SerializedName("pertanyaan")
     String title;
+    @SerializedName("jawaban")
     String answer;
+    @SerializedName("kategori")
     String kategori;
+
+    public Help(String id, String title, String answer, String kategori){
+        this.title  = title;
+        this.id = id;
+        this.kategori = kategori;
+        this.answer = answer;
+    }
 
     public String getId() {
         return id;

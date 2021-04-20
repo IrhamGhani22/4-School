@@ -34,6 +34,7 @@ public class ForgotPassword extends AppCompatActivity {
     private String pw;
     private String confirmpw;
     private String statement = "sendmail";
+    Button btnBack;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,6 +42,14 @@ public class ForgotPassword extends AppCompatActivity {
         intialize();
         userInfoStorage = new UserInfoStorage(getApplicationContext());
         dialog = new AlertDialog.Builder(this);
+
+        btnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent toLogin = new Intent(ForgotPassword.this, Login.class);
+                startActivity(toLogin);
+            }
+        });
 
         btnResetpw.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -73,6 +82,7 @@ public class ForgotPassword extends AppCompatActivity {
         edtpasswordconfirm = findViewById(R.id.edtPasswordForgotConfirm);
         edtToken = findViewById(R.id.edtTokenForgot);
         btnResetpw = findViewById(R.id.btn_reset_password);
+        btnBack = findViewById(R.id.btn_back);
     }
 
     private void sendMailToken(){
