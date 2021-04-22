@@ -44,10 +44,6 @@ public class ResponseData {
         return help;
     }
 
-    public void setHelp(List<Help> help) {
-        this.help = help;
-    }
-
     @SerializedName("message")
     private String messageJson;
 

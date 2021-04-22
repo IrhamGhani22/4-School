@@ -1,6 +1,7 @@
 package com.application.a4_school.ui.help;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,8 +19,8 @@ import com.application.a4_school.Models.Help;
 import com.application.a4_school.R;
 import com.application.a4_school.RestAPI.APIClient;
 import com.application.a4_school.RestAPI.APIService;
-import com.application.a4_school.RestAPI.ResponseData;
 import com.application.a4_school.adapter.HelpViewAdapter;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 
@@ -37,23 +38,28 @@ public class HelpFragment extends Fragment {
                              ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_help, container, false);
         rv  = root.findViewById(R.id.listhelp);
+        getdata();
 
         return root;
     }
 
     public void getdata(){
         APIService api = APIClient.getClient().create(APIService.class);
-        Call<ResponseData> callHelp = api.gethelp();
-        callHelp.enqueue(new Callback<ResponseData>() {
+        Call<ResponseBody> callHelp = api.gethelp();
+        callHelp.enqueue(new Callback<ResponseBody>() {
             @Override
-            public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 if(response.isSuccessful()){
                     try {
+                        Log.d("bisa ke api", "duh");
                         list.clear();
-                        for (int i = 0; i < response.body().getHelp().size(); i++){
-                            if (response.body().getHelp().get(i).getTitle().equals("title")){
-                                list.add(response.body().getHelp().get(i));
-                            }
+                        String responseJSON = response.body().string();
+                        Gson objGson = new Gson();
+                        Log.d("bisa ke api", responseJSON);
+                        // TODO: 23/04/2021  rest api yang belum beres dan sangan menyulitkan
+                        // TODO: 23/04/2021 masukin data ke list api
+                        for(int i = 0 ; i < response.body().string().length(); i++){
+
                         }
                         rv.setLayoutManager(new LinearLayoutManager(getActivity()));
                         rv.setAdapter(adapter);
@@ -61,13 +67,14 @@ public class HelpFragment extends Fragment {
 //                        for (int i = 0; i<response.body())
                     }catch (Exception e){
                         e.printStackTrace();
+                        Log.d("ngga berhasil ", "kegagalaln");
                     }
                 }
             }
 
             @Override
-            public void onFailure(Call<ResponseData> call, Throwable t) {
-
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Log.d("gagal", "gagal");
             }
         });
     }
