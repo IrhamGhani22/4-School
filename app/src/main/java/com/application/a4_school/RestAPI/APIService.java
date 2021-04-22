@@ -125,7 +125,7 @@ public interface APIService {
     Call<ResponseData> getListFiles (@Path("id_tugas") String id_taskclass, @Query("id_siswa") int id_siswa,@Query("condition") String condition);
 
     @GET("faq-content")
-    Call<ResponseData> gethelp();
+    Call<ResponseBody> gethelp();
 
     @Streaming
     @GET()

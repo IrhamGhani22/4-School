@@ -3,6 +3,7 @@ package com.application.a4_school.Models;
 import com.google.gson.annotations.SerializedName;
 
 public class Help {
+    @SerializedName("id")
     String id;
     @SerializedName("pertanyaan")
     String title;
