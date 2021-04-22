@@ -9,6 +9,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.application.a4_school.Models.ClassRoom;
 import com.application.a4_school.Models.Members;
 import com.application.a4_school.R;
 import com.bumptech.glide.Glide;
@@ -21,6 +22,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class MemberClassListAdapter extends RecyclerView.Adapter<MemberClassListAdapter.MyViewHolder> {
     private List<Members> list;
     private Context context;
+    private OnItemClickCallback onItemClickCallback;
 
     public MemberClassListAdapter(List<Members> list, Context context) {
         this.list = list;
@@ -35,9 +37,17 @@ public class MemberClassListAdapter extends RecyclerView.Adapter<MemberClassList
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull final MyViewHolder holder, int position) {
+        Glide.with(context).load(list.get(position).getPhoto()).placeholder(R.drawable.empty_profile).into(holder.imgMemberList);
         holder.nameMembers.setText(list.get(position).getName());
         holder.nisMembers.setText(list.get(position).getNis());
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onItemClickCallback.onItemClicked(list.get(holder.getAdapterPosition()));
+            }
+        });
     }
 
     @Override
@@ -45,6 +55,12 @@ public class MemberClassListAdapter extends RecyclerView.Adapter<MemberClassList
         return list.size();
     }
 
+    public void setOnItemClickCallback(OnItemClickCallback onItemClickCallback) {
+        this.onItemClickCallback = onItemClickCallback;
+    }
+    public interface OnItemClickCallback {
+        void onItemClicked(Members memberCompletedTask);
+    }
     public class MyViewHolder extends RecyclerView.ViewHolder {
         CircleImageView imgMemberList;
         TextView nameMembers, nisMembers;

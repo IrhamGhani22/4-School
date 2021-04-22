@@ -135,6 +135,7 @@ public class ClassRoomActivity extends AppCompatActivity {
                             public void onItemClicked(ClassRoom classRoomList) {
                                 Intent toDetail = new Intent(ClassRoomActivity.this, DetailClassRoomActivity.class);
                                 toDetail.putExtra("EXTRA_PARCEL_CLASS", classRoomList);
+                                toDetail.putExtra("EXTRA_CONDITION", "normalDetail");
                                 startActivity(toDetail);
                             }
                         });

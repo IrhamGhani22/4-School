@@ -3,18 +3,23 @@ package com.application.a4_school.ui.classroom;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
+import androidx.loader.content.CursorLoader;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.annotation.SuppressLint;
 import android.app.DownloadManager;
 import android.app.ProgressDialog;
 import android.content.ContentResolver;
+import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.provider.OpenableColumns;
 import android.util.Log;
@@ -36,6 +41,7 @@ import com.application.a4_school.RestAPI.ResponseData;
 import com.application.a4_school.adapter.ClassFilesAdapter;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -71,62 +77,67 @@ public class DetailClassRoomActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail_class);
         initialize();
+        String condition = getIntent().getStringExtra("EXTRA_CONDITION");
         ClassRoom classdata = getIntent().getParcelableExtra("EXTRA_PARCEL_CLASS");
-        type = classdata.getType();
-        id_taskclass = classdata.getId_taskclass();
-
-        String role = getSharedPreferences("session", 0).getString("role", "");
-        switch (role) {
-            case "siswa":
-                switch (type) {
-                    case "Task":
-                        shDeadline.setText("deadline: " + reformatdate(classdata.getDeadline()));
-                        getItemFilesiswa();
-                        break;
-                    case "Theory":
-                        shPoint.setVisibility(View.GONE);
-                        shDeadline.setVisibility(View.GONE);
-                        btmSheetAsiignment.setVisibility(View.GONE);
-                        break;
-                }
-                break;
-
-            case "guru":
-                shPoint.setVisibility(View.GONE);
-                btmSheetAsiignment.setVisibility(View.GONE);
-                switch (type) {
-                    case "Task":
-                        shDeadline.setText("deadline: " + reformatdate(classdata.getDeadline()));
-                        break;
-                    case "Theory":
-                        shDeadline.setVisibility(View.GONE);
-                        break;
-                }
-                break;
-        }
-        if (classdata.getFile_url() == null) {
-            shAttachment.setVisibility(View.GONE);
-        } else {
+        String id_task = getIntent().getStringExtra("EXTRA_ID_TASK");
+        if (condition.equals("checkCompletedStudent")) {
             getItemFileGuru();
+            id_taskclass = id_task;
+        } else {
+            id_taskclass = classdata.getId_taskclass();
+            type = classdata.getType();
+            String role = getSharedPreferences("session", 0).getString("role", "");
+            switch (role) {
+                case "siswa":
+                    switch (type) {
+                        case "Task":
+                            shDeadline.setText("deadline: " + reformatdate(classdata.getDeadline()));
+                            getItemFilesiswa();
+                            break;
+                        case "Theory":
+                            shPoint.setVisibility(View.GONE);
+                            shDeadline.setVisibility(View.GONE);
+                            btmSheetAsiignment.setVisibility(View.GONE);
+                            break;
+                    }
+                    break;
+
+                case "guru":
+                    shPoint.setVisibility(View.GONE);
+                    btmSheetAsiignment.setVisibility(View.GONE);
+                    switch (type) {
+                        case "Task":
+                            shDeadline.setText("deadline: " + reformatdate(classdata.getDeadline()));
+                            break;
+                        case "Theory":
+                            shDeadline.setVisibility(View.GONE);
+                            break;
+                    }
+                    break;
+            }
+            if (classdata.getFile_url() == null) {
+                shAttachment.setVisibility(View.GONE);
+            } else {
+                getItemFileGuru();
+            }
+            shTitle.setText(classdata.getTitle());
+            shDetail.setText(classdata.getDescription());
+
+            btnAttach.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent openMedia = new Intent(Intent.ACTION_GET_CONTENT);
+                    openMedia.setType("*/*");
+                    startActivityForResult(openMedia, REQUEST_FILE);
+                }
+            });
+            btnAssign.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    assign();
+                }
+            });
         }
-        shTitle.setText(classdata.getTitle());
-        shDetail.setText(classdata.getDescription());
-
-        btnAttach.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent openMedia = new Intent(Intent.ACTION_GET_CONTENT);
-                openMedia.setType("*/*");
-                startActivityForResult(openMedia, REQUEST_FILE);
-            }
-        });
-
-        btnAssign.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                assign();
-            }
-        });
     }
 
     private void initialize() {
@@ -145,7 +156,7 @@ public class DetailClassRoomActivity extends AppCompatActivity {
 
     private void getItemFileGuru() {
         APIService api = APIClient.getClient().create(APIService.class);
-        Call<ResponseData> loadFile = api.getListFiles(id_taskclass, "file_guru");
+        Call<ResponseData> loadFile = api.getListFiles(id_taskclass, 0, "file_guru");
         loadFile.enqueue(new Callback<ResponseData>() {
             @Override
             public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
@@ -175,21 +186,18 @@ public class DetailClassRoomActivity extends AppCompatActivity {
         });
     }
 
-    private void getItemFilesiswa(){
+    private void getItemFilesiswa() {
         APIService api = APIClient.getClient().create(APIService.class);
-        Call<ResponseData> loadFile = api.getListFiles(id_taskclass, "file_siswa");
+        int id = getSharedPreferences("userInfo", 0).getInt("id", 0);
+        Call<ResponseData> loadFile = api.getListFiles(id_taskclass, id, "file_siswa");
         loadFile.enqueue(new Callback<ResponseData>() {
             @Override
             public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
-                if (response.isSuccessful()){
+                if (response.isSuccessful()) {
                     if (response.body().getFilesDetail() != null) {
                         Log.d("DetailLoadfilesiswa", "success");
                         listFilesSiswa.addAll(response.body().getFilesDetail());
-                        if (listFilesSiswa != null){
-                            btnAssign.setVisibility(View.GONE);
-                            btnAttach.setVisibility(View.GONE);
-                            shStatAssign.setText("Assigned");
-                        }
+
                         adapter = new ClassFilesAdapter(listFilesSiswa, DetailClassRoomActivity.this, "detail");
                         adapter.notifyDataSetChanged();
                         rv_files_assignment.setAdapter(adapter);
@@ -200,7 +208,7 @@ public class DetailClassRoomActivity extends AppCompatActivity {
                             }
                         });
                     }
-                }else{
+                } else {
                     Log.d("DetailLoadfilesiswa", "not success");
                 }
             }
@@ -212,7 +220,7 @@ public class DetailClassRoomActivity extends AppCompatActivity {
         });
     }
 
-    private void assign(){
+    private void assign() {
         String token = getSharedPreferences("session", 0).getString("token", "");
         final ProgressDialog progressDialog = new ProgressDialog(DetailClassRoomActivity.this);
         progressDialog.setMessage("Uploading...");
@@ -223,17 +231,17 @@ public class DetailClassRoomActivity extends AppCompatActivity {
         int id = getSharedPreferences("userInfo", 0).getInt("id", 0);
         RequestBody id_siswa = createPartFromString(String.valueOf(id));
         MultipartBody.Part[] document;
-        if (listFilesSiswa == null){
+        if (listFilesSiswa == null) {
             Toast.makeText(this, "Please add attachment", Toast.LENGTH_SHORT).show();
-        }else{
+        } else {
             document = prepareDocument(listFilesSiswa);
             APIService api = APIClient.getClient().create(APIService.class);
-            Call<ResponseBody> assignTask = api.assignTask("Bearer "+token, id_taskclass, id_siswa,status, document);
+            Call<ResponseBody> assignTask = api.assignTask("Bearer " + token, id_taskclass, id_siswa, status, document);
             assignTask.enqueue(new Callback<ResponseBody>() {
                 @Override
                 public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                     progressDialog.dismiss();
-                    if (response.isSuccessful()){
+                    if (response.isSuccessful()) {
                         try {
                             String jsonObject = response.body().string();
                             Log.d("AssignTask", "success: " + jsonObject);
@@ -244,10 +252,10 @@ public class DetailClassRoomActivity extends AppCompatActivity {
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
-                    }else{
+                    } else {
                         try {
                             String jObjError = response.errorBody().string();
-                            Log.d("AssignTask", "not success: "+jObjError);
+                            Log.d("AssignTask", "not success: " + jObjError);
                             Toast.makeText(DetailClassRoomActivity.this, jObjError, Toast.LENGTH_LONG).show();
                         } catch (Exception e) {
                             Toast.makeText(DetailClassRoomActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
@@ -258,7 +266,7 @@ public class DetailClassRoomActivity extends AppCompatActivity {
                 @Override
                 public void onFailure(Call<ResponseBody> call, Throwable t) {
                     progressDialog.dismiss();
-                    Log.d("AssignTask", "failure: "+t.getMessage());
+                    Log.d("AssignTask", "failure: " + t.getMessage());
                 }
             });
         }
@@ -269,14 +277,14 @@ public class DetailClassRoomActivity extends AppCompatActivity {
         return RequestBody.create(MediaType.parse("*/*"), param);
     }
 
-    private MultipartBody.Part[] prepareDocument(List<FilesUpload> fileupload){
+    private MultipartBody.Part[] prepareDocument(List<FilesUpload> fileupload) {
         MultipartBody.Part[] multipleFile = new MultipartBody.Part[fileupload.size()];
-        for (int i=0; i<fileupload.size(); i++) {
+        for (int i = 0; i < fileupload.size(); i++) {
             File file = new File(fileupload.get(i).getPath());
             RequestBody requestBody = RequestBody.create(MediaType.parse("*/*"), file);
             multipleFile[i] = MultipartBody.Part.createFormData("file[]", file.getName(), requestBody);
         }
-        return  multipleFile;
+        return multipleFile;
     }
 
     private String reformatdate(String time) {
@@ -319,22 +327,22 @@ public class DetailClassRoomActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        switch (requestCode){
+        switch (requestCode) {
             case REQUEST_FILE:
-                if (resultCode == RESULT_OK){
+                if (resultCode == RESULT_OK) {
                     final Uri path = data.getData();
-                    Log.d("activityResultValue", "value path: "+path);
-                    Log.d("activityResultValue", "value name: "+getFileName(path));
-                    Log.d("activityResultValue", "value realpath: "+getRealPathFromURI(this,path));
-                    Log.d("activityResultValue", "value realpath: "+getMimeType(this,path));
+                    Log.d("activityResultValue", "value path: " + path);
+                    Log.d("activityResultValue", "value name: " + getFileName(path));
+                    Log.d("activityResultValue", "value realpath: " + path.getPath());
+                    Log.d("activityResultValue", "value realpath: " + getMimeType(this, path));
                     ContentResolver cR = this.getContentResolver();
                     String type = cR.getType(path);
                     FilesUpload filesUpload = new FilesUpload();
-                    filesUpload.setUri(Uri.parse(getRealPathFromURI(this, path)));
-                    filesUpload.setFile(new File(getRealPathFromURI(this, path)));
+                    filesUpload.setUri(path);
+                    filesUpload.setFile(new File(getRealPath(getApplicationContext(), path)));
                     filesUpload.setNamefile(getFileName(path));
-                    filesUpload.setTypefile(getMimeType(this, path));
-                    filesUpload.setPath(getRealPathFromURI(this, path));
+                    filesUpload.setTypefile(getMimeType(DetailClassRoomActivity.this, path));
+                    filesUpload.setPath(getRealPathFromURI(DetailClassRoomActivity.this, path));
                     filesUpload.setRealMime(type);
                     listFilesSiswa.add(filesUpload);
                     adapter = new ClassFilesAdapter(listFilesSiswa, this, "form");
@@ -344,10 +352,10 @@ public class DetailClassRoomActivity extends AppCompatActivity {
                         @Override
                         public void onItemClicked(FilesUpload filesUpload, int index) {
                             Intent openFile = new Intent(Intent.ACTION_VIEW);
-                            Uri openPath = FileProvider.getUriForFile(DetailClassRoomActivity.this, getApplicationContext().getPackageName()+".provider", filesUpload.getFile());
-                            openFile.setDataAndType(openPath,  filesUpload.getRealMime());
+                            Uri openPath = FileProvider.getUriForFile(getApplicationContext(), getApplicationContext().getPackageName() + ".provider", filesUpload.getFile());
+                            openFile.setDataAndType(openPath, filesUpload.getRealMime());
                             openFile.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-                            Log.d("realmime", ""+filesUpload.getRealMime());
+                            Log.d("realmime", "" + openPath);
                             startActivity(openFile);
                         }
                     });
@@ -380,8 +388,8 @@ public class DetailClassRoomActivity extends AppCompatActivity {
     public String getRealPathFromURI(Context context, Uri contentUri) {
         Cursor cursor = null;
         try {
-            String[] proj = { MediaStore.Images.Media.DATA};
-            cursor = context.getContentResolver().query(contentUri,  proj, null, null, null);
+            String[] proj = {MediaStore.Images.Media.DATA};
+            cursor = context.getContentResolver().query(contentUri, proj, null, null, null);
             int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
             cursor.moveToFirst();
             return cursor.getString(column_index);
@@ -413,5 +421,179 @@ public class DetailClassRoomActivity extends AppCompatActivity {
         }
         return result;
     }
+
+    public static String getRealPath(Context context, Uri fileUri) {
+        String realPath;
+        // SDK < API11
+        if (Build.VERSION.SDK_INT < 11) {
+            realPath = getRealPathFromURI_BelowAPI11(context, fileUri);
+        }
+        // SDK >= 11 && SDK < 19
+        else if (Build.VERSION.SDK_INT < 19) {
+            realPath = getRealPathFromURI_API11to18(context, fileUri);
+        }
+        // SDK > 19 (Android 4.4) and up
+        else {
+            realPath = getRealPathFromURI_API19(context, fileUri);
+        }
+        return realPath;
+    }
+
+    @SuppressLint("NewApi")
+    public static String getRealPathFromURI_API11to18(Context context, Uri contentUri) {
+        String[] proj = {MediaStore.Images.Media.DATA};
+        String result = null;
+
+        CursorLoader cursorLoader = new CursorLoader(context, contentUri, proj, null, null, null);
+        Cursor cursor = cursorLoader.loadInBackground();
+
+        if (cursor != null) {
+            int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+            cursor.moveToFirst();
+            result = cursor.getString(column_index);
+            cursor.close();
+        }
+        return result;
+    }
+
+    public static String getRealPathFromURI_BelowAPI11(Context context, Uri contentUri) {
+        String[] proj = {MediaStore.Images.Media.DATA};
+        Cursor cursor = context.getContentResolver().query(contentUri, proj, null, null, null);
+        int column_index = 0;
+        String result = "";
+        if (cursor != null) {
+            column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+            cursor.moveToFirst();
+            result = cursor.getString(column_index);
+            cursor.close();
+            return result;
+        }
+        return result;
+    }
+
+    @SuppressLint("NewApi")
+    public static String getRealPathFromURI_API19(final Context context, final Uri uri) {
+
+        final boolean isKitKat = Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT;
+
+        // DocumentProvider
+        if (isKitKat && DocumentsContract.isDocumentUri(context, uri)) {
+            // ExternalStorageProvider
+            if (isExternalStorageDocument(uri)) {
+                final String docId = DocumentsContract.getDocumentId(uri);
+                final String[] split = docId.split(":");
+                final String type = split[0];
+
+                if ("primary".equalsIgnoreCase(type)) {
+                    return Environment.getExternalStorageDirectory() + "/" + split[1];
+                }
+
+                // TODO handle non-primary volumes
+            }
+            // DownloadsProvider
+            else if (isDownloadsDocument(uri)) {
+
+                final String id = DocumentsContract.getDocumentId(uri);
+                final Uri contentUri = ContentUris.withAppendedId(
+                        Uri.parse("content://downloads/public_downloads"), Long.valueOf(id));
+
+                return getDataColumn(context, contentUri, null, null);
+            }
+            // MediaProvider
+            else if (isMediaDocument(uri)) {
+                final String docId = DocumentsContract.getDocumentId(uri);
+                final String[] split = docId.split(":");
+                final String type = split[0];
+
+                Uri contentUri = null;
+                if ("image".equals(type)) {
+                    contentUri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
+                } else if ("video".equals(type)) {
+                    contentUri = MediaStore.Video.Media.EXTERNAL_CONTENT_URI;
+                } else if ("audio".equals(type)) {
+                    contentUri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
+                }
+
+                final String selection = "_id=?";
+                final String[] selectionArgs = new String[]{
+                        split[1]
+                };
+
+                return getDataColumn(context, contentUri, selection, selectionArgs);
+            }
+        }
+        // MediaStore (and general)
+        else if ("content".equalsIgnoreCase(uri.getScheme())) {
+
+            // Return the remote address
+            if (isGooglePhotosUri(uri))
+                return uri.getLastPathSegment();
+
+            return getDataColumn(context, uri, null, null);
+        }
+        // File
+        else if ("file".equalsIgnoreCase(uri.getScheme())) {
+            return uri.getPath();
+        }
+
+        return null;
+    }
+
+    public static String getDataColumn(Context context, Uri uri, String selection,
+                                       String[] selectionArgs) {
+
+        Cursor cursor = null;
+        final String column = "_data";
+        final String[] projection = {
+                column
+        };
+
+        try {
+            cursor = context.getContentResolver().query(uri, projection, selection, selectionArgs,
+                    null);
+            if (cursor != null && cursor.moveToFirst()) {
+                final int index = cursor.getColumnIndexOrThrow(column);
+                return cursor.getString(index);
+            }
+        } finally {
+            if (cursor != null)
+                cursor.close();
+        }
+        return null;
+    }
+
+
+    /**
+     * @param uri The Uri to check.
+     * @return Whether the Uri authority is ExternalStorageProvider.
+     */
+    public static boolean isExternalStorageDocument(Uri uri) {
+        return "com.android.externalstorage.documents".equals(uri.getAuthority());
+    }
+
+    /**
+     * @param uri The Uri to check.
+     * @return Whether the Uri authority is DownloadsProvider.
+     */
+    public static boolean isDownloadsDocument(Uri uri) {
+        return "com.android.providers.downloads.documents".equals(uri.getAuthority());
+    }
+
+    /**
+     * @param uri The Uri to check.
+     * @return Whether the Uri authority is MediaProvider.
+     */
+    public static boolean isMediaDocument(Uri uri) {
+        return "com.android.providers.media.documents".equals(uri.getAuthority());
+    }
+
+    /**
+     * @param uri The Uri to check.
+     * @return Whether the Uri authority is Google Photos.
+     */
+    public static boolean isGooglePhotosUri(Uri uri) {
+        return "com.google.android.apps.photos.content".equals(uri.getAuthority());
+    }
+
 
 }

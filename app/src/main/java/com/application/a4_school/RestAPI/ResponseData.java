@@ -21,6 +21,7 @@ public class ResponseData {
     private List<UserInfo> listMajors;
     private UserInfo information;
     private List<FilesUpload> filesDetail;
+    private List<Members> completed_user;
     private List<Help> help;
 
     public UserInfo getInformation() {
@@ -29,6 +30,10 @@ public class ResponseData {
 
     public List<UserInfo> getListMajors() {
         return listMajors;
+    }
+
+    public List<Members> getCompleted_user() {
+        return completed_user;
     }
 
     public void setListMajors(List<UserInfo> listMajors) {

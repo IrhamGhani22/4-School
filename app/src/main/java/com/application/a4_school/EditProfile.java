@@ -66,7 +66,6 @@ public class EditProfile extends AppCompatActivity {
         ArrayAdapter<String> spinnerAdapterClass = new ArrayAdapter<String>(this, R.layout.spinner_type_style, selectOptionClass);
 
 
-
 //        ArrayAdapter<String> spinnerAdapterMajors = new ArrayAdapter<String>(this, R.layout.spinner_type_style, selectOptionMajors);
         spinnerAdapterClass.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 //        spinnerAdapterMajors.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -77,7 +76,7 @@ public class EditProfile extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 loadMajors(spinnerClass.getSelectedItem().toString());
-                Log.d("Classleveldropdown", "value: "+spinnerClass.getSelectedItem().toString());
+                Log.d("Classleveldropdown", "value: " + spinnerClass.getSelectedItem().toString());
             }
 
             @Override
@@ -93,16 +92,21 @@ public class EditProfile extends AppCompatActivity {
 
 //        emailValue = getIntent().getStringExtra("EXTRA_EMAIL");
 //        edtEmail.setText(emailValue);
-
-        classValue = getIntent().getStringExtra("EXTRA_CLASS");
-        if (classValue.equals("X")){
-            spinnerClass.setSelection(0);
-        } if (classValue.equals("XI")){
-            spinnerClass.setSelection(1);
-        } if (classValue.equals("XII")){
-            spinnerClass.setSelection(2);
-        } if (classValue.equals("XIII")){
-            spinnerClass.setSelection(3);
+        String role = getSharedPreferences("session", 0).getString("role", "");
+        if (role.equals("siswa")) {
+            classValue = getIntent().getStringExtra("EXTRA_CLASS");
+            if (classValue.equals("X")) {
+                spinnerClass.setSelection(0);
+            }
+            if (classValue.equals("XI")) {
+                spinnerClass.setSelection(1);
+            }
+            if (classValue.equals("XII")) {
+                spinnerClass.setSelection(2);
+            }
+            if (classValue.equals("XIII")) {
+                spinnerClass.setSelection(3);
+            }
         }
 
         id_class = getIntent().getStringExtra("EXTRA_ID_CLASS");
@@ -114,13 +118,13 @@ public class EditProfile extends AppCompatActivity {
 
     }
 
-    private void updateProfile (int id_user, String name, String nip, String nis, String kelas, String profesi, String tanggal_lahir){
+    private void updateProfile(int id_user, String name, String nip, String nis, String kelas, String profesi, String tanggal_lahir) {
         APIService api = APIClient.getClient().create(APIService.class);
-        Call<ResponseBody>  updateDataProfile = api.updateProfile(id_user, name, nip, nis , kelas, profesi, tanggal_lahir );
+        Call<ResponseBody> updateDataProfile = api.updateProfile(id_user, name, nip, nis, kelas, profesi, tanggal_lahir);
         updateDataProfile.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                if (response.isSuccessful()){
+                if (response.isSuccessful()) {
                     try {
                         String responseJSON = response.body().string();
                         Toast.makeText(EditProfile.this, "Update Profile Successfully", Toast.LENGTH_SHORT).show();
@@ -139,19 +143,19 @@ public class EditProfile extends AppCompatActivity {
         });
     }
 
-    private void loadMajors(String classlevel){
+    private void loadMajors(String classlevel) {
         APIService api = APIClient.getClient().create(APIService.class);
         Call<ResponseData> loadListMajor = api.getMajors(classlevel);
         loadListMajor.enqueue(new Callback<ResponseData>() {
             @Override
             public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
-                if (response.isSuccessful()){
+                if (response.isSuccessful()) {
                     listmajors.clear();
                     listmajors.addAll(response.body().getListMajors());
                     spinnerMajors.setEnabled(true);
                     List<String> list = new ArrayList<>();
                     list.clear();
-                    for (int i=0; i<response.body().getListMajors().size(); i++){
+                    for (int i = 0; i < response.body().getListMajors().size(); i++) {
                         list.add(response.body().getListMajors().get(i).getMajors());
                     }
                     ArrayAdapter<UserInfo> spinmajorAdapter = new ArrayAdapter<UserInfo>(getApplicationContext(), R.layout.spinner_type_style, listmajors);
@@ -160,7 +164,7 @@ public class EditProfile extends AppCompatActivity {
                     spinnerMajors.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                         @Override
                         public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                            Log.d("majorvalue", ""+listmajors.get(i).getId_class());
+                            Log.d("majorvalue", "" + listmajors.get(i).getId_class());
                         }
 
                         @Override
@@ -168,14 +172,14 @@ public class EditProfile extends AppCompatActivity {
 
                         }
                     });
-                }else{
+                } else {
                     Log.d("loadmajors", "not success");
                 }
             }
 
             @Override
             public void onFailure(Call<ResponseData> call, Throwable t) {
-                Log.d("loadmajors", "failure "+t.getMessage());
+                Log.d("loadmajors", "failure " + t.getMessage());
             }
         });
     }

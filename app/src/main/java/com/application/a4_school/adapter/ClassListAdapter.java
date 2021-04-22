@@ -113,17 +113,13 @@ public class ClassListAdapter extends RecyclerView.Adapter<ClassListAdapter.List
             holder.btnCheck.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(context, "value: " + listClassMain.get(position).getCompletedcount(), Toast.LENGTH_SHORT).show();
+                    BottomSheet bottomSheet = new BottomSheet(listClassMain.get(position).getId_taskclass(), "completedlist");
+                    bottomSheet.show(((FragmentActivity) context).getSupportFragmentManager(), bottomSheet.getTag());
+                    onItemClickCallback.onItemClicked(listClassMain.get(holder.getAdapterPosition()));
                 }
             });
         }
 
-    }
-
-
-    public  void addAllItems(List<ClassRoom> items) {
-        listClassMain.addAll(items);
-        notifyDataSetChanged();
     }
 
     @Override

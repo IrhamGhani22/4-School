@@ -103,6 +103,9 @@ public interface APIService {
     @POST("resetpassword")
     Call<JsonObject> resetPassword(@Field("email") String email, @Field("password") String password, @Field("token") String accessToken);
 
+    @GET("GuruSchedule/checkTask")
+    Call<ResponseData> checkTask(@Header("Authorization") String jwt_token, @Query("id_tugas_kelas") String id_task);
+
     @GET("GuruSchedule/index_classroom_guru/{id_jadwal}")
     //inidirubah id_jadwal
     Call<ResponseData> getListClassItemGuru (@Path("id_jadwal") int id_schedule, @Header("Authorization") String jwt_token);
@@ -119,7 +122,7 @@ public interface APIService {
     Call<ResponseData> getMajors(@Query("tingkatan") String classlevel);
 
     @GET("index_classroom/file/{id_tugas}")
-    Call<ResponseData> getListFiles (@Path("id_tugas") String id_taskclass, @Query("condition") String condition);
+    Call<ResponseData> getListFiles (@Path("id_tugas") String id_taskclass, @Query("id_siswa") int id_siswa,@Query("condition") String condition);
 
     @GET("faq-content")
     Call<ResponseData> gethelp();
