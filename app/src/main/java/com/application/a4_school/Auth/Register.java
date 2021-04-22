@@ -41,8 +41,8 @@ public class Register extends AppCompatActivity {
     }
 
     private void initialize(){
-        edtName = findViewById(R.id.inputemail);
-        edtEmail = findViewById(R.id.inputname);
+        edtName = findViewById(R.id.inputname);
+        edtEmail = findViewById(R.id.inputemail);
         edtPw = findViewById(R.id.inputpasswordregis);
         btnregister = findViewById(R.id.btn_register);
 
@@ -51,28 +51,25 @@ public class Register extends AppCompatActivity {
     private void register(String email, String name, String password){
         APIService api = APIClient.getClient().create(APIService.class);
         Call<ResponseBody> register = api.register(email, password, name);
+        Log.d("authemail","email : " + email);
+        Log.d("authemail","name : " + name);
+        Log.d("authemail","password : " + password);
         register.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 if (response.isSuccessful()){
-                    if  (response.body() != null){
-                        try {
-                            String responseJSON = response.body().string();
-                            Log.d("auth", ""+responseJSON);
-                            Toast.makeText(Register.this, "Register Successfully", Toast.LENGTH_SHORT).show();
-                            Intent toLogin = new Intent(Register.this, Login.class);
-                            startActivity(toLogin);
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                    }else if (response.code() == 401){
-
+                    try {
+                        String responseJSON = response.body().string();
+                        Log.d("register", "response : " + responseJSON);
+                        Toast.makeText(Register.this, "Register Successfully", Toast.LENGTH_SHORT).show();
+                        Intent toLogin = new Intent(Register.this, Login.class);
+                        startActivity(toLogin);
+                    } catch (IOException e) {
+                        e.printStackTrace();
                     }
-
-
                 }else{
                     //system error
-                    Toast.makeText(Register.this, "Email or password is incorrect", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Register.this, "System Error", Toast.LENGTH_SHORT).show();
                 }
             }
 

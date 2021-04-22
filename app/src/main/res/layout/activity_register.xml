@@ -98,18 +98,18 @@
                     android:hint="@string/email"/>
 
                 <TextView
-                    android:id="@+id/txtUsername"
+                    android:id="@+id/txtProfesi"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/poppins_bold"
                     android:layout_marginTop="10dp"
-                    android:text="@string/username"/>
+                    android:text="Profesi"/>
 
                 <EditText
-                    android:id="@+id/inputusername"
+                    android:id="@+id/inputprofesi"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/username"/>
+                    android:hint="Profesi"/>
 
                 <TextView
                     android:id="@+id/txtPassword"

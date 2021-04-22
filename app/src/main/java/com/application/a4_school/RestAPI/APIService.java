@@ -1,11 +1,15 @@
 package com.application.a4_school.RestAPI;
 
+import android.util.Log;
+
 import com.application.a4_school.Models.ClassRoom;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 
 import org.json.JSONObject;
+
+import java.util.ArrayList;
 
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -44,6 +48,10 @@ public interface APIService {
                                   @Query("token") String logoutToken);
 
     @FormUrlEncoded
+    @PATCH("GuruSchedule/nilai")
+    Call<ResponseBody> uploadPoint(@Header("Authorization") String jwt_token, @Field("id_tugas[]") ArrayList<String> listId, @Field("nilai") int nilai);
+
+    @FormUrlEncoded
     @POST("register")
     Call<ResponseBody> register(@Field("email") String email,
                                 @Field("password") String pw,
@@ -60,49 +68,71 @@ public interface APIService {
     Call<ResponseData> getListSchedule(@Query("id") int id_user, @Header("Authorization") String jwt_token);
 
     @GET("classInfo")
-    Call<JsonObject> getClassInformation (@Query("id_kelas") String id_class);
+    Call<JsonObject> getClassInformation(@Query("id_kelas") String id_class);
 
     @GET("SiswaSchedule/classRoomData")
     Call<ClassRoom> getClassData(@Query("id_kelas") String id_kelas, @Header("Authorization") String jwt_token);
 
     @FormUrlEncoded
     @POST("forgot")
-    Call<JsonObject> sendMailToken (@Field("email") String email);
+    Call<JsonObject> sendMailToken(@Field("email") String email);
 
     @Multipart
     @POST("GuruSchedule/create_tugas/{id_jadwal}")
-    Call<ResponseBody> uploadTaskTheory (@Header("Authorization") String jwt_token,
-                                       @Path("id_jadwal") int id_schedule,
-                                       @Part("judul") RequestBody title,
-                                       @Part("deskripsi") RequestBody description,
-                                       @Part("tipe") RequestBody type,
-                                       @Part("tenggat") RequestBody deadline,
-                                       @Part MultipartBody.Part[] file);
+    Call<ResponseBody> uploadTaskTheory(@Header("Authorization") String jwt_token,
+                                        @Path("id_jadwal") int id_schedule,
+                                        @Part("judul") RequestBody title,
+                                        @Part("deskripsi") RequestBody description,
+                                        @Part("tipe") RequestBody type,
+                                        @Part("tenggat") RequestBody deadline,
+                                        @Part MultipartBody.Part[] file);
 
     @Multipart
     @POST("SiswaSchedule/index_classroom_siswa/assign/{id_tugas_kelas}")
-    Call<ResponseBody> assignTask (@Header("Authorization") String jwt_token,
-                                   @Path("id_tugas_kelas") String id_task,
-                                   @Part("id_siswa") RequestBody id_siswa,
-                                   @Part ("status") RequestBody status,
-                                   @Part MultipartBody.Part[] file);
+    Call<ResponseBody> assignTask(@Header("Authorization") String jwt_token,
+                                  @Path("id_tugas_kelas") String id_task,
+                                  @Part("id_siswa") RequestBody id_siswa,
+                                  @Part("status") RequestBody status,
+                                  @Part MultipartBody.Part[] file);
+
+    @FormUrlEncoded
+    @PATCH("update_Profile/{id_user}")
+    Call<ResponseBody> updateProfile(@Path("id_user") int id_user,
+                                     @Field("name") String name,
+                                     @Field("nip") String nip,
+                                     @Field("nis") String nis,
+                                     @Field("kelas") String kelas,
+                                     @Field("profesi") String profesi,
+                                     @Field("tanggal_tanggal") String tanggal_lahir);
 
     @FormUrlEncoded
     @POST("resetpassword")
     Call<JsonObject> resetPassword(@Field("email") String email, @Field("password") String password, @Field("token") String accessToken);
 
+    @GET("GuruSchedule/checkTask")
+    Call<ResponseData> checkTask(@Header("Authorization") String jwt_token, @Query("id_tugas_kelas") String id_task);
+
     @GET("GuruSchedule/index_classroom_guru/{id_jadwal}")
-    //inidirubah id_jadwal
-    Call<ResponseData> getListClassItemGuru (@Path("id_jadwal") int id_schedule, @Header("Authorization") String jwt_token);
+        //inidirubah id_jadwal
+    Call<ResponseData> getListClassItemGuru(@Path("id_jadwal") int id_schedule, @Header("Authorization") String jwt_token);
 
     @GET("SiswaSchedule/index_classroom_siswa/{id_jadwal}")
-    Call<ResponseData> getListClassItemSiswa (@Path("id_jadwal") int id_schedule, @Header("Authorization") String jwt_token);
+    Call<ResponseData> getListClassItemSiswa(@Path("id_jadwal") int id_schedule, @Header("Authorization") String jwt_token);
 
     @GET("index_classroom/memberclass")
-    Call<ResponseData> getListMembersClass (@Query("id_kelas") String id_class, @Query("page") int page);
+    Call<ResponseData> getListMembersClass(@Query("id_kelas") String id_class, @Query("page") int page);
+
+    @GET("userinformation")
+    Call<ResponseData> getUserInfo(@Query("id") int id_user);
+
+    @GET("ShowKelas")
+    Call<ResponseData> getMajors(@Query("tingkatan") String classlevel);
 
     @GET("index_classroom/file/{id_tugas}")
-    Call<ResponseData> getListFiles (@Path("id_tugas") String id_taskclass, @Query("condition") String condition);
+    Call<ResponseData> getListFiles(@Path("id_tugas") String id_taskclass, @Query("id_siswa") int id_siswa, @Query("condition") String condition);
+
+    @GET("faq-content")
+    Call<ResponseData> gethelp();
 
     @Streaming
     @GET()

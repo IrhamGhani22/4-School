@@ -2,9 +2,9 @@
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="#F3F3F3"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#F3F3F3"
     android:orientation="vertical">
 
     <LinearLayout
@@ -72,17 +72,32 @@
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             tools:listitem="@layout/row_files_selected" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_completedtask"
-            android:layout_marginTop="24dp"
-            android:background="@android:color/white"
+        <LinearLayout
+            android:id="@+id/container_completedtask"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
+            android:background="@drawable/bottom_sheet_bg"
             android:visibility="gone"
-            tools:listitem="@layout/row_memberclass_btmsheet"/>
+            android:layout_marginTop="16dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:paddingTop="16dp"
+                android:paddingHorizontal="16dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Completed task:"
+                android:fontFamily="@font/poppins_bold"
+                android:textColor="@color/blackCharcoal"
+                android:textSize="12sp"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_completedtask"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:listitem="@layout/row_memberclass_btmsheet" />
+        </LinearLayout>
     </LinearLayout>
 
-    <include
-        layout="@layout/bottom_sheet_assignment"/>
-
+    <include layout="@layout/bottom_sheet_assignment" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

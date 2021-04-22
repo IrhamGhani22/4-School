@@ -33,6 +33,7 @@ import com.application.a4_school.RestAPI.APIService;
 import com.application.a4_school.RestAPI.ResponseData;
 import com.application.a4_school.adapter.GridScheduleAdapter;
 import com.application.a4_school.adapter.ScheduleListAdapter;
+import com.application.a4_school.ui.classroom.DetailClassRoomActivity;
 import com.application.a4_school.ui.schedule.ScheduleFragment;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
@@ -58,7 +59,8 @@ public class BottomSheet extends BottomSheetDialogFragment {
     private APIService api;
     private int page;
     private String statement;
-    private String id_class;
+    private String token;
+    private String id;
     ScheduleListAdapter adapterSchedule;
     MemberClassListAdapter adapterMembers;
     String title;
@@ -71,9 +73,9 @@ public class BottomSheet extends BottomSheetDialogFragment {
         this.role = role;
         this.statement = statement;
     }
-    public BottomSheet(String id_class, String statement) {
+    public BottomSheet(String id, String statement) {
         this.statement = statement;
-        this.id_class = id_class;
+        this.id = id;
     }
 
     public void setSuccess(boolean success) {
@@ -92,6 +94,7 @@ public class BottomSheet extends BottomSheetDialogFragment {
         dialog.setContentView(mView);
         BottomSheetBehavior bottomSheetBehavior = BottomSheetBehavior.from((View) mView.getParent());
         bottomSheetBehavior.setPeekHeight(BottomSheetBehavior.PEEK_HEIGHT_AUTO);
+        token = getActivity().getSharedPreferences("session", 0).getString("token", "");
         //appBarLayout = mView.findViewById(R.id.appbarBottomSheet);
         shTitle = mView.findViewById(R.id.textHeaderDays);
         shMessage = mView.findViewById(R.id.txtMessageBtmSheet);
@@ -114,7 +117,7 @@ public class BottomSheet extends BottomSheetDialogFragment {
                 break;
 
             case "memberlist":
-                getListMembers(id_class);
+                getListMembers(id);
                 shTitle.setTextSize(14);
                 shTitle.setText("Class Members");
                 break;
@@ -172,7 +175,6 @@ public class BottomSheet extends BottomSheetDialogFragment {
     private void getListScheduleGuruData(final String role) {
         SharedPreferences getId_user = getActivity().getSharedPreferences("userInfo", 0);
         int id_user = getId_user.getInt("id", 0);
-        String token = getActivity().getSharedPreferences("session", 0).getString("token", "");
         Log.d("tokenvalue", "value: " + token);
         Log.d("tokenvalue", "value: " + id_user);
         Call<ResponseData> listSchedule = api.getListSchedule(id_user, "Bearer " + token);
@@ -271,7 +273,6 @@ public class BottomSheet extends BottomSheetDialogFragment {
     private void getListScheduleSiswa(final String role){
         SharedPreferences getId_class = getActivity().getSharedPreferences("userInfo", 0);
         String id_class = getId_class.getString("id_class", "");
-        String token = getActivity().getSharedPreferences("session", 0).getString("token", "");
         Log.d("tokenvalue", "value: " + token);
         Log.d("tokenvalue", "value: " + id_class);
         Call<ResponseStudent> StudentSchedule = api.getSiswaSchedule(id_class, "Bearer " + token);
@@ -377,15 +378,57 @@ public class BottomSheet extends BottomSheetDialogFragment {
                     rv_bottomsheet.setLayoutManager(new LinearLayoutManager(getActivity()));
                     adapterMembers = new MemberClassListAdapter(listMembers, getActivity());
                     rv_bottomsheet.setAdapter(adapterMembers);
+                    adapterMembers.setOnItemClickCallback(new MemberClassListAdapter.OnItemClickCallback() {
+                        @Override
+                        public void onItemClicked(Members memberCompletedTask) {
+
+                        }
+                    });
                     Log.d("bottomsheetopened", "value success: "+response.body().getMembers());
                 }else{
                     Log.d("bottomsheetopened", "value: "+response.body());
+                    switch (response.code()){
+                        case 401:
+                            progressBar.setVisibility(View.GONE);
+                            btnRefresh.setVisibility(View.VISIBLE);
+                            btnRefresh.setText("Relogin here");
+                            shMessage.setVisibility(View.VISIBLE);
+                            shMessage.setText("The session has ended, please login again");
+                            btnRefresh.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    userInfoStorage.clearUser();
+                                    sessionManager.preferenceLogout();
+                                    startActivity(new Intent(getActivity(), Login.class));
+                                    getActivity().finishAffinity();
+                                }
+                            });
+                            break;
+
+                        case 422:
+                            progressBar.setVisibility(View.GONE);
+                            btnRefresh.setVisibility(View.VISIBLE);
+                            shMessage.setVisibility(View.VISIBLE);
+                            shMessage.setText("An error occurs, please refresh first");
+                            break;
+
+                        default:
+                            progressBar.setVisibility(View.GONE);
+                            btnRefresh.setVisibility(View.VISIBLE);
+                            shMessage.setVisibility(View.VISIBLE);
+                            shMessage.setText("Unknown error");
+                            break;
+                    }
                 }
             }
 
             @Override
             public void onFailure(Call<ResponseData> call, Throwable t) {
                 Log.d("bottomsheetopened", "value failure: "+t.getMessage());
+                progressBar.setVisibility(View.GONE);
+                btnRefresh.setVisibility(View.VISIBLE);
+                shMessage.setVisibility(View.VISIBLE);
+                shMessage.setText("Can't connect to server, please check your internet connection");
             }
         });
     }

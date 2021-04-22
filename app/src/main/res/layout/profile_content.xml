@@ -47,7 +47,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:fontFamily="@font/poppins_regular"
-            android:text="181911724.siswa@smkn4bdg.sch.id"
+            android:text="loading..."
             android:textColor="@android:color/black"
             android:textSize="14.5sp"
             app:layout_constraintLeft_toRightOf="@id/icon_email"
@@ -129,15 +129,15 @@
             android:text="Kelas"
             android:fontFamily="@font/poppins_regular"
             android:textSize="14sp"
-            app:layout_constraintBottom_toTopOf="@id/kelas"
+            app:layout_constraintBottom_toTopOf="@id/class_profile"
             app:layout_constraintLeft_toRightOf="@id/icon_class"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/kelas"
+            android:id="@+id/class_profile"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="XII-RPL 2"
+            android:text="loading..."
             android:fontFamily="@font/poppins_regular"
             android:textColor="@android:color/black"
             android:textSize="14.5sp"
@@ -175,15 +175,15 @@
             android:text="Jurusan"
             android:textSize="14sp"
             android:fontFamily="@font/poppins_regular"
-            app:layout_constraintBottom_toTopOf="@id/jurusan"
+            app:layout_constraintBottom_toTopOf="@id/majors_profile"
             app:layout_constraintLeft_toRightOf="@id/icon_telp"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/jurusan"
+            android:id="@+id/majors_profile"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="Rekayasa Perangkat Lunak"
+            android:text="loading..."
             android:textColor="@android:color/black"
             android:textSize="14.5sp"
             android:fontFamily="@font/poppins_regular"
@@ -220,15 +220,15 @@
             android:text="Tanggal Lahir"
             android:textSize="14sp"
             android:fontFamily="@font/poppins_regular"
-            app:layout_constraintBottom_toTopOf="@id/tanggal"
+            app:layout_constraintBottom_toTopOf="@id/birthday"
             app:layout_constraintLeft_toRightOf="@id/icon_ttl"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/tanggal"
+            android:id="@+id/birthday"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="16 Oktober 2021"
+            android:text="loading..."
             android:textColor="@android:color/black"
             android:textSize="14.5sp"
             android:fontFamily="@font/poppins_regular"

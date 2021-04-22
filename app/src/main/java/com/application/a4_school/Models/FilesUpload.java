@@ -7,6 +7,7 @@ import com.google.gson.annotations.SerializedName;
 import java.io.File;
 
 public class FilesUpload {
+    private String id;
     @SerializedName("extensi")
     private String typefile;
     @SerializedName("name_file")
@@ -16,8 +17,18 @@ public class FilesUpload {
     private String path;
     private Uri uri;
     private String realMime;
+    @SerializedName("nilai")
+    private int points;
     private File files;
     private String status;
+
+    public String getId() {
+        return id;
+    }
+
+    public int getPoints() {
+        return points;
+    }
 
     public String getStatus() {
         return status;

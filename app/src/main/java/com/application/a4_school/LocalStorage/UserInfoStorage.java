@@ -11,9 +11,11 @@ public class UserInfoStorage {
     private static final String APPNAME = "4-School";
     private static final String REFNAME = "userInfo";
     private static final String Id = "id";
+    private static final String NipOrNis = "nip_or_nis";
     private static final String Name = "name";
     private static final String Email = "email";
     private static final String Image = "image";
+    private static final String Birthday = "birthday";
     private static final String Id_class = "id_class";
     private static final String Profession = "profession";
     private Context context;
@@ -23,13 +25,18 @@ public class UserInfoStorage {
         sharedPreferences = context.getSharedPreferences(REFNAME, mode);
         editor = sharedPreferences.edit();
     }
-    public void createInfo(String name, String email, int id, String image, String id_classs, String profession) {
+    public void createInfo(String name, String email, int id, String image, String id_classs, String profession, String birthday) {
         editor.putString(Name, name);
         editor.putString(Email, email);
         editor.putInt(Id, id);
         editor.putString(Image, image);
         editor.putString(Id_class, id_classs);
         editor.putString(Profession, profession);
+        editor.putString(Birthday, birthday);
+        editor.commit();
+    }
+    public void saveNisOrNip(String nisornip){
+        editor.putString(NipOrNis, nisornip);
         editor.commit();
     }
     public void addPict(String url){
