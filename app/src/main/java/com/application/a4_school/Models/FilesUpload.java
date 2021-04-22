@@ -17,6 +17,15 @@ public class FilesUpload {
     private Uri uri;
     private String realMime;
     private File files;
+    private String status;
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
 
     public File getFile() {
         return files;

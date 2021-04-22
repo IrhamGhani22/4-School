@@ -1,5 +1,6 @@
 package com.application.a4_school.ui.classroom;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -10,12 +11,18 @@ import android.app.ProgressDialog;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.provider.MediaStore;
+import android.provider.OpenableColumns;
 import android.util.Log;
 import android.view.View;
 import android.webkit.CookieManager;
+import android.webkit.MimeTypeMap;
+import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,26 +36,35 @@ import com.application.a4_school.RestAPI.ResponseData;
 import com.application.a4_school.adapter.ClassFilesAdapter;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 public class DetailClassRoomActivity extends AppCompatActivity {
-    private TextView shDeadline, shTitle, shDetail, shPoint, shAttachment;
+    private TextView shDeadline, shTitle, shDetail, shPoint, shAttachment, shStatAssign;
     private ClassFilesAdapter adapter;
-    private RecyclerView rv_files;
+    private RecyclerView rv_files, rv_files_assignment;
+    public static final int REQUEST_FILE = 9542;
     private String type;
     private static String file_url;
     private String id_taskclass;
-    private List<FilesUpload> listFiles = new ArrayList<>();
-    private ProgressDialog pDialog;
-    public static final int progress_bar_type = 0;
+    private LinearLayout btmSheetAsiignment;
+    private List<FilesUpload> listFilesGuru = new ArrayList<>();
+    private List<FilesUpload> listFilesSiswa = new ArrayList<>();
+    private Button btnAttach, btnAssign;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,21 +81,24 @@ public class DetailClassRoomActivity extends AppCompatActivity {
                 switch (type) {
                     case "Task":
                         shDeadline.setText("deadline: " + reformatdate(classdata.getDeadline()));
+                        getItemFilesiswa();
                         break;
                     case "Theory":
                         shPoint.setVisibility(View.GONE);
                         shDeadline.setVisibility(View.GONE);
+                        btmSheetAsiignment.setVisibility(View.GONE);
                         break;
                 }
                 break;
 
             case "guru":
-                shPoint.setVisibility(View.GONE);
+                btmSheetAsiignment.setVisibility(View.GONE);
                 switch (type) {
                     case "Task":
                         shDeadline.setText("deadline: " + reformatdate(classdata.getDeadline()));
                         break;
                     case "Theory":
+                        shPoint.setVisibility(View.GONE);
                         shDeadline.setVisibility(View.GONE);
                         break;
                 }
@@ -88,10 +107,26 @@ public class DetailClassRoomActivity extends AppCompatActivity {
         if (classdata.getFile_url() == null) {
             shAttachment.setVisibility(View.GONE);
         } else {
-            getItemFile();
+            getItemFileGuru();
         }
         shTitle.setText(classdata.getTitle());
         shDetail.setText(classdata.getDescription());
+
+        btnAttach.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent openMedia = new Intent(Intent.ACTION_GET_CONTENT);
+                openMedia.setType("*/*");
+                startActivityForResult(openMedia, REQUEST_FILE);
+            }
+        });
+
+        btnAssign.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                assign();
+            }
+        });
     }
 
     private void initialize() {
@@ -101,9 +136,14 @@ public class DetailClassRoomActivity extends AppCompatActivity {
         shDetail = findViewById(R.id.tv_detail_detail_class);
         shAttachment = findViewById(R.id.txt_attach);
         rv_files = findViewById(R.id.rv_files_detail);
+        btmSheetAsiignment = findViewById(R.id.btm_assignment);
+        rv_files_assignment = findViewById(R.id.rv_files_assignment);
+        btnAttach = findViewById(R.id.btn_attach);
+        btnAssign = findViewById(R.id.btn_assign);
+        shStatAssign = findViewById(R.id.status_assign);
     }
 
-    private void getItemFile() {
+    private void getItemFileGuru() {
         APIService api = APIClient.getClient().create(APIService.class);
         Call<ResponseData> loadFile = api.getListFiles(id_taskclass, "file_guru");
         loadFile.enqueue(new Callback<ResponseData>() {
@@ -111,8 +151,8 @@ public class DetailClassRoomActivity extends AppCompatActivity {
             public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
                 if (response.isSuccessful()) {
                     if (response.body().getFilesDetail() != null) {
-                        listFiles.addAll(response.body().getFilesDetail());
-                        adapter = new ClassFilesAdapter(listFiles, DetailClassRoomActivity.this, "detail");
+                        listFilesGuru.addAll(response.body().getFilesDetail());
+                        adapter = new ClassFilesAdapter(listFilesGuru, DetailClassRoomActivity.this, "detail");
                         adapter.notifyDataSetChanged();
                         rv_files.setAdapter(adapter);
                         adapter.setOnItemClickCallback(new ClassFilesAdapter.OnItemClickCallback() {
@@ -121,6 +161,7 @@ public class DetailClassRoomActivity extends AppCompatActivity {
                                 addListFiles(filesUpload.getFile_url(), filesUpload.getNamefile(), filesUpload.getTypefile(), index);
                             }
                         });
+
                     }
                 } else {
                     Log.d("DetailLoadfile", "not success");
@@ -132,6 +173,110 @@ public class DetailClassRoomActivity extends AppCompatActivity {
                 Log.d("DetailLoadfile", "failure: " + t.getMessage());
             }
         });
+    }
+
+    private void getItemFilesiswa(){
+        APIService api = APIClient.getClient().create(APIService.class);
+        Call<ResponseData> loadFile = api.getListFiles(id_taskclass, "file_siswa");
+        loadFile.enqueue(new Callback<ResponseData>() {
+            @Override
+            public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
+                if (response.isSuccessful()){
+                    if (response.body().getFilesDetail() != null) {
+                        Log.d("DetailLoadfilesiswa", "success");
+                        listFilesSiswa.addAll(response.body().getFilesDetail());
+                        if (listFilesSiswa != null){
+                            btnAssign.setVisibility(View.GONE);
+                            btnAttach.setVisibility(View.GONE);
+                            shStatAssign.setText("Assigned");
+                        }
+                        adapter = new ClassFilesAdapter(listFilesSiswa, DetailClassRoomActivity.this, "detail");
+                        adapter.notifyDataSetChanged();
+                        rv_files_assignment.setAdapter(adapter);
+                        adapter.setOnItemClickCallback(new ClassFilesAdapter.OnItemClickCallback() {
+                            @Override
+                            public void onItemClicked(FilesUpload filesUpload, int index) {
+                                addListFiles(filesUpload.getFile_url(), filesUpload.getNamefile(), filesUpload.getTypefile(), index);
+                            }
+                        });
+                    }
+                }else{
+                    Log.d("DetailLoadfilesiswa", "not success");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseData> call, Throwable t) {
+                Log.d("DetailLoadfilesiswa", "failure: " + t.getMessage());
+            }
+        });
+    }
+
+    private void assign(){
+        String token = getSharedPreferences("session", 0).getString("token", "");
+        final ProgressDialog progressDialog = new ProgressDialog(DetailClassRoomActivity.this);
+        progressDialog.setMessage("Uploading...");
+        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        progressDialog.setCancelable(false);
+        progressDialog.show();
+        RequestBody status = createPartFromString("Assigned");
+        int id = getSharedPreferences("userInfo", 0).getInt("id", 0);
+        RequestBody id_siswa = createPartFromString(String.valueOf(id));
+        MultipartBody.Part[] document;
+        if (listFilesSiswa == null){
+            Toast.makeText(this, "Please add attachment", Toast.LENGTH_SHORT).show();
+        }else{
+            document = prepareDocument(listFilesSiswa);
+            APIService api = APIClient.getClient().create(APIService.class);
+            Call<ResponseBody> assignTask = api.assignTask("Bearer "+token, id_taskclass, id_siswa,status, document);
+            assignTask.enqueue(new Callback<ResponseBody>() {
+                @Override
+                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                    progressDialog.dismiss();
+                    if (response.isSuccessful()){
+                        try {
+                            String jsonObject = response.body().string();
+                            Log.d("AssignTask", "success: " + jsonObject);
+                            btnAssign.setVisibility(View.GONE);
+                            btnAttach.setVisibility(View.GONE);
+                            shStatAssign.setText("Assigned");
+
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }else{
+                        try {
+                            String jObjError = response.errorBody().string();
+                            Log.d("AssignTask", "not success: "+jObjError);
+                            Toast.makeText(DetailClassRoomActivity.this, jObjError, Toast.LENGTH_LONG).show();
+                        } catch (Exception e) {
+                            Toast.makeText(DetailClassRoomActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
+                        }
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<ResponseBody> call, Throwable t) {
+                    progressDialog.dismiss();
+                    Log.d("AssignTask", "failure: "+t.getMessage());
+                }
+            });
+        }
+
+    }
+
+    private RequestBody createPartFromString(String param) {
+        return RequestBody.create(MediaType.parse("*/*"), param);
+    }
+
+    private MultipartBody.Part[] prepareDocument(List<FilesUpload> fileupload){
+        MultipartBody.Part[] multipleFile = new MultipartBody.Part[fileupload.size()];
+        for (int i=0; i<fileupload.size(); i++) {
+            File file = new File(fileupload.get(i).getPath());
+            RequestBody requestBody = RequestBody.create(MediaType.parse("*/*"), file);
+            multipleFile[i] = MultipartBody.Part.createFormData("file[]", file.getName(), requestBody);
+        }
+        return  multipleFile;
     }
 
     private String reformatdate(String time) {
@@ -149,19 +294,6 @@ public class DetailClassRoomActivity extends AppCompatActivity {
             e.printStackTrace();
         }
         return str;
-    }
-
-
-    private void getFile(String url, String title) {
-        DownloadManager.Request request = new DownloadManager.Request(Uri.parse(url));
-        request.setTitle(title);
-        request.setDescription("Load...");
-        String cookie = CookieManager.getInstance().getCookie(url);
-        request.addRequestHeader("cookie", cookie);
-        request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
-        request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, title);
-        DownloadManager downloadManager = (DownloadManager) getSystemService(Context.DOWNLOAD_SERVICE);
-        downloadManager.enqueue(request);
     }
 
     private void addListFiles(String url, String filename, String extension, int position) {
@@ -182,6 +314,104 @@ public class DetailClassRoomActivity extends AppCompatActivity {
             Log.d("downloadfile", "" + url);
             new DownloadFromUrl(DetailClassRoomActivity.this, url, filename, extension, type).downloadFile();
         }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode){
+            case REQUEST_FILE:
+                if (resultCode == RESULT_OK){
+                    final Uri path = data.getData();
+                    Log.d("activityResultValue", "value path: "+path);
+                    Log.d("activityResultValue", "value name: "+getFileName(path));
+                    Log.d("activityResultValue", "value realpath: "+getRealPathFromURI(this,path));
+                    Log.d("activityResultValue", "value realpath: "+getMimeType(this,path));
+                    ContentResolver cR = this.getContentResolver();
+                    String type = cR.getType(path);
+                    FilesUpload filesUpload = new FilesUpload();
+                    filesUpload.setUri(Uri.parse(getRealPathFromURI(this, path)));
+                    filesUpload.setFile(new File(getRealPathFromURI(this, path)));
+                    filesUpload.setNamefile(getFileName(path));
+                    filesUpload.setTypefile(getMimeType(this, path));
+                    filesUpload.setPath(getRealPathFromURI(this, path));
+                    filesUpload.setRealMime(type);
+                    listFilesSiswa.add(filesUpload);
+                    adapter = new ClassFilesAdapter(listFilesSiswa, this, "form");
+                    rv_files_assignment.setAdapter(adapter);
+                    adapter.notifyDataSetChanged();
+                    adapter.setOnItemClickCallback(new ClassFilesAdapter.OnItemClickCallback() {
+                        @Override
+                        public void onItemClicked(FilesUpload filesUpload, int index) {
+                            Intent openFile = new Intent(Intent.ACTION_VIEW);
+                            Uri openPath = FileProvider.getUriForFile(DetailClassRoomActivity.this, getApplicationContext().getPackageName()+".provider", filesUpload.getFile());
+                            openFile.setDataAndType(openPath,  filesUpload.getRealMime());
+                            openFile.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                            Log.d("realmime", ""+filesUpload.getRealMime());
+                            startActivity(openFile);
+                        }
+                    });
+
+                    try {
+                        InputStream inputStream = DetailClassRoomActivity.this.getContentResolver().openInputStream(path);
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    }
+                }
+                break;
+        }
+    }
+
+
+    public static String getMimeType(Context context, Uri uri) {
+        String extension;
+
+        if (uri.getScheme().equals(ContentResolver.SCHEME_CONTENT)) {
+            final MimeTypeMap mime = MimeTypeMap.getSingleton();
+            extension = mime.getExtensionFromMimeType(context.getContentResolver().getType(uri));
+        } else {
+            extension = MimeTypeMap.getFileExtensionFromUrl(Uri.fromFile(new File(uri.getPath())).toString());
+
+        }
+
+        return extension;
+    }
+
+    public String getRealPathFromURI(Context context, Uri contentUri) {
+        Cursor cursor = null;
+        try {
+            String[] proj = { MediaStore.Images.Media.DATA};
+            cursor = context.getContentResolver().query(contentUri,  proj, null, null, null);
+            int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+            cursor.moveToFirst();
+            return cursor.getString(column_index);
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
+    }
+
+    public String getFileName(Uri uri) {
+        String result = null;
+        if (uri.getScheme().equals("content")) {
+            Cursor cursor = getContentResolver().query(uri, null, null, null, null);
+            try {
+                if (cursor != null && cursor.moveToFirst()) {
+                    result = cursor.getString(cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME));
+                }
+            } finally {
+                cursor.close();
+            }
+        }
+        if (result == null) {
+            result = uri.getPath();
+            int cut = result.lastIndexOf('/');
+            if (cut != -1) {
+                result = result.substring(cut + 1);
+            }
+        }
+        return result;
     }
 
 }

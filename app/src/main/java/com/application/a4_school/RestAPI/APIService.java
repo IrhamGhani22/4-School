@@ -79,6 +79,14 @@ public interface APIService {
                                        @Part("tenggat") RequestBody deadline,
                                        @Part MultipartBody.Part[] file);
 
+    @Multipart
+    @POST("SiswaSchedule/index_classroom_siswa/assign/{id_tugas_kelas}")
+    Call<ResponseBody> assignTask (@Header("Authorization") String jwt_token,
+                                   @Path("id_tugas_kelas") String id_task,
+                                   @Part("id_siswa") RequestBody id_siswa,
+                                   @Part ("status") RequestBody status,
+                                   @Part MultipartBody.Part[] file);
+
     @FormUrlEncoded
     @POST("resetpassword")
     Call<JsonObject> resetPassword(@Field("email") String email, @Field("password") String password, @Field("token") String accessToken);

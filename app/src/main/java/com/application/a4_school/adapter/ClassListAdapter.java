@@ -29,13 +29,15 @@ public class ClassListAdapter extends RecyclerView.Adapter<ClassListAdapter.List
     private Context context;
     private String[] headerContent;
     private String id_class;
+    private String role;
     private OnItemClickCallback onItemClickCallback;
 
-    public ClassListAdapter(List<ClassRoom> listClassMain, String[] headerContent, String id_class, Context context) {
+    public ClassListAdapter(List<ClassRoom> listClassMain, String[] headerContent, String id_class, String role,Context context) {
         this.listClassMain = listClassMain;
         this.context = context;
         this.headerContent = headerContent;
         this.id_class = id_class;
+        this.role = role;
     }
 
     public void setOnItemClickCallback(OnItemClickCallback onItemClickCallback) {
@@ -92,6 +94,11 @@ public class ClassListAdapter extends RecyclerView.Adapter<ClassListAdapter.List
                 holder.btnCheck.setVisibility(View.GONE);
             }
             holder.shtittle.setText(listClassMain.get(position).getTitle());
+
+            if (role.equals("siswa")){
+                holder.shcompletedcount.setVisibility(View.INVISIBLE);
+                holder.btnCheck.setVisibility(View.INVISIBLE);
+            }
             holder.shcompletedcount.setText(String.valueOf(listClassMain.get(position).getCompletedcount()) + " Completed this task");
 
             holder.shCountmember_header.setOnClickListener(new View.OnClickListener() {
