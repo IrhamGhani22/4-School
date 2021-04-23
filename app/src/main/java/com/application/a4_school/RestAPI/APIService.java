@@ -64,6 +64,17 @@ public interface APIService {
     @PATCH("upload/{id}")
     Call<ResponseBody> uploadBase64Pict(@Path("id") int id_user, @Field("photo") String encodedPhoto);
 
+    @FormUrlEncoded
+    @POST("users/create")
+    Call<ResponseBody> register2(@Field("role") String role,
+                                 @Field("name") String name,
+                                 @Field("email") String email,
+                                 @Field("password") String pw,
+                                 @Field("nis") String nis,
+                                 @Field("nip") String nip,
+                                 @Field("id_kelas") String id_kelas,
+                                 @Field("profesi") String profesi);
+
     @GET("SiswaSchedule")
     Call<ResponseStudent> getSiswaSchedule(@Query("id_kelas") String id_class, @Header("Authorization") String jwt_token);
 

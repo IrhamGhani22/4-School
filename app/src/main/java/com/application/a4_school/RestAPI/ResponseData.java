@@ -5,6 +5,7 @@ import com.application.a4_school.Models.ClassRoom;
 import com.application.a4_school.Models.FilesUpload;
 import com.application.a4_school.Models.Help;
 import com.application.a4_school.Models.Members;
+import com.application.a4_school.Models.Profession;
 import com.application.a4_school.Models.Schedule;
 import com.google.gson.annotations.SerializedName;
 
@@ -23,6 +24,11 @@ public class ResponseData {
     private List<FilesUpload> filesDetail;
     private List<Members> completed_user;
     private List<Help> faq_list;
+    private List<Profession> listProf;
+
+    public List<Profession> getListProf() {
+        return listProf;
+    }
 
     public UserInfo getInformation() {
         return information;

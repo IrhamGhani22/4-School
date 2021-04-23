@@ -3,6 +3,7 @@ package com.application.a4_school.Auth;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -17,6 +18,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.application.a4_school.Auth.sessionResp.UserInfo;
+import com.application.a4_school.Models.Profession;
 import com.application.a4_school.R;
 import com.application.a4_school.RestAPI.APIClient;
 import com.application.a4_school.RestAPI.APIService;
@@ -36,13 +38,17 @@ import retrofit2.Response;
 public class Register extends AppCompatActivity {
     EditText edtName;
     EditText edtEmail;
-    EditText edtPw;
+    EditText edtPw, edtNis, edtNip;
     Button btnregister;
     TextView shClosedRegist;
     ConstraintLayout containerRegist;
+    String role = "";
+    String id_kelas = "";
+    String profesi = "";
     Spinner spinProf, spinClasslevel, spinMajor;
     String[] selectOptionClass = {"X", "XI", "XII", "XIII"};
     private List<UserInfo> listmajors = new ArrayList<>();
+    private List<Profession> listProf = new ArrayList<>();
     LinearLayout containerNip, containerNis, containerProf, containerClass;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,6 +79,10 @@ public class Register extends AppCompatActivity {
                 String name = edtName.getText().toString().trim();
                 String email = edtEmail.getText().toString().trim();
                 String pw = edtPw.getText().toString().trim();
+                String nis = edtNis.getText().toString().trim();
+                String nip = edtNip.getText().toString().trim();
+                Log.d("valuePost", "value: "+role+" "+name+" "+email+" "+pw+" "+nis+" "+nip+" "+id_kelas+ " "+profesi);
+                realRegist(role, name, email, pw, nis, nip, id_kelas, profesi);
             }
         });
     }
@@ -81,6 +91,8 @@ public class Register extends AppCompatActivity {
         edtName = findViewById(R.id.inputname);
         edtEmail = findViewById(R.id.inputemail);
         edtPw = findViewById(R.id.inputpasswordregis);
+        edtNip = findViewById(R.id.inputnip);
+        edtNis = findViewById(R.id.inputnis);
         btnregister = findViewById(R.id.btn_register);
         containerNip = findViewById(R.id.container_nip);
         containerNis = findViewById(R.id.container_nis);
@@ -104,7 +116,7 @@ public class Register extends AppCompatActivity {
                     Log.d("RegistCek", "value: "+object);
                     String status = object.get("status").toString().replaceAll("\"", "");
                     Log.d("RegistCek", "value: "+status);
-                    String role = object.get("role").toString().replaceAll("\"", "");
+                    role = object.get("role").toString().replaceAll("\"", "");
                     Log.d("RegistCek", "value: "+role);
                     if (status.equals("open")){
                         switch (role){
@@ -141,6 +153,56 @@ public class Register extends AppCompatActivity {
         });
     }
 
+    private void realRegist(String role, String name, String email, String pw, String nis, String nip, String id_kelas, String profesi){
+        final ProgressDialog dialog = new ProgressDialog(this);
+        dialog.setMessage("Please wait...");
+        dialog.show();
+        APIService api = APIClient.getClient().create(APIService.class);
+        if (role.equals("siswa")){
+            Call<ResponseBody> regist = api.register2(role, name, email, pw, nis, null, id_kelas, null);
+            regist.enqueue(new Callback<ResponseBody>() {
+                @Override
+                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                    dialog.dismiss();
+                    if (response.isSuccessful()){
+                        Intent toLogin = new Intent(Register.this, Login.class);
+                        startActivity(toLogin);
+                        finish();
+                    }else{
+                        Log.d("registervalid", "not success");
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<ResponseBody> call, Throwable t) {
+                    dialog.dismiss();
+                    Log.d("registervalid", ""+t.getMessage());
+                }
+            });
+        }else{
+            Call<ResponseBody> regist = api.register2(role, name, email, pw, null, nip, null, profesi);
+            regist.enqueue(new Callback<ResponseBody>() {
+                @Override
+                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                    dialog.dismiss();
+                    if (response.isSuccessful()){
+                        Intent toLogin = new Intent(Register.this, Login.class);
+                        startActivity(toLogin);
+                        finish();
+                    }else{
+                        Log.d("registervalid", "not success");
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<ResponseBody> call, Throwable t) {
+                    dialog.dismiss();
+                    Log.d("registervalid", ""+t.getMessage());
+                }
+            });
+        }
+    }
+
     private void register(String nipornis, String name, String email,  String proforclass, String password){
         APIService api = APIClient.getClient().create(APIService.class);
         Call<ResponseBody> register = api.register(email, password, name);
@@ -175,35 +237,49 @@ public class Register extends AppCompatActivity {
         });
     }
 
-    private void loadMajors(String classlevel) {
+    private void loadMajors(final String classlevel) {
         APIService api = APIClient.getClient().create(APIService.class);
         Call<ResponseData> loadListMajor = api.getMajors(classlevel);
         loadListMajor.enqueue(new Callback<ResponseData>() {
             @Override
             public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
                 if (response.isSuccessful()) {
-                    listmajors.clear();
-                    listmajors.addAll(response.body().getListMajors());
-                    spinMajor.setEnabled(true);
-                    List<String> list = new ArrayList<>();
-                    list.clear();
-                    for (int i = 0; i < response.body().getListMajors().size(); i++) {
-                        list.add(response.body().getListMajors().get(i).getMajors());
+                    if (classlevel != null) {
+                        listmajors.clear();
+                        listmajors.addAll(response.body().getListMajors());
+                        ArrayAdapter<UserInfo> spinmajorAdapter = new ArrayAdapter<UserInfo>(getApplicationContext(), android.R.layout.simple_spinner_dropdown_item, listmajors);
+                        spinmajorAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                        spinMajor.setEnabled(true);
+                        spinMajor.setAdapter(spinmajorAdapter);
+                        spinMajor.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                            @Override
+                            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                                Log.d("majorvalue", "" + listmajors.get(i).getId_class());
+                                id_kelas = listmajors.get(i).getId_class();
+                            }
+
+                            @Override
+                            public void onNothingSelected(AdapterView<?> adapterView) {
+
+                            }
+                        });
+                    }else{
+                        listProf.addAll(response.body().getListProf());
+                        ArrayAdapter<Profession> spinProfAdapter = new ArrayAdapter<Profession>(getApplicationContext(),  android.R.layout.simple_spinner_dropdown_item, listProf);
+                        spinProf.setAdapter(spinProfAdapter);
+                        spinProf.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                            @Override
+                            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                                Log.d("majorvalue", "" + listProf.get(position).getId());
+                                profesi = listProf.get(position).getId();
+                            }
+
+                            @Override
+                            public void onNothingSelected(AdapterView<?> parent) {
+
+                            }
+                        });
                     }
-                    ArrayAdapter<UserInfo> spinmajorAdapter = new ArrayAdapter<UserInfo>(getApplicationContext(), android.R.layout.simple_spinner_dropdown_item, listmajors);
-                    spinmajorAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                    spinMajor.setAdapter(spinmajorAdapter);
-                    spinMajor.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                        @Override
-                        public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                            Log.d("majorvalue", "" + listmajors.get(i).getId_class());
-                        }
-
-                        @Override
-                        public void onNothingSelected(AdapterView<?> adapterView) {
-
-                        }
-                    });
                 } else {
                     Log.d("loadmajors", "not success");
                 }

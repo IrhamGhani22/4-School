@@ -24,6 +24,7 @@ public class UserInfo implements Parcelable {
     private String fcm_token;
     @SerializedName("profesi")
     private String profession;
+    private String condition;
 
     protected UserInfo(Parcel in) {
         id = in.readInt();
@@ -39,6 +40,10 @@ public class UserInfo implements Parcelable {
         birthday = in.readString();
         fcm_token = in.readString();
         profession = in.readString();
+    }
+
+    public UserInfo(String condition) {
+        this.condition = condition;
     }
 
     public static final Creator<UserInfo> CREATOR = new Creator<UserInfo>() {
@@ -145,7 +150,7 @@ public class UserInfo implements Parcelable {
         parcel.writeString(fcm_token);
         parcel.writeString(profession);
     }
-
+    
     public String toString(){
         return majors;
     }

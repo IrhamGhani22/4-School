@@ -106,7 +106,7 @@
                         android:id="@+id/inputnis"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="@string/nip" />
+                        android:hint="@string/nis" />
                 </LinearLayout>
 
                 <TextView
