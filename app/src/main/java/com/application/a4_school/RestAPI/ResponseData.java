@@ -22,7 +22,7 @@ public class ResponseData {
     private UserInfo information;
     private List<FilesUpload> filesDetail;
     private List<Members> completed_user;
-    private List<Help> help;
+    private List<Help> faq_list;
 
     public UserInfo getInformation() {
         return information;
@@ -40,8 +40,8 @@ public class ResponseData {
         this.listMajors = listMajors;
     }
 
-    public List<Help> getHelp() {
-        return help;
+    public List<Help> getFaq_list() {
+        return faq_list;
     }
 
     @SerializedName("message")

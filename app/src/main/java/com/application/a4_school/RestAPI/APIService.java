@@ -57,6 +57,9 @@ public interface APIService {
                                 @Field("password") String pw,
                                 @Field("name") String name);
 
+    @POST("register")
+    Call<JsonObject> cekRegist();
+
     @FormUrlEncoded
     @PATCH("upload/{id}")
     Call<ResponseBody> uploadBase64Pict(@Path("id") int id_user, @Field("photo") String encodedPhoto);
@@ -132,7 +135,7 @@ public interface APIService {
     Call<ResponseData> getListFiles(@Path("id_tugas") String id_taskclass, @Query("id_siswa") int id_siswa, @Query("condition") String condition);
 
     @GET("faq-content")
-    Call<ResponseBody> gethelp();
+    Call<ResponseData> gethelp();
 
     @Streaming
     @GET()

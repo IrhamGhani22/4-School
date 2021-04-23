@@ -26,4 +26,5 @@
     <string name="CHANNEL_ID">4schoolFCM</string>
     <string name="CHANNEL_NAME">4school</string>
     <string name="CHANNEL_DESC">4schoolApps</string>
+    <string name="nis">NIS</string>
 </resources>

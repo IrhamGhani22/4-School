@@ -246,14 +246,15 @@ public class Login extends Activity implements View.OnClickListener {
                 break;
 
             case R.id.reset_pw:
+                pd.dismiss();
                 Intent toForgotPassword = new Intent(Login.this, ForgotPassword.class);
                 startActivity(toForgotPassword);
                 break;
 
             case R.id.register:
+                pd.dismiss();
                 Intent toRegister = new Intent(Login.this, Register.class);
                 startActivity(toRegister);
-                finish();
                 break;
         }
 
