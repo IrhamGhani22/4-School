@@ -46,6 +46,8 @@ public class HelpFragment extends Fragment {
         callHelp.enqueue(new Callback<ResponseData>() {
             @Override
             public void onResponse(Call<ResponseData> call, Response<ResponseData> response) {
+                String data = response.body().toString();
+                Log.d("datanya " , data);
                 if(response.isSuccessful()){
                     if (response.body().getFaq_list() != null){
                         list.addAll(response.body().getFaq_list());
