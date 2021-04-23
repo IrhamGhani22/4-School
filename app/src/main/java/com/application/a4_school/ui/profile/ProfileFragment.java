@@ -173,8 +173,6 @@ public class ProfileFragment extends Fragment {
                 .centerCrop()
                 .placeholder(R.drawable.empty_profile);
 
-        Log.d("imageurl", "value: "+url_image);
-
         Glide.with(userImage.getContext()).load(url_image).apply(options).into(userImage);
 
         chooseImage.setOnClickListener(new View.OnClickListener() {
